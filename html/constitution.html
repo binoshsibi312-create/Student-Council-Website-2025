@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Constitution — Student Council | CHRIST</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+
+    .top-banner {
+      position: relative;
+      width: 100%;
+      height: 40vh;
+      min-height: 600px;
+      overflow: hidden;
+      background-color: #1a1a1a;
+    }
+
+    .top-banner picture,
+    .top-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-copy {
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .banner-copy h1 {
+      font-family: 'Merriweather', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .banner-copy .sub {
+      font-size: 1.2rem;
+      font-weight: 300;
+      opacity: 0.95;
+    }
+
+    .wrap {
+      display: flex;
+      min-height: calc(100vh - 40vh);
+    }
+
+    .sidebar {
+      width: 280px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: visible;
+      transition: width 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 100px;
+    }
+
+    .sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 20px;
+    }
+
+    .sidebar.collapsed .sidebar-inner {
+      padding: 20px 10px;
+    }
+
+    .sidebar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .brand-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .uni {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #666;
+      line-height: 1.2;
+    }
+
+    .sc {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .collapse-btn {
+      background: none;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #666;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .collapse-btn:hover {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .sidebar.collapsed .collapse-btn {
+      transform: rotate(180deg);
+    }
+
+    .menu {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      text-decoration: none;
+      color: #555;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .menu-item:hover {
+      background-color: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    .menu-item.active {
+      background-color: #1a1a1a;
+      color: white;
+    }
+
+    .mi-icon {
+      display: none;
+    }
+
+    .mi-text {
+      white-space: nowrap;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .mi-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+
+    .sidebar-footer {
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      margin-top: auto;
+    }
+
+    .sidebar-footer .copy {
+      font-size: 0.75rem;
+      color: #999;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .sidebar-footer .copy {
+      opacity: 0;
+    }
+
+    .content {
+      flex: 1;
+      padding: 40px;
+      max-width: 1200px;
+      background-color: #fff;
+    }
+
+    .page-section {
+      margin-bottom: 50px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .page-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .page-section h2 {
+      font-family: 'Merriweather', serif;
+      font-size: 2rem;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .page-section h3 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-top: 30px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .page-section p {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .page-section ul {
+      margin-left: 25px;
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .page-section ul li {
+      margin-bottom: 8px;
+    }
+
+    .page-footer {
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 2px solid #e0e0e0;
+      text-align: center;
+      color: #666;
+    }
+
+    .page-footer .small {
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .banner-copy h1 {
+        font-size: 2rem;
+      }
+
+      .banner-copy .sub {
+        font-size: 1rem;
+      }
+
+      .wrap {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .sidebar.collapsed {
+        width: 100%;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .page-section h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-banner" id="topBanner">
+    <img id="bannerImg" src="/assests/IMG-20250915-WA0012.jpg" alt="Student Council banner">
+    <div class="banner-overlay">
+      <div class="banner-copy">
+        <h1>Student Council</h1>
+        <p class="sub">Representing student voice — leadership, service & campus life.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar-inner">
+        <div class="sidebar-top">
+          <div class="brand">
+            <div class="logo" aria-hidden="true">
+              <img src="https://christuniversity.in/images/emblem_logo.png" alt="Christ University Logo">
+            </div>
+            <div class="brand-text">
+              <div class="uni">CHRIST (Deemed to be University)</div>
+              <div class="sc">Student Council</div>
+            </div>
+          </div>
+          <button id="collapseBtn" class="collapse-btn" aria-pressed="false" title="Collapse sidebar">⟨</button>
+        </div>
+
+        <nav class="menu" aria-label="Student council sections">
+          <a class="menu-item" href="index.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Home</span>
+          </a>
+          <a class="menu-item active" href="constitution.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Constitution</span>
+          </a>
+          <a class="menu-item" href="mentors.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Mentors</span>
+          </a>
+          <a class="menu-item" href="members.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Members</span>
+          </a>
+          <a class="menu-item" href="news.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">News</span>
+          </a>
+          <a class="menu-item" href="reports.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Reports</span>
+          </a>
+          <a class="menu-item" href="gallery.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Gallery & Social</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="copy">© <span id="year"></span> CHRIST</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content" id="content" tabindex="-1">
+      <section class="page-section">
+        <h2>Constitution</h2>
+        <h3>The official rulebook by which the Student Council operates.</h3>
+        
+        <h3>The Student Council</h3>
+        <p>The Student Council is to promote quality in student life within and outside the University. 
+            It is a support system for the holistic development of the students and works in liaison with the 
+            General Administration and respective Centres/Departments of the University. The Student Council 
+            functions under the supervision of the Director Student-Council duly coordinated by the faculty members 
+            in charge for each deanery and report to the Vice Chancellor.</p>
+        
+        <h3>Constitution of the Council</h3>
+        <p>The Student Council is constituted by representatives of students chosen from all the UG/PG Programmes 
+            of the University and is formed at two levels. The Institutional level (University level) of the Student 
+            Council will be the apex body and number of the members in the university level council may vary every academic
+             year based on the new programmes introduced by the University. This body of the Council will also include one 
+             representative each from SWO, CSA, NCC, Peer education, CAPS, International students, Cultural Team and Sports
+              and Games Team of the University, nominated by the Directors/Co-ordinators of these Centres or offices.The School 
+              level of the Student Council will be the supporting body constituted under each School and consists of two 
+              representatives from each class of the school with a minimum strength of 40 students. If the number is less 
+              than 40 only one member will be represented. In case of two members representing a class, one would be a Boy 
+              and other member would be a girl The Student Council shall act as a responsible body contributing to the Vision 
+              and Mission of the University and shall neither be an association nor a bargaining agency of the students. 
+              The Director may dissolve the Council at his discretion at any time prior to its functional duration.</p> 
+              
+        <h3>Member Nomination Procedure and Tenure</h3>
+        <p>Any student fulfilling the eligibility criteria such as academic performance, percentage of attendance, 
+        participation in events and activities of the department, holistic skills and the general standing is eligible to 
+        apply for deanery council. Application form to be submitted to their respective class teachers along with a statement 
+        of purpose, a copy of the attendance and marks card of the previous semesters.
+
+        The Class Teachers in consultation with HoD evaluate the statement of purpose, attendance and marks card and submit 
+        a list of four candidates to the University Council Members representing the department. The Faculty Coordinator of 
+        the School shall then review the applications and interview the candidates. Based on the personal interview and other 
+        achievements, two candidates shall be selected to represent the School Council from each class. All School Student 
+        Council members who fulfil the eligibility criteria in terms of academic performance and attendance and performance 
+        as a school council member are eligible to apply for university level council. Application to be submitted to the 
+        respective faculty Coordinator along with a statement of purpose, contributions as a school member participation 
+        in events and activities of the deanery and a copy of the attendance and marks cards of the previous semesters. 
+        Faculty coordinator verify the application form, academic documents and contribution as school members based on 
+        the log of all the School Level members maintained by the outgoing University council members. All shortlisted 
+        candidates will be interviewed personally by the faculty coordinator. Based on the interview and other achievements 
+        members are selected as per the requirement for each school in consultation with respective HOD’s and class teachers 
+        and refer to the student council coordinator. The final interview is conducted by the Student Council Coordinator.
+
+        Normal tenure of membership is one year and is renewable based on fresh nomination. Nomination of Senior Students 
+        to the Council of the ensuing year will take place in the month of February every year 
+        (i.e., fresh nomination of the students who will be moving to the next year of study). 
+        Nominations of the students from the first year of study will take place in the month of July every year. 
+        At the end of every year the incumbent Student Council will hand over its functions to the new Student Council 
+        (for the ensuing year) on the Student Council Day.</p>
+
+        <h3>Orientation adn Training</h3>
+        <p>During the first or the second weekend after the reopening of the University for the Academic Year, 
+            all the newly inducted members of all the campuses shall be given an orientation. 
+            This orientation will be for a period of two days. This shall be attended by the Coordinator and Faculty 
+            Representatives of the Council from all the Schools. Attendance for the orientation is compulsory and absence 
+            for the same shall impose termination of the member and a new member shall be appointed for the post unless the 
+            absentee has informed the coordinator in prior through an email and the reason for absence is valid and approved 
+            by the coordinator.</p>
+
+        <h3>Schedule of Meetings</h3>
+        <p>The University level Student Council shall meet on a monthly basis with the Coordinator of Student Council and 
+            faculty coordinators to discuss the proceedings of council and convey the suggestions / feedbacks to improve the 
+            quality of life in the campus. A meeting shall also be held once in a semester with the Campus Director. The Campus 
+            convenes the meeting in which the Head of Schools, Academic Coordinators, Student Council Mentors and Student Council 
+            Coordinator and council members participate without fail. The Campus Director may invite any other faculty/student to 
+            the meeting as he deems it necessary. The Student Council Coordinator along with the student council members from 
+            respective deanery shall present the suggestions and feedback from deanery level student council.
+            
+            The School Level Student Council shall meet at least once a month, attended by the respective faculty co-ordinator. 
+            The minutes of the meetings including the feedback/suggestions from the school level must be presented at the meeting 
+            of University Level Council by the representative student member.
+
+            Attendance for the meetings is compulsory and absence for the same for two consecutive times without prior 
+            information and valid reasons shall impose termination of the member and a new member shall be appointed for the post.
+        </p>
+        
+
+      </section>
+
+      <footer class="page-footer">
+        <div>Student Council • CHRIST (Deemed to be University)</div>
+        <div class="small">© CHRIST (Deemed to be University), Bangalore | A Student Council Initiative </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const sidebar = document.getElementById('sidebar');
+    const collapseBtn = document.getElementById('collapseBtn');
+
+    collapseBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      collapseBtn.setAttribute('aria-pressed', isCollapsed);
+      collapseBtn.title = isCollapsed ? 'Expand sidebar' : 'Collapse sidebar';
+    });
+  </script>
+</body>
+</html>

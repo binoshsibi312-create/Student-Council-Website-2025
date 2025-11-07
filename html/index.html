@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Council — Home | CHRIST</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+
+    .top-banner {
+      position: relative;
+      width: 100%;
+      height: 40vh;
+      min-height: 600px;
+      overflow: hidden;
+      background-color: #1a1a1a;
+    }
+
+    .top-banner picture,
+    .top-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-copy {
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .banner-copy h1 {
+      font-family: 'Merriweather', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .banner-copy .sub {
+      font-size: 1.2rem;
+      font-weight: 300;
+      opacity: 0.95;
+    }
+
+    .wrap {
+      display: flex;
+      min-height: calc(100vh - 25vh);
+    }
+
+    .sidebar {
+      width: 280px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: visible;
+      transition: width 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 100px;
+    }
+
+    .sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 20px;
+    }
+
+    .sidebar.collapsed .sidebar-inner {
+      padding: 20px 10px;
+    }
+
+    .sidebar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .brand-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .uni {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #666;
+      line-height: 1.2;
+    }
+
+    .sc {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .collapse-btn {
+      background: none;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #666;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .collapse-btn:hover {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .sidebar.collapsed .collapse-btn {
+      transform: rotate(180deg);
+    }
+
+    .menu {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      text-decoration: none;
+      color: #555;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .menu-item:hover {
+      background-color: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    .menu-item.active {
+      background-color: #1a1a1a;
+      color: white;
+    }
+
+    .mi-icon {
+      display: none;
+    }
+
+    .mi-text {
+      white-space: nowrap;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .mi-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-footer {
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      margin-top: auto;
+    }
+
+    .sidebar-footer .copy {
+      font-size: 0.75rem;
+      color: #999;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .sidebar-footer .copy {
+      opacity: 0;
+    }
+
+    .content {
+      flex: 1;
+      padding: 40px;
+      max-width: 1200px;
+      background-color: #fff;
+    }
+
+    .page-section {
+      margin-bottom: 50px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .page-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .page-section h2 {
+      font-family: 'Merriweather', serif;
+      font-size: 2rem;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .page-section p {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .page-section ul {
+      margin-left: 25px;
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .page-section ul li {
+      margin-bottom: 8px;
+    }
+
+    .contact-section {
+      margin-top: 60px;
+      padding: 40px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .contact-section h2 {
+      font-family: 'Merriweather', serif;
+      font-size: 1.8rem;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .contact-section .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 1rem;
+    }
+
+    .contact-form {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .form-group label .required {
+      color: #d32f2f;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #333;
+      transition: all 0.3s ease;
+      background-color: white;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #1a1a1a;
+      box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+
+    .submit-btn {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 14px 40px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+      background-color: #333;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(26, 26, 26, 0.2);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-message {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+
+    .form-message.success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #a5d6a7;
+      display: block;
+    }
+
+    .form-message.error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ef9a9a;
+      display: block;
+    }
+
+    .page-footer {
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 2px solid #e0e0e0;
+      text-align: center;
+      color: #666;
+    }
+
+    .page-footer .small {
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .banner-copy h1 {
+        font-size: 2rem;
+      }
+
+      .banner-copy .sub {
+        font-size: 1rem;
+      }
+
+      .wrap {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .sidebar.collapsed {
+        width: 100%;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .page-section h2 {
+        font-size: 1.5rem;
+      }
+
+      .contact-section {
+        padding: 25px 20px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .contact-section h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-banner" id="topBanner">
+    <img id="bannerImg" src="/assests/IMG-20250915-WA0012.jpg" alt="Student Council banner">
+    <div class="banner-overlay">
+      <div class="banner-copy">
+        <h1>Student Council</h1>
+        <p class="sub">Representing student voice — leadership, service & campus life.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar-inner">
+        <div class="sidebar-top">
+          <div class="brand">
+            <div class="logo" aria-hidden="true">
+              <img src="https://christuniversity.in/images/emblem_logo.png" alt="Christ University Logo">
+            </div>
+            <div class="brand-text">
+              <div class="uni">CHRIST (Deemed to be University)</div>
+              <div class="sc">Student Council</div>
+            </div>
+          </div>
+          <button id="collapseBtn" class="collapse-btn" aria-pressed="false" title="Collapse sidebar">⟨</button>
+        </div>
+
+        <nav class="menu" aria-label="Student council sections">
+          <a class="menu-item active" href="index.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Home</span>
+          </a>
+          <a class="menu-item" href="constitution.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Constitution</span>
+          </a>
+          <a class="menu-item" href="mentors.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Mentors</span>
+          </a>
+          <a class="menu-item" href="members.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Members</span>
+          </a>
+          <a class="menu-item" href="news.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">News</span>
+          </a>
+          <a class="menu-item" href="reports.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Reports</span>
+          </a>
+          <a class="menu-item" href="gallery.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Gallery & Social</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="copy">© <span id="year"></span> CHRIST</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content" id="content" tabindex="-1">
+      <section class="page-section" id="about">
+        <h2>About</h2>
+        <p>The Student Council exists to enhance the overall graduate experience at CHRIST (Deemed to be University) by promoting the general welfare of the student body. It creates new programmes and initiatives to provide opportunities for growth and interaction, and communicating with the Administration and Faculty on behalf of students.
+
+The Student Council aims to imbibe and inculcate the Vision, Mission and Core Values of the University – to provide constructive feedback on various aspects of campus life, academic programs, general discipline, library facilities, maintenance of the campus and other student service facilities; to assess and improve the potential for student placements and facilitate internship; to assist the anti-ragging committee to curb the menace of ragging completely; to identify and suggest methods of improving student life and student conduct and discipline; to suggest and implement student projects for holistic development; to identify, assess, evaluate and suggest the student perspectives in the development of Arts and Culture, Sports and Games, and other co-curricular/extracurricular activities including student participation; to assist student communities and Centres like CSA, NCC, SWO, CAPS, Peer Education Program, Cultural team, Sports and Games, etc.; and to help interlink students, faculty, staff and management of the University effectively to forge an academic community.
+
+The Student Council is led by the University Level Student Council (USC) which is the apex body, supported by the School-Level Student Council (SSC). The University Student Council consists of 64 students who represent various Departments and Centres of the University. </p>
+      </section>
+
+      <section class="page-section" id="objectives">
+        <h2>Objectives</h2>
+        <ul>
+          <li>To imbibe and inculcate among the students the vision, mission and core values of the University.</li>
+<li>To provide constructive feedback on various aspects of campus life – academic programmes, general discipline, library facilities, maintenance of the campus and other student service facilities.</li>
+<li>To suggest the means for improving the academic quality and standards and the research culture among students.e student perspectives in the development of Arts and Culture, Sports and Games, and other co- curricular/extra-curricular activities involving student participation.</li>
+<li>To identify and suggest methods of improving student life and student conduct.</li>
+<li>To suggest and implement student projects for their holistic development. To identify, assess, evaluate and suggest th and discipline.</li>
+<li>To assist the anti-ragging committee to remove the menace of ragging completely.</li>
+<li>To assess and improve the potential for student placements and facilitate internships.</li>
+<li>To create and encourage an environment for healthy and effective use of student service facilities and suggest methods for its improvement.</li>
+<li>To assist the student endeavours like CSA, NCC, SWO, Sports and Games Team and Peer Education Programme.</li>
+<li>To help interlink students, faculty members, staff and management of the University effectively to forge a strong academic community.</li>
+<li>To help establish and maintain continuous and effective interaction with the alumni of the University.</li>
+<li>To help the students to keep the Christite spirit alive through various activities.</li>
+        </ul>
+      </section>
+
+      <section class="page-section" id="vc-meetings">
+        <h2>Meetings with Vice Chancellor</h2>
+        <p>The University Level Student Council members have a meeting once every semester 
+          with the Vice Chancellor. The Vice Chancellor convenes the meeting in which the Pro-Vice Chancellor, 
+          Registrar, Deans and Student Council Coordinators and University Level Council members participate without fail. 
+          The Vice Chancellor may invite any other faculty/student to the meeting as he deems it necessary. 
+          The Student Council Coordinators along with the University Level Student Council members from respective deanery present 
+          their suggestions and feedback pertaining to academics during this meeting."
+        </p>
+        </section>
+
+      <section class="page-section" id="regular-council">
+        <h2>Regular Council Meetings</h2>
+        <p>
+          The University level Student Council shall meet on a monthly basis with the Director of Student Council and faculty 
+          coordinators to discuss the proceedings of the council and convey the suggestions or feedbacks to improve the quality
+           of life in the campus. Discussions with the deanery level members are also presented during this meeting. 
+           The University Student Council Members also discuss about how to coordinate and conduct various events and
+            activities across the campus.
+        </p></section>
+
+      <section class="page-section" id="open-forum">
+        <h2>Open Forum</h2>
+        <p>
+          Each academic year two open forums are conducted by the University Level Student Council Members 
+          in the presence of the Deans, HOD, Academic Coordinators and the Student Council Coordinators for
+           the respective deaneries. This is a forum where all the deanery student council members would raise 
+           various concerns with regards to academic and other managerial issues to the concerned faculty member, 
+           who would then provide the deanery student council members with an answer to the issue which later gets 
+           communicated to all the students of the respective department. This forum not only ensures that the student's
+            queries are heard by the management but also helps students understand the management's perspective to the query
+        </p></section>
+
+      <section class="page-section" id="daksh">
+        <h2>Daksh — An Annual Education Fair</h2>
+        <p>
+          Daksh is an annual education and career fair conducted and organised by the Student Council and is the Student Council's 
+          flagship event. This event provides a platform for all the students to explore the various career options available to 
+          them at CHRIST (Deemed to be University). Each department across the campus sets up stalls displaying the various 
+          programmes that their department has to offer.  Various career dialogues by eminent personalities are conducted 
+          during this two-day event so as to provide students with an in depth understanding on how various careers look like in 
+          real life. These career dialogues are delivered by experts in various fields. The Student Council also developed an app 
+          called "Accord" during the academic year 2018-19 to ease the process of registrations during Daksh which made registrations 
+          hassle free and paperless and also recorded the interests of various individuals who would visit various stalls in order to 
+          develop a better understanding of where the interest of students lie.
+        </p></section>
+
+      <section class="page-section" id="gratitude-week">
+        <h2>Gratitude Week</h2>
+        <p>
+          The quality of gratitude is an attribute that every individual should possess in their lives. 
+          To spread the feeling of joy, love and gratitude across the University, every year during the month of March, 
+          the Student Council conducts and organises gratitude week. This week is celebrated across the campus as a week 
+          of being thankful to each and every individual who has aided towards enhancing the overall graduate experience 
+          for students at CHRIST (Deemed to be University). During this week the Student Council organises numerous events 
+          for the Security, Housekeeping Staff, Gardeners, Non-teaching staff and Administration staff to have a fun and leisure 
+          time. A small token of appreciation is also handed over to all of them by the students. This fun week is concluded by 
+          the final event called "Gratitude Day" where the members of the Student Council and the university choir along with all 
+          the students in the campus sing the Gratitude Day song.
+        </p></section>
+
+      <section class="page-section" id="bhasha-ethnic">
+        <h2>Bhasha Utsav & Ethnic Day</h2>
+        <p>
+          Bhasha Utsav & Ethnic Day has great significance at CHRIST (Deemed to be University) 
+          as it is the only festival that brings together all Christites. On this day the University celebrates 
+          its diversity in a very special way. To mark the beginning of the event, every year the Student Council 
+          leads the procession displaying ethnic attires of their respective cultures.
+        </p></section>
+
+      <section class="page-section" id="teachers-day">
+        <h2>Teacher's Day</h2>
+        <p>
+          Teachers Day is a special day celebrated across India on 5th September to appreciate and honour the tremendous 
+          efforts taken by them to spread the light of knowledge to students. In order to make this day extremely special 
+          and memorable for all the teaching faculties in the campus, the Student Council members in collaboration with Student
+           Welfare Office present all the faculties across the campus with a small token of appreciation to extend their gratitude
+            and pay their respect to them.
+        </p></section>
+
+      <section class="page-section" id="skywalk">
+        <h2>Skywalk</h2>
+        <p>The Student Council at CHRIST (Deemed to be University) not only looks at the welfare of the students, 
+          but also keeps in mind the overall interest of the public as a whole. In order to ease the lives of students 
+          as well as ensure the safety of pedestrians, the Student Council put forth the idea of the Sky Walk which was 
+          approved by both, the University as well as the regulatory authorities. Today, the Sky Walk stands as a symbol of 
+          how a small idea can bring about a huge impact in our lives as well as the lives of others.
+        </p></section>
+
+      <section class="contact-section" id="contact">
+        <h2>Submit Your Query or Suggestion</h2>
+        <p class="subtitle">We value your feedback. Share your queries, suggestions, or concerns with us.</p>
+        
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="studentName">Full Name <span class="required">*</span></label>
+              <input type="text" id="studentName" name="studentName" required placeholder="Enter your Full Name">
+            </div>
+            
+            <div class="form-group">
+              <label for="registerNumber">Register Number <span class="required">*</span></label>
+              <input type="text" id="registerNumber" name="registerNumber" required placeholder="Enter your Register Number">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="emailId">CHRIST Email ID <span class="required">*</span></label>
+              <input type="email" id="emailId" name="emailId" required placeholder="Enter your Christ Mail ID">
+            </div>
+            
+            <div class="form-group">
+              <label for="department">Department <span class="required">*</span></label>
+              <input type="text" id="department" name="department" required placeholder="Enter your Department">
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group full-width">
+              <label for="message">Your Query/Suggestion <span class="required">*</span></label>
+              <textarea id="message" name="message" required placeholder="Please provide details about your query or suggestion..."></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
+
+          <div class="form-message" id="formMessage"></div>
+        </form>
+      </section>
+
+      <footer class="page-footer">
+        <div>Student Council • CHRIST (Deemed to be University)</div>
+        <div class="small">© CHRIST (Deemed to be University), Bangalore | A Student Council Initiative </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const sidebar = document.getElementById('sidebar');
+    const collapseBtn = document.getElementById('collapseBtn');
+
+    collapseBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      collapseBtn.setAttribute('aria-pressed', isCollapsed);
+      collapseBtn.title = isCollapsed ? 'Expand sidebar' : 'Collapse sidebar';
+    });
+
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const formMessage = document.getElementById('formMessage');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        studentName: document.getElementById('studentName').value,
+        registerNumber: document.getElementById('registerNumber').value,
+        emailId: document.getElementById('emailId').value,
+        department: document.getElementById('department').value,
+        message: document.getElementById('message').value
+      };
+
+      const validDomains = [
+        '@msam.christuniversity.in',
+        '@christuniversity.in',
+        '@mca.christuniversity.in'
+      ];
+      
+      const isValidEmail = validDomains.some(domain => formData.emailId.endsWith(domain)) || 
+                          formData.emailId.match(/@[a-zA-Z]+\.christuniversity\.in$/);
+
+      if (!isValidEmail) {
+        showMessage('Please use your CHRIST University email address (e.g., @christuniversity.in, @msam.christuniversity.in, @mca.christuniversity.in, or @programme_name.christuniversity.in)', 'error');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/binosh.sibi@msam.christuniversity.in', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name: formData.studentName,
+            email: formData.emailId,
+            message: `
+Student Details:
+━━━━━━━━━━━━━━━━━━
+Name: ${formData.studentName}
+Register Number: ${formData.registerNumber}
+Email: ${formData.emailId}
+Department: ${formData.department}
+
+Message:
+━━━━━━━━━━━━━━━━━━
+${formData.message}
+            `,
+            _subject: `Student Council ${formData.messageType} - ${formData.studentName}`,
+            _template: 'table'
+          })
+        });
+
+        if (response.ok) {
+          showMessage('Thank you! Your submission has been received successfully.', 'success');
+          contactForm.reset();
+        } else {
+          throw new Error('Submission failed');
+        }
+      } catch (error) {
+        showMessage('There was an error submitting your form. Please try again or email directly to binosh.sibi@msam.christuniversity.in', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit';
+      }
+    });
+
+    function showMessage(message, type) {
+      formMessage.textContent = message;
+      formMessage.className = `form-message ${type}`;
+      formMessage.style.display = 'block';
+
+      formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      if (type === 'success') {
+        setTimeout(() => {
+          formMessage.style.display = 'none';
+        }, 5000);
+      }
+    }
+  </script>
+</body>
+</html>
