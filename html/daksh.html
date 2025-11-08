@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daksh — Student Council | CHRIST</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+
+    .top-banner {
+      position: relative;
+      width: 100%;
+      height: 40vh;
+      min-height: 600px;
+      overflow: hidden;
+      background-color: #1a1a1a;
+    }
+
+    .top-banner picture,
+    .top-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-copy {
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .banner-copy h1 {
+      font-family: 'Merriweather', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .banner-copy .sub {
+      font-size: 1.2rem;
+      font-weight: 300;
+      opacity: 0.95;
+    }
+
+    .wrap {
+      display: flex;
+      min-height: calc(100vh - 40vh);
+    }
+
+    .sidebar {
+      width: 280px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: visible;
+      transition: width 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 70px;
+    }
+
+    .sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 20px;
+    }
+
+    .sidebar.collapsed .sidebar-inner {
+      padding: 20px 10px;
+    }
+
+    .sidebar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .brand-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .uni {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #666;
+      line-height: 1.2;
+    }
+
+    .sc {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .collapse-btn {
+      background: none;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #666;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .collapse-btn:hover {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .sidebar.collapsed .collapse-btn {
+      transform: rotate(180deg);
+    }
+
+    .menu {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      text-decoration: none;
+      color: #555;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .menu-item:hover {
+      background-color: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    .menu-item.active {
+      background-color: #1a1a1a;
+      color: white;
+    }
+
+    .mi-icon {
+      display: none;
+    }
+
+    .mi-text {
+      white-space: nowrap;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .mi-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-footer {
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      margin-top: auto;
+    }
+
+    .sidebar-footer .copy {
+      font-size: 0.75rem;
+      color: #999;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .sidebar-footer .copy {
+      opacity: 0;
+    }
+
+    .content {
+      flex: 1;
+      padding: 40px;
+      max-width: 1200px;
+      background-color: #fff;
+    }
+
+    .page-section {
+      margin-bottom: 50px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .page-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .page-section h2 {
+      font-family: 'Merriweather', serif;
+      font-size: 2rem;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .page-section h3 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-top: 30px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .page-section p {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .page-section ul {
+      margin-left: 25px;
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .page-section ul li {
+      margin-bottom: 8px;
+    }
+
+    .page-footer {
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 2px solid #e0e0e0;
+      text-align: center;
+      color: #666;
+    }
+
+    .page-footer .small {
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 8px;
+    }
+
+    .event-schedule {
+      background: #ffffff;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      margin: 40px 0;
+      box-shadow: none;
+    }
+
+    .event-schedule h3 {
+      font-size: 2.5rem;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+      margin-top: 0;
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .event-schedule h4 {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 30px;
+      margin-top: 0;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .schedule-item {
+      margin-bottom: 20px;
+      padding: 25px;
+      background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+      border-radius: 12px;
+      border: 1px solid #e8e8e8;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .schedule-item:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .schedule-item:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      transform: translateY(-3px);
+      border-color: #d0d0d0;
+    }
+
+    .schedule-item:hover:before {
+      transform: scaleX(1);
+    }
+
+    .schedule-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .schedule-location {
+      font-weight: 700;
+      color: #1a1a1a;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .schedule-location:before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dc2626'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .schedule-time {
+      color: #1a1a1a;
+      font-size: 1.05rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .schedule-time:before {
+      content: "";
+      width: 18px;
+      height: 18px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231a1a1a'%3E%3Cpath d='M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .questions-section {
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      border: 1px solid #e8e8e8;
+      padding: 40px;
+      margin: 40px 0;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .questions-section h3 {
+      color: #1a1a1a;
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: 'Merriweather', serif;
+    }
+
+    .questions-list {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    .questions-list li {
+      margin-bottom: 18px;
+      padding: 25px 30px;
+      background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      border: 1px solid #e8e8e8;
+      list-style: none;
+    }
+
+    .question-heading {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0;
+      line-height: 1.5;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .questions-list li:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      border-color: #d0d0d0;
+      background: #ffffff;
+    }
+
+    .questions-list li:before {
+      content: "?";
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #1a1a1a;
+      background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+      font-weight: bold;
+      font-size: 1.2rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 2px solid #ffffff;
+    }
+
+    .help-section {
+      background: #ffffff;
+      padding: 0;
+      margin: 50px 0;
+      border-radius: 0;
+      box-shadow: none;
+      position: relative;
+      overflow: visible;
+      border: none;
+    }
+
+    .help-section-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .help-section-left {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      padding: 50px;
+      border-radius: 20px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .help-section-left:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0, 102, 204, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(30%, -30%);
+    }
+
+    .help-section-gif {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .help-section-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 25px;
+    }
+
+    .help-section .intro-text {
+      font-size: 1.6rem;
+      margin-bottom: 0;
+      font-weight: 700;
+      line-height: 1.5;
+      color: white;
+      letter-spacing: -0.5px;
+    }
+
+    .help-section .highlight {
+      color: #0066cc;
+      background: rgba(0, 102, 204, 0.1);
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-block;
+      font-weight: 700;
+      font-style: normal;
+      font-size: 1.6rem;
+    }
+
+    .help-section h3 {
+      color: #1a1a1a;
+      margin: 0 0 20px 0;
+      font-size: 2.2rem;
+      font-weight: 700;
+      font-family: 'Merriweather', serif;
+      letter-spacing: -0.5px;
+    }
+
+    .help-section p {
+      color: #555;
+      margin-bottom: 0;
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+
+    .help-section .closing-text {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 500;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .help-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .help-feature {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      padding: 30px;
+      border-radius: 16px;
+      border: 1px solid #e8e8e8;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .help-feature:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .help-feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      background: #ffffff;
+      border-color: #d0d0d0;
+    }
+
+    .help-feature:hover:before {
+      transform: scaleX(1);
+    }
+
+    .help-feature-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .help-feature-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+
+    .help-feature-text {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .help-section .call-to-action {
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin: 40px auto 0;
+      padding: 20px 60px;
+      background: transparent;
+      color: #1a1a1a;
+      border: 3px solid #1a1a1a;
+      border-radius: 0;
+      display: block;
+      text-shadow: none;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: none;
+      cursor: pointer;
+      max-width: 600px;
+      text-align: center;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .help-section .call-to-action:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: #1a1a1a;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: -1;
+    }
+
+    .help-section .call-to-action:after {
+      content: "→";
+      position: absolute;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 1.5rem;
+    }
+
+    .help-section .call-to-action:hover {
+      color: white;
+      border-color: #1a1a1a;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .help-section .call-to-action:hover:before {
+      width: 100%;
+    }
+
+    .help-section .call-to-action:hover:after {
+      opacity: 1;
+      right: 40px;
+    }
+
+    .help-section .call-to-action:active {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .action-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin: 60px 0 40px 0;
+    }
+
+    .action-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border: 2px solid #e8ecef;
+      border-radius: 16px;
+      padding: 35px 30px;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-card:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .action-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+      border-color: #d0d0d0;
+    }
+
+    .action-card:hover:before {
+      transform: scaleX(1);
+    }
+
+    .action-card-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      display: block;
+      transition: transform 0.3s ease;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    .action-card:hover .action-card-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .action-card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 12px;
+      font-family: 'Merriweather', serif;
+    }
+
+    .action-card-description {
+      font-size: 0.95rem;
+      color: #666;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .action-card-button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .action-card:hover .action-card-button {
+      background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .banner-copy h1 {
+        font-size: 2rem;
+      }
+
+      .banner-copy .sub {
+        font-size: 1rem;
+      }
+
+      .wrap {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .sidebar.collapsed {
+        width: 100%;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .page-section h2 {
+        font-size: 1.5rem;
+      }
+
+      .event-schedule h3 {
+        font-size: 2rem;
+      }
+
+      .event-schedule h4 {
+        font-size: 0.85rem;
+        margin-bottom: 25px;
+      }
+
+      .schedule-item {
+        padding: 20px;
+      }
+
+      .schedule-location {
+        font-size: 1.05rem;
+      }
+
+      .schedule-time {
+        font-size: 1rem;
+      }
+
+      .questions-section {
+        padding: 25px 20px;
+      }
+
+      .questions-section h3 {
+        font-size: 1.3rem;
+      }
+
+      .help-section-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+      }
+
+      .help-section-left {
+        padding: 35px 25px;
+      }
+
+      .help-section-gif {
+        max-width: 200px;
+        margin-bottom: 20px;
+      }
+
+      .help-section .intro-text {
+        font-size: 1.3rem;
+      }
+
+      .help-section .highlight {
+        font-size: 1.3rem;
+      }
+
+      .help-section h3 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+      }
+
+      .help-section p {
+        font-size: 1rem;
+      }
+
+      .help-features {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-top: 25px;
+      }
+
+      .help-feature {
+        padding: 20px;
+      }
+
+      .help-section .call-to-action {
+        font-size: 1.1rem;
+        padding: 18px 40px;
+        margin-top: 30px;
+        max-width: 100%;
+        letter-spacing: 0.5px;
+      }
+
+      .help-section .call-to-action:after {
+        right: 20px;
+        font-size: 1.3rem;
+      }
+
+      .help-section .call-to-action:hover:after {
+        right: 25px;
+      }
+
+      .help-section .closing-text {
+        font-size: 1rem;
+      }
+
+      .action-cards {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin: 40px 0 30px 0;
+      }
+
+      .action-card {
+        padding: 30px 25px;
+      }
+
+      .action-card-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+      }
+
+      .action-card-title {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-banner" id="topBanner">
+    <img id="bannerImg" src="/assests/IMG-20250915-WA0012.jpg" alt="Student Council banner">
+    <div class="banner-overlay">
+      <div class="banner-copy">
+        <h1>Daksh 2025</h1>
+        <p class="sub">Representing student voice — leadership, service & campus life.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar-inner">
+        <div class="sidebar-top">
+          <div class="brand">
+            <div class="logo" aria-hidden="true">
+              <img src="https://christuniversity.in/images/emblem_logo.png" alt="Christ University Logo">
+            </div>
+            <div class="brand-text">
+              <div class="uni">CHRIST (Deemed to be University)</div>
+              <div class="sc">Student Council</div>
+            </div>
+          </div>
+          <button id="collapseBtn" class="collapse-btn" aria-pressed="false" title="Collapse sidebar">⟨</button>
+        </div>
+
+        <nav class="menu" aria-label="Student council sections">
+          <a class="menu-item" href="index.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Home</span>
+          </a>
+          <a class="menu-item" href="constitution.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Constitution</span>
+          </a>
+          <a class="menu-item" href="mentors.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Mentors</span>
+          </a>
+          <a class="menu-item" href="members.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Members</span>
+          </a>
+          <a class="menu-item" href="news.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">News</span>
+          </a>
+          <a class="menu-item" href="reports.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Reports</span>
+          </a>
+          <a class="menu-item" href="gallery.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Gallery & Social</span>
+          </a>
+          <a class="menu-item active" href="daksh.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Daksh</span>
+          </a>
+          <a class="menu-item" href="trailblaze.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Trailblaze</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="copy">© <span id="year"></span> CHRIST</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content" id="content" tabindex="-1">
+      <section class="page-section">
+        <h2 style="margin-bottom: 10px;">DAKSH 2025</h2>
+        <h3 style="font-size: 1.3rem; color: #666; margin-bottom: 35px; font-weight: 600; letter-spacing: 1px;">EDUCATION AND CAREER GUIDANCE FAIR</h3>
+        
+        <p style="font-size: 1.1rem; line-height: 1.9; margin-bottom: 20px;">DAKSH is an annual Education and Career Guidance Fair hosted by The Student Council, CHRIST (Deemed to be University). It focuses on the various opportunities made available to pre-university, undergraduate, and postgraduate students. DAKSH is here to guide students to acquire knowledge and make informed choices regarding their higher education and careers.</p>
+        
+        <p style="font-size: 1.1rem; line-height: 1.9; margin-bottom: 30px;">Through active participation in the stalls, several competitions, as well as personalized career counseling sessions, students will be able to learn about various vocations and fields of study they could pursue.</p>
+
+        <div class="event-schedule">
+          <h3>November 29 & 30</h3>
+          <h4>Stall Timings</h4>
+          <div class="schedule-item">
+            <div class="schedule-location">Bangalore Central Campus</div>
+            <div class="schedule-time">9:00 AM IST - 5:00 PM IST</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-location">Online Stall</div>
+            <div class="schedule-time">5:00 PM IST - 8:00 PM IST</div>
+          </div>
+        </div>
+
+        <div class="questions-section">
+          <ul class="questions-list">
+            <li>
+              <h3 class="question-heading">Do you find it challenging to answer questions about your career plans?</h3>
+            </li>
+            <li>
+              <h3 class="question-heading">Do you feel overwhelmed with the plethora of choices offered by institutions?</h3>
+            </li>
+            <li>
+              <h3 class="question-heading">Do you need better clarity regarding a career choice?</h3>
+            </li>
+          </ul>
+        </div>
+
+        <div class="help-section">
+          <div class="help-section-wrapper">
+            <div class="help-section-left">
+              <img src="/assests/alden_gif.gif" alt="DAKSH Animation" class="help-section-gif" onerror="this.style.display='none'; console.error('GIF not found: /assests/alden_gif.gif');">
+              <p class="intro-text">Then <span class="highlight">DAKSH</span> is the perfect opportunity for you!</p>
+            </div>
+            
+            <div class="help-section-right">
+              <h3>How are we helping?</h3>
+              <p>We provide direct interaction with the students and faculty to address your various queries. Be it academics, extracurricular activities, admission process, placement opportunities, or campus culture...</p>
+              <p class="closing-text">Interact with our students and faculty to make an informed choice for a better tomorrow.</p>
+            </div>
+          </div>
+
+          <div class="help-features">
+            <div class="help-feature">
+              <span class="help-feature-icon">🎓</span>
+              <div class="help-feature-title">Academic Guidance</div>
+              <p class="help-feature-text">Get insights into various academic programs and courses</p>
+            </div>
+            <div class="help-feature">
+              <span class="help-feature-icon">💼</span>
+              <div class="help-feature-title">Career Opportunities</div>
+              <p class="help-feature-text">Explore placement opportunities and career paths</p>
+            </div>
+            <div class="help-feature">
+              <span class="help-feature-icon">🏛️</span>
+              <div class="help-feature-title">Campus Culture</div>
+              <p class="help-feature-text">Learn about campus life and extracurricular activities</p>
+            </div>
+          </div>
+
+          <p class="call-to-action">Find all the answers with us!</p>
+        </div>
+
+        <div class="action-cards">
+          <div class="action-card">
+            <img src="" alt="Registration- Individual" class="action-card-icon" id="card-image-1">
+            <h3 class="action-card-title">Registration- Individual</h3>
+            <p class="action-card-description">Register as an individual student to participate in DAKSH 2025 and explore various career opportunities.</p>
+            <button class="action-card-button">Register Now</button>
+          </div>
+
+          <div class="action-card">
+            <img src="" alt="Brochure" class="action-card-icon" id="card-image-2">
+            <h3 class="action-card-title">Brochure</h3>
+            <p class="action-card-description">Download the comprehensive DAKSH 2025 brochure with all event details, schedules, and information.</p>
+            <button class="action-card-button">Download</button>
+          </div>
+
+          <div class="action-card">
+            <img src="" alt="Registration- Institution" class="action-card-icon" id="card-image-3">
+            <h3 class="action-card-title">Registration- Institution</h3>
+            <p class="action-card-description">Register your institution or organization to participate in DAKSH 2025 as an exhibitor.</p>
+            <button class="action-card-button">Register Now</button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <div>© CHRIST (Deemed to be University), Bangalore | DAKSH 2025 | A Student Council Initiative</div>
+        <div class="small" style="margin-top: 20px;">
+          <div style="margin-bottom: 10px;"><strong>ADDRESS</strong></div>
+          <div>Dharmaram College Post, Hosur Road, Bengaluru - 560029, Karnataka, India</div>
+          <div style="margin-top: 15px; margin-bottom: 10px;"><strong>CONTACT</strong></div>
+          <div>Tel: +91 08040129400</div>
+          <div>Email: admissions@christuniversity.in</div>
+          <div>Web: <a href="https://www.christuniversity.in/" target="_blank" style="color: #0066cc; text-decoration: none;">https://www.christuniversity.in/</a></div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const sidebar = document.getElementById('sidebar');
+    const collapseBtn = document.getElementById('collapseBtn');
+
+    collapseBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      collapseBtn.setAttribute('aria-pressed', isCollapsed);
+      collapseBtn.title = isCollapsed ? 'Expand sidebar' : 'Collapse sidebar';
+    });
+  </script>
+</body>
+</html>
+
