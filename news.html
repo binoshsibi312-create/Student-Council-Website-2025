@@ -80,12 +80,12 @@
       position: sticky;
       top: 0;
       height: 100vh;
-      overflow-y: visible ;
+      overflow-y: visible;
       transition: width 0.3s ease;
     }
 
     .sidebar.collapsed {
-      width: 70px;
+      width: 100px;
     }
 
     .sidebar-inner {
@@ -248,32 +248,14 @@
       font-family: 'Merriweather', serif;
       font-size: 2rem;
       color: #1a1a1a;
-      margin-bottom: 15px;
-    }
-
-    .page-section h3 {
-      font-size: 1.5rem;
-      color: #333;
-      margin-top: 30px;
-      margin-bottom: 12px;
-      font-weight: 600;
+      margin-bottom: 20px;
     }
 
     .page-section p {
       font-size: 1.05rem;
       color: #555;
       line-height: 1.8;
-    }
-
-    .page-section ul {
-      margin-left: 25px;
-      font-size: 1.05rem;
-      color: #555;
-      line-height: 1.8;
-    }
-
-    .page-section ul li {
-      margin-bottom: 8px;
+      margin-bottom: 15px;
     }
 
     .news-grid {
@@ -287,12 +269,13 @@
       border-radius: 8px;
       padding: 25px;
       border-left: 4px solid #1a1a1a;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
     }
 
     .news-card:hover {
       background-color: #f5f5f5;
       transform: translateX(5px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .news-date {
@@ -300,19 +283,53 @@
       color: #999;
       font-weight: 600;
       margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .news-title {
       font-size: 1.3rem;
       font-weight: 700;
       color: #1a1a1a;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .news-excerpt {
       font-size: 1rem;
       color: #666;
       line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .registration-badge {
+      display: inline-block;
+      background-color: #2e7d32;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .card-button {
+      display: inline-block;
+      background-color: #1a1a1a;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .card-button:hover {
+      background-color: #333;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(26, 26, 26, 0.2);
     }
 
     .page-footer {
@@ -364,7 +381,7 @@
 </head>
 <body>
   <header class="top-banner" id="topBanner">
-    <img id="bannerImg" src="/assests//IMG-20250915-WA0012.jpg" alt="Student Council banner">
+    <img id="bannerImg" src="assests/IMG-20250915-WA0012.jpg" alt="Student Council banner">
     <div class="banner-overlay">
       <div class="banner-copy">
         <h1>Student Council</h1>
@@ -410,10 +427,6 @@
             <span class="mi-icon" aria-hidden="true"></span>
             <span class="mi-text">News</span>
           </a>
-          <a class="menu-item" href="reports.html">
-            <span class="mi-icon" aria-hidden="true"></span>
-            <span class="mi-text">Reports</span>
-          </a>
           <a class="menu-item" href="gallery.html">
             <span class="mi-icon" aria-hidden="true"></span>
             <span class="mi-text">Gallery & Social</span>
@@ -435,71 +448,51 @@
     </aside>
 
     <main class="content" id="content" tabindex="-1">
-      <section class="page-section">
+      <section class="page-section" id="news">
         <h2>News & Updates</h2>
-        <p>Stay informed about the latest Student Council activities, upcoming events, and important announcements.</p>
-        
-        <h3>Recent Announcements</h3>
-        <div class="news-grid">
-          <div class="news-card">
-            <div class="news-date">November 2024</div>
-            <div class="news-title">Annual General Meeting Scheduled</div>
-            <div class="news-excerpt">The Student Council will hold its Annual General Meeting to discuss achievements, upcoming initiatives, and address student concerns. All students are encouraged to attend and participate.</div>
-          </div>
-
-          <div class="news-card">
-            <div class="news-date">October 2024</div>
-            <div class="news-title">Daksh 2024 Registration Open</div>
-            <div class="news-excerpt">Registration is now open for Daksh, our annual education fair. Students can showcase their academic projects, attend workshops, and participate in career-oriented sessions.</div>
-          </div>
-
-          <div class="news-card">
-            <div class="news-date">October 2024</div>
-            <div class="news-title">New Student Welfare Initiatives Launched</div>
-            <div class="news-excerpt">The Student Council has launched several new welfare initiatives including mental health support programs, study resource centers, and recreational facilities improvements.</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="page-section">
-        <h3>Upcoming Events</h3>
-        <p>The Student Council organizes numerous events throughout the academic year, fostering community engagement and student development.</p>
+        <p>Exciting announcements about upcoming Student Council events for 2025. Check back regularly for the latest updates and registration information.</p>
         
         <div class="news-grid">
           <div class="news-card">
-            <div class="news-date">December 2024</div>
-            <div class="news-title">Gratitude Week Celebration</div>
-            <div class="news-excerpt">Join us for a week-long celebration of service and appreciation featuring campus activities, volunteering opportunities, and recognition of contributors to our community.</div>
-          </div>
-
-          <div class="news-card">
+            <span class="registration-badge">Registrations Open</span>
             <div class="news-date">January 2025</div>
-            <div class="news-title">Bhasha Utsav & Ethnic Day</div>
-            <div class="news-excerpt">Celebrate linguistic diversity and cultural heritage through performances, traditional food, cultural activities, and intercultural exchange programs.</div>
+            <div class="news-title">Daksh 2025 - Education & Career Fair</div>
+            <div class="news-excerpt">Daksh is back with an exciting lineup! This year's education and career fair presents a fantastic opportunity for students to explore diverse academic programs, connect with industry professionals, and discover their ideal career paths. Join us for engaging career dialogues, interactive workshops, and networking sessions with experts from various fields.</div>
+            <a href="daksh.html" class="card-button">Learn More</a>
           </div>
 
           <div class="news-card">
+            <span class="registration-badge">Registrations Open</span>
             <div class="news-date">February 2025</div>
-            <div class="news-title">Open Forum Session</div>
-            <div class="news-excerpt">Monthly open forum where students can raise issues, propose ideas, and engage directly with council representatives and university administration.</div>
+            <div class="news-title">Trailblaze 2025 - Student Leadership Summit</div>
+            <div class="news-excerpt">Trailblaze is an innovative student leadership summit designed to inspire, motivate, and empower students to become change-makers on campus. This event brings together student leaders, mentors, and innovators to share ideas, build connections, and explore ways to make a positive impact on our community. Don't miss this opportunity to network and grow!</div>
+            <a href="trailblaze.html" class="card-button">Learn More</a>
           </div>
         </div>
       </section>
 
-      <section class="page-section">
-        <h3>Achievements & Highlights</h3>
-        <p>Celebrating the successes and milestones achieved by the Student Council in representing and serving the student community. Our initiatives have positively impacted campus life, enhanced student welfare, and strengthened the connection between students and university administration.</p>
+      <section class="page-section" id="reports">
+        <h2>Annual Reports</h2>
+        <p>Explore our comprehensive annual reports documenting the Student Council's activities, achievements, and impact on campus life throughout the academic year.</p>
+        
+        <div class="news-grid">
+          <div class="news-card">
+            <div class="news-date">Academic Year 2024-2025</div>
+            <div class="news-title">Annual Report 2024-2025</div>
+            <div class="news-excerpt">This comprehensive report details all Student Council initiatives, events, and contributions during the 2024-2025 academic year. Learn about our key achievements, including Daksh, Trailblaze, Gratitude Week, and various student welfare programs. The report highlights our commitment to enhancing campus life and strengthening the connection between students and university administration.</div>
+            <a href="assests/Affirmative _ Report 2024-2025.pdf" class="card-button">View Full Report</a>
+          </div>
+        </div>
       </section>
 
       <footer class="page-footer">
         <div>Student Council • CHRIST (Deemed to be University)</div>
-        <div class="small">© CHRIST (Deemed to be University), Bangalore | A Student Council Initiative </div>
+        <div class="small">© CHRIST (Deemed to be University), Bangalore | A Student Council Initiative</div>
       </footer>
     </main>
   </div>
 
   <script>
-
     document.getElementById('year').textContent = new Date().getFullYear();
 
     const sidebar = document.getElementById('sidebar');
