@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daksh 2025 — Student Council | CHRIST</title>
+  <title>Online Stalls — Daksh 2025 | CHRIST</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -282,16 +282,7 @@
       font-family: 'Merriweather', serif;
       font-size: 2rem;
       color: #1a1a1a;
-      margin-bottom: 8px;
-    }
-
-    .page-section .subtitle {
-      font-size: 1rem;
-      color: #666;
-      margin-bottom: 25px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      margin-bottom: 15px;
     }
 
     .page-section h3 {
@@ -309,156 +300,63 @@
       margin-bottom: 15px;
     }
 
-    .event-info-card {
-      background-color: #f8f9fa;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
+    .time-banner {
+      background-color: #1a1a1a;
+      color: white;
       padding: 25px;
-      margin: 25px 0;
+      border-radius: 8px;
+      text-align: center;
+      margin: 30px 0;
     }
 
-    .event-dates {
-      font-family: 'Merriweather', serif;
+    .time-banner h3 {
+      margin: 0 0 10px 0;
+      color: white;
       font-size: 1.8rem;
-      color: #1a1a1a;
-      margin-bottom: 20px;
-      font-weight: 700;
     }
 
-    .schedule-grid {
-      display: grid;
-      gap: 15px;
-    }
-
-    .schedule-item {
-      background-color: #fff;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      padding: 20px;
-      transition: all 0.2s ease;
-    }
-
-    .schedule-item:hover {
-      border-color: #1a1a1a;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .schedule-item a {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-
-    .schedule-location {
-      font-weight: 600;
-      color: #1a1a1a;
-      font-size: 1.1rem;
-      margin-bottom: 4px;
-    }
-
-    .schedule-time {
-      color: #666;
-      font-size: 0.95rem;
-    }
-
-    .info-box {
-      background-color: #f8f9fa;
-      border-left: 4px solid #1a1a1a;
-      padding: 20px 25px;
-      margin: 25px 0;
-    }
-
-    .info-box h3 {
-      margin-top: 0;
-      margin-bottom: 15px;
-      font-size: 1.3rem;
-    }
-
-    .info-box ul {
-      list-style: none;
-      padding: 0;
+    .time-banner p {
       margin: 0;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.9);
     }
 
-    .info-box li {
-      padding: 10px 0;
-      color: #555;
-      font-size: 1.05rem;
-    }
-
-    .info-box li:before {
-      content: "•";
-      color: #1a1a1a;
-      font-weight: bold;
-      display: inline-block;
-      width: 1em;
-      margin-right: 8px;
-    }
-
-    .daksh-gif-container {
-      display: flex;
-      align-items: center;
-      gap: 40px;
-      margin: 40px 0;
-      padding: 40px;
-      background-color: #f8f9fa;
-      border-radius: 8px;
-    }
-
-    .daksh-gif-container img {
-      flex-shrink: 0;
-      width: 400px;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .daksh-gif-text {
-      flex: 1;
-      font-family: 'Merriweather', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: #1a1a1a;
-      line-height: 1.4;
-    }
-
-    .action-cards {
+    .stall-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
       margin: 30px 0;
     }
 
-    .action-card {
+    .stall-card {
       background-color: #fff;
       border: 1px solid #e0e0e0;
       border-radius: 8px;
-      padding: 25px;
-      text-align: center;
+      padding: 20px;
       transition: all 0.2s ease;
     }
 
-    .action-card:hover {
+    .stall-card:hover {
       border-color: #1a1a1a;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       transform: translateY(-2px);
     }
 
-    .action-card h3 {
+    .stall-card h4 {
+      margin: 0 0 10px 0;
       font-size: 1.2rem;
       color: #1a1a1a;
-      margin: 15px 0 10px 0;
-      font-weight: 700;
     }
 
-    .action-card p {
+    .stall-card p {
       font-size: 0.95rem;
       color: #666;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
-    .action-card button {
-      padding: 12px 24px;
+    .stall-card button {
+      width: 100%;
+      padding: 10px 20px;
       background-color: #1a1a1a;
       color: white;
       border: none;
@@ -466,12 +364,19 @@
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
-    .action-card button:hover {
+    .stall-card button:hover {
       background-color: #333;
       transform: translateY(-2px);
+    }
+
+    .info-box {
+      background-color: #f8f9fa;
+      border-left: 4px solid #1a1a1a;
+      padding: 20px 25px;
+      margin: 25px 0;
     }
 
     .page-footer {
@@ -493,10 +398,6 @@
         font-size: 2rem;
       }
 
-      .banner-copy .sub {
-        font-size: 1rem;
-      }
-
       .wrap {
         flex-direction: column;
       }
@@ -507,57 +408,33 @@
         position: relative;
       }
 
-      .sidebar.collapsed {
-        width: 100%;
-      }
-
       .content {
         padding: 20px;
       }
 
-      .page-section h2 {
-        font-size: 1.5rem;
-      }
-
-      .action-cards {
+      .stall-grid {
         grid-template-columns: 1fr;
-      }
-
-      .daksh-gif-container {
-        flex-direction: column;
-        padding: 30px 20px;
-        gap: 25px;
-      }
-
-      .daksh-gif-container img {
-        width: 100%;
-        max-width: 300px;
-      }
-
-      .daksh-gif-text {
-        font-size: 1.5rem;
-        text-align: center;
       }
     }
   </style>
 </head>
 <body>
   <header class="top-banner">
-    <img src="/assests/daksh 2024.jpg" alt="Daksh banner">
+    <img src="/assests/daksh 2024.jpg" alt="Student Council banner">
     <div class="banner-overlay">
       <div class="banner-copy">
-        <h1>Daksh 2025</h1>
-        <p class="sub">Education and Career Guidance Fair</p>
+        <h1>Online Stalls</h1>
+        <p class="sub">Daksh 2025 — Education and Career Guidance Fair</p>
       </div>
     </div>
   </header>
 
   <div class="wrap">
-    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+    <aside class="sidebar" id="sidebar">
       <div class="sidebar-inner">
         <div class="sidebar-top">
           <div class="brand">
-            <div class="logo" aria-hidden="true">
+            <div class="logo">
               <img src="https://christuniversity.in/images/emblem_logo.png" alt="Christ University Logo">
             </div>
             <div class="brand-text">
@@ -568,7 +445,7 @@
           <button id="collapseBtn" class="collapse-btn" aria-pressed="false" title="Collapse sidebar">⟨</button>
         </div>
 
-        <nav class="menu" aria-label="Student council sections">
+        <nav class="menu">
           <a class="menu-item" href="index.html">
             <span class="mi-text">Home</span>
           </a>
@@ -594,10 +471,10 @@
             <span class="mi-text">Daksh</span>
           </div>
           <div class="submenu open" id="dakshSubmenu">
-            <a class="submenu-item active" href="daksh.html">Home</a>
+            <a class="submenu-item" href="daksh.html">Home</a>
             <a class="submenu-item" href="daksh-competitions.html">Competitions</a>
             <a class="submenu-item" href="daksh-campuses.html">Campuses</a>
-            <a class="submenu-item" href="daksh-schools-centers.html">Schools</a>
+            <a class="submenu-item" href="daksh-schools-centers.html">Schools
             <a class="submenu-item" href="daksh-gallery.html">Centers & Cells</a>
             <a class="submenu-item" href="daksh-gallery.html">Gallery</a>
           </div>
@@ -612,98 +489,17 @@
       </div>
     </aside>
 
-    <main class="content" id="content" tabindex="-1">
+    <main class="content">
       <section class="page-section">
-        <h2>DAKSH 2025</h2>
-        <p class="subtitle">Education and Career Guidance Fair</p>
-        
-        <p>DAKSH is an annual Education and Career Guidance Fair hosted by The Student Council, CHRIST (Deemed to be University). It focuses on the various opportunities made available to pre-university, undergraduate, and postgraduate students. DAKSH is here to guide students to acquire knowledge and make informed choices regarding their higher education and careers.</p>
-        
-        <p>Through active participation in the stalls, several competitions, as well as personalized career counseling sessions, students will be able to learn about various vocations and fields of study they could pursue.</p>
-      </section>
-
-      <section class="page-section">
-        <h3>Event Schedule</h3>
-        
-        <div class="event-info-card">
-          <div class="event-dates">November 29 & 30, 2025</div>
-          
-          <div class="schedule-grid">
-            <div class="schedule-item">
-              <a href="https://christuniversity.in/bangalore-central-campus" target="_blank">
-                <div class="schedule-location">Bangalore Central Campus</div>
-                <div class="schedule-time">9:00 AM - 5:00 PM IST</div>
-              </a>
-            </div>
-            
-            <div class="schedule-item">
-              <a href="daksh-online-stalls.html">
-                <div class="schedule-location">Online Stall</div>
-                <div class="schedule-time">5:00 PM - 8:00 PM IST</div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="page-section">
-        <h3>Why Attend DAKSH?</h3>
-        
-        <div class="info-box">
-          <h3>Are You Facing These Challenges?</h3>
-          <ul>
-            <li>Finding it difficult to answer questions about your career plans?</li>
-            <li>Feeling overwhelmed with the variety of choices offered by institutions?</li>
-            <li>Need better clarity regarding a career choice?</li>
-          </ul>
+        <h2>Online Stalls</h2>
+        <p>Can't make it to campus? Participate in Daksh 2025 virtually through our online stalls. Connect with universities, explore programs, and get your questions answered from the comfort of your home.</p>
+        <p>This exciting virtual event lets you connect with current students and instructors to learn about course curriculums and future career prospects. </p>
+        <div class="time-banner">
+          <h3>5:00 PM - 8:00 PM IST</h3>
+          <p>November 29 & 30, 2025</p>
         </div>
 
-        <div class="daksh-gif-container">
-          <img src="/assests/alden_gif.gif" alt="DAKSH Animation" onerror="this.style.display='none'">
-          <div class="daksh-gif-text">Then DAKSH is the perfect opportunity for you!</div>
-        </div>
-
-        <div class="info-box">
-          <h3>How We Help</h3>
-          <ul>
-            <li>Direct interaction with students and faculty to address your queries</li>
-            <li>Guidance on academics and extracurricular activities</li>
-            <li>Information about admission processes and requirements</li>
-            <li>Insights into placement opportunities and career paths</li>
-            <li>Understanding campus culture and student life</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="page-section">
-        <h3>Get Started</h3>
-        
-        <div class="action-cards">
-          <div class="action-card">
-            <h3>Individual Registration</h3>
-            <p>Register as an individual student to participate in DAKSH 2025 and explore various career opportunities.</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdjudTD3LxFk9i2llNMJGmgMmvs6VM9pxXV-8QtwnqO0qi9Xw/viewform?pli=1" target="_blank">
-              <button>Register Now</button>
-            </a>
-          </div>
-
-          <div class="action-card">
-            <h3>Download Brochure</h3>
-            <p>Get the comprehensive DAKSH 2025 brochure with all event details, schedules, and information.</p>
-            <a href="https://drive.google.com/file/d/1LwoZNqPRIcA7aqqpncnz5EcwD2NjsGdZ/view" target="_blank">
-            <button>Download PDF</button>
-            </a>
-          </div>
-
-          <div class="action-card">
-            <h3>Institution Registration</h3>
-            <p>Register your institution or organization to participate in DAKSH 2025 to unlock the oppurtunities that build your dreams.</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScw3coEiALOcOgurjWDYelAn1gqiEgNp6uu-_VoS3ImhrIzog/viewform" target="_blank">
-            <button>Register Now</button>
-            </a>
-          </div>
-        </div>
-      </section>
+       
 
       <footer class="page-footer">
         <div>Student Council • CHRIST (Deemed to be University)</div>

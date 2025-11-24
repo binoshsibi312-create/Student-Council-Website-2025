@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campuses — Daksh 2025 | CHRIST</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+
+    .top-banner {
+      position: relative;
+      width: 100%;
+      height: 40vh;
+      min-height: 600px;
+      overflow: hidden;
+      background-color: #1a1a1a;
+    }
+
+    .top-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-copy {
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .banner-copy h1 {
+      font-family: 'Merriweather', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .banner-copy .sub {
+      font-size: 1.2rem;
+      font-weight: 300;
+      opacity: 0.95;
+    }
+
+    .wrap {
+      display: flex;
+      min-height: calc(100vh - 40vh);
+    }
+
+    .sidebar {
+      width: 280px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      transition: width 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 70px;
+    }
+
+    .sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 20px;
+    }
+
+    .sidebar.collapsed .sidebar-inner {
+      padding: 20px 10px;
+    }
+
+    .sidebar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .brand-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .uni {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #666;
+      line-height: 1.2;
+    }
+
+    .sc {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .collapse-btn {
+      background: none;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #666;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .collapse-btn:hover {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .sidebar.collapsed .collapse-btn {
+      transform: rotate(180deg);
+    }
+
+    .menu {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      text-decoration: none;
+      color: #555;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .menu-item:hover {
+      background-color: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    .menu-item.active {
+      background-color: #1a1a1a;
+      color: white;
+    }
+
+    .mi-text {
+      white-space: nowrap;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .mi-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .submenu {
+      display: none;
+      flex-direction: column;
+      gap: 3px;
+      margin-left: 15px;
+      margin-top: 5px;
+      padding-left: 15px;
+      border-left: 2px solid #e0e0e0;
+    }
+
+    .submenu.open {
+      display: flex;
+    }
+
+    .sidebar.collapsed .submenu {
+      display: none !important;
+    }
+
+    .submenu-item {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      color: #666;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .submenu-item:hover {
+      background-color: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    .submenu-item.active {
+      background-color: #f5f5f5;
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+
+    .sidebar-footer {
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      margin-top: auto;
+    }
+
+    .sidebar-footer .copy {
+      font-size: 0.75rem;
+      color: #999;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .sidebar-footer .copy {
+      opacity: 0;
+    }
+
+    .content {
+      flex: 1;
+      padding: 40px;
+      max-width: 1200px;
+      background-color: #fff;
+    }
+
+    .page-section {
+      margin-bottom: 50px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .page-section h2 {
+      font-family: 'Merriweather', serif;
+      font-size: 2rem;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .page-section p {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .campus-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      margin-top: 25px;
+    }
+
+    .campus-card {
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 0;
+      overflow: hidden;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .campus-card:hover {
+      border-color: #1a1a1a;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    .campus-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 400px;
+    }
+
+    .campus-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .campus-btn {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background-color: #1a1a1a;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .campus-btn:hover {
+      background-color: #333;
+    }
+
+    .campus-content {
+      padding: 25px;
+    }
+
+    .campus-category {
+      font-size: 0.85rem;
+      color: #999;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .campus-card h3 {
+      font-size: 1.4rem;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+
+    .campus-card p {
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    .page-footer {
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 2px solid #e0e0e0;
+      text-align: center;
+      color: #666;
+    }
+
+    .page-footer .small {
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .banner-copy h1 {
+        font-size: 2rem;
+      }
+
+      .wrap {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="top-banner">
+  <img src="/assests/daksh 2024.jpg" alt="Daksh 2025 banner">
+  <div class="banner-overlay">
+    <div class="banner-copy">
+      <h1>Our Campuses</h1>
+      <p class="sub">Discover the diverse campuses of CHRIST University</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="sidebar-top">
+        <div class="brand">
+          <div class="logo">
+            <img src="https://christuniversity.in/images/emblem_logo.png" alt="Christ University Logo">
+          </div>
+          <div class="brand-text">
+            <div class="uni">CHRIST (Deemed to be University)</div>
+            <div class="sc">Student Council</div>
+          </div>
+        </div>
+        <button id="collapseBtn" class="collapse-btn" aria-pressed="false">⟨</button>
+      </div>
+
+      <nav class="menu">
+        <a class="menu-item" href="index.html"><span class="mi-text">Home</span></a>
+        <a class="menu-item" href="constitution.html"><span class="mi-text">Constitution</span></a>
+        <a class="menu-item" href="mentors.html"><span class="mi-text">Mentors</span></a>
+        <a class="menu-item" href="members.html"><span class="mi-text">Members</span></a>
+        <a class="menu-item" href="news.html"><span class="mi-text">News</span></a>
+        <a class="menu-item" href="reports.html"><span class="mi-text">Reports</span></a>
+        <a class="menu-item" href="gallery.html"><span class="mi-text">Gallery & Social</span></a>
+
+        <div class="menu-item active" id="dakshToggle"><span class="mi-text">Daksh</span></div>
+
+        <div class="submenu open" id="dakshSubmenu">
+          <a class="submenu-item" href="daksh.html">Home</a>
+          <a class="submenu-item" href="daksh-competitions.html">Competitions</a>
+          <a class="submenu-item active" href="daksh-campuses.html">Campuses</a>
+          <a class="submenu-item" href="daksh-schools-centers.html">Schools</a>
+          <a class="submenu-item" href="daksh-centers-cells.html">Centers & Cells</a>
+          <a class="submenu-item" href="daksh-gallery.html">Gallery</a>
+        </div>
+
+        <a class="menu-item" href="trailblaze.html"><span class="mi-text">Trailblaze</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="copy">© <span id="year"></span> CHRIST</div>
+      </div>
+
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <section class="page-section">
+      <h2>CHRIST University Campuses</h2>
+      <p>Explore the various campuses of CHRIST (Deemed to be University) across India, each offering unique programmes and opportunities for holistic education.</p>
+
+      <div class="campus-grid">
+
+        <article class="campus-card">
+          <div class="campus-img-wrapper">
+            <img class="campus-img" src="/assests/campuses/bcc.jpg" alt="">
+            <a class="campus-btn" href="https://christuniversity.in/bangalore-central-campus" target="_blank">CLICK HERE TO KNOW MORE</a>
+          </div>
+          <div class="campus-content">
+            <h3>Bangalore Central Campus</h3>
+            <div class="campus-category">Hosur Road, Near Diary Circle, Bangalore - 560029</div>
+            <p>Bangalore Central Campus offers a wide range of programmes, starting from Bachelors to PhD, in several domains.  
+
+There are several other Centres and Associations in the campus which provide the students an opportunity to indulge in extra curricular and co-curricular activities.</p>
+          </div>
+        </article>
+
+        <article class="campus-card">
+          <div class="campus-img-wrapper">
+            <img class="campus-img" src="/assests/campuses/bgr.png" alt="">
+            <a class="campus-btn" href="https://christuniversity.in/bangalore-bannerghatta-road-campus" target="_blank">CLICK HERE TO KNOW MORE</a>
+          </div>
+          <div class="campus-content">
+            <h3>Bangalore Bannerghatta Road Campus</h3>
+            <div class="campus-category">Bannerghatta Main Road, Hulimavu, Bangalore - 560076</div>
+            <p>The BGR Campus was established in 2016. The programmes are structured in a way to help students acquire blended learning of different disciplines primarily concentrating on the roots of the main discipline under study.</p>
+          </div>
+        </article>
+
+        <article class="campus-card">
+          <div class="campus-img-wrapper">
+            <img class="campus-img" src="/assests/campuses/knr.jpg" alt="">
+            <a class="campus-btn" href="https://christuniversity.in/bangalore-kengeri-campus" target="_blank">CLICK HERE TO KNOW MORE</a>
+          </div>
+          <div class="campus-content">
+            <h3>Bangalore Kengeri Campus</h3>
+            <div class="campus-category">Kanmanike, Kumbalgodu, Mysore Road, Bangalore - 560074</div>
+            <p>The Kengeri Campus was established in 2009 and provides programmes in Engineering, Architecture, Management and many more. 
+
+The "eco-friendly" green campus is equipped with resources and infrastructure appropriate for a multicultural community, academic progress, research, and the latest advancements in the technical and digital world.</p>
+          </div>
+        </article>
+
+        <article class="campus-card">
+          <div class="campus-img-wrapper">
+            <img class="campus-img" src="/assests/campuses/ypr.jpg" alt="">
+            <a class="campus-btn" href="https://christuniversity.in/yeshwanthpur-campus" target="_blank">CLICK HERE TO KNOW MORE</a>
+          </div>
+          <div class="campus-content">
+            <h3>Bangalore Yeshwanthpur Campus</h3>
+            <div class="campus-category">Nagasandra, Near Tumkur Road, Bangalore - 560073</div>
+            <p>Upholding the Vision, Excellence and Service, and realizing the Mission through holistic education and inculcating Core Values, CHRIST Yeshwanthpur Campus with innovative and contemporary curricula and pedagogy and a refreshing environment conducive to teaching, learning, and research aims to create holistic individuals. 
+
+It is 10 stories with over sixteen lakhs square feet, a space where architecture, technology and art merge, creating a future-focused learning environment next door to Dasrahalli/Nagasandra Metro Stations on Tumkur Road, 5 kms from Yeshwanthpur Railway station, and is set to function from August 2022.</p>
+          </div>
+        </article>
+
+        <article class="campus-card">
+          <div class="campus-img-wrapper">
+            <img class="campus-img" src="/assests/campuses/pune.jpg" alt="">
+            <a class="campus-btn" href="https://christuniversity.in/pune-lavasa-campus" target="_blank">CLICK HERE TO KNOW MORE</a>
+          </div>
+          <div class="campus-content">
+            <h3>Pune Lavasa Campus<h3>
+            <div class="campus-category">30 Valor Court, Dasve Lavasa, Mulshi, Pune - 412112</div>
+            <p>The Pune Lavasa Campus was established in 2007 and focuses on providing Data Analytic oriented programmes to the students. Apart from these, several other Bachelor's and Master's programme are also provided.</p>
+          </div>
+        </article>
+
+        <article class="campus-card">
+          <div class="campus-img-wrapper">
+            <img class="campus-img" src="/assests/campuses/ncr.jpg" alt="">
+            <a class="campus-btn" href="https://christuniversity.in/delhi-ncr-campus" target="_blank">CLICK HERE TO KNOW MORE</a>
+          </div>
+          <div class="campus-content">
+            <h3>Delhi NCR Campus</h3>
+            <div class="campus-category">Mariam Nagar, Meerut Road, Delhi NCR, Ghaziabad - 201003</div>
+            <p>The NCR Campus was established in 2013 and it aims to provide the students a wide range of courses to choose from.  The Campus offers courses from Sciences, Business & Management and Law. </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      <div>Student Council • CHRIST (Deemed to be University)</div>
+      <div class="small">
+        <div style="margin-top: 15px;">Dharmaram College Post, Hosur Road, Bengaluru - 560029, Karnataka, India</div>
+        <div style="margin-top: 10px;">Tel: +91 08040129400 | Email: admissions@christuniversity.in</div>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const sidebar = document.getElementById('sidebar');
+  const collapseBtn = document.getElementById('collapseBtn');
+  const dakshToggle = document.getElementById('dakshToggle');
+  const dakshSubmenu = document.getElementById('dakshSubmenu');
+
+  collapseBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+  });
+
+  dakshToggle.addEventListener('click', () => {
+    dakshSubmenu.classList.toggle('open');
+  });
+</script>
+
+</body>
+</html>

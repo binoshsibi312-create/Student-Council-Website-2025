@@ -230,18 +230,12 @@
     .content {
       flex: 1;
       padding: 40px;
-      max-width: 1200px;
+      max-width: 1400px;
       background-color: #fff;
     }
 
     .page-section {
       margin-bottom: 50px;
-      padding-bottom: 30px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    .page-section:last-of-type {
-      border-bottom: none;
     }
 
     .page-section h2 {
@@ -251,29 +245,59 @@
       margin-bottom: 15px;
     }
 
-    .page-section h3 {
-      font-size: 1.5rem;
-      color: #333;
+    .page-section > p {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    .mentors-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
       margin-top: 30px;
-      margin-bottom: 12px;
+    }
+
+    .mentor-card {
+      background: #fafafa;
+      border: 1px solid #ececec;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .mentor-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      background: #fff;
+    }
+
+    .mentor-image {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #ececec;
+    }
+
+    .mentor-info {
+      padding: 16px;
+      text-align: center;
+    }
+
+    .mentor-name {
+      font-size: 0.95rem;
       font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 6px;
     }
 
-    .page-section p {
-      font-size: 1.05rem;
-      color: #555;
-      line-height: 1.8;
-    }
-
-    .page-section ul {
-      margin-left: 25px;
-      font-size: 1.05rem;
-      color: #555;
-      line-height: 1.8;
-    }
-
-    .page-section ul li {
-      margin-bottom: 8px;
+    .mentor-designation {
+      font-size: 0.85rem;
+      color: #777;
+      line-height: 1.3;
     }
 
     .page-footer {
@@ -288,6 +312,19 @@
       font-size: 0.85rem;
       color: #999;
       margin-top: 8px;
+    }
+
+    @media (max-width: 1200px) {
+      .mentors-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .mentors-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+      }
     }
 
     @media (max-width: 768px) {
@@ -319,6 +356,11 @@
 
       .page-section h2 {
         font-size: 1.5rem;
+      }
+
+      .mentors-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
       }
     }
   </style>
@@ -399,23 +441,169 @@
     <main class="content" id="content" tabindex="-1">
       <section class="page-section">
         <h2>Mentors</h2>
-        <p>Our dedicated faculty mentors provide guidance, support, and oversight to ensure the Student Council operates effectively and upholds the values of CHRIST University.</p>
+        <p>Our mentors who have always been a guiding light and support to all the Council members as well as the students.</p>
         
-        <h3>Faculty Advisors</h3>
-        <p>The Student Council works closely with experienced faculty members who bring valuable insights and institutional knowledge to our initiatives.</p>
-        
-        <h3>Role of Mentors</h3>
-        <ul>
-          <li>Provide strategic guidance on council activities</li>
-          <li>Facilitate communication between students and administration</li>
-          <li>Support event planning and execution</li>
-          <li>Ensure alignment with university policies and values</li>
-          <li>Mentor student leaders in decision-making processes</li>
-          <li>Review and approve major initiatives and proposals</li>
-        </ul>
+        <div class="mentors-grid">
+          <div class="mentor-card">
+            <img src="/assests/mentors/josecc_20240404040137..jpg" alt="Mentor 1" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Fr Joseph C C</div>
+              <div class="mentor-designation">Vice Chancellor</div>
+            </div>
+          </div>
 
-        <h3>Mentorship Philosophy</h3>
-        <p>Our mentors believe in empowering students to take ownership of their initiatives while providing the necessary guidance and support. They foster an environment of learning, growth, and responsible leadership.</p>
+          <div class="mentor-card">
+            <img src="/assests/mentors/viju_20240404040201..jpg" alt="Mentor 2" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Fr Viju P D</div>
+              <div class="mentor-designation">Pro-Vice Chancellor</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/anil_20240404040216..jpg" alt="Mentor 3" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Anil Joseph Pinto</div>
+              <div class="mentor-designation">Registrar</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/johny_20240404040229..jpg" alt="Mentor 4" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Johny Joseph</div>
+              <div class="mentor-designation">Registrar (Academics)</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/kishore_sir_20240529030646..png" alt="Mentor 5" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Kishore Selva Babu</div>
+              <div class="mentor-designation">Director - Student Council</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/padmakumar_20240404040300..jpg" alt="Mentor 6" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Padmakumar M M</div>
+              <div class="mentor-designation">School of Social Sciences</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/suja1_20240404040317..png" alt="Mentor 7" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Suja Mol John</div>
+              <div class="mentor-designation">School of Business and Management</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/roy_20240404040330..jpg" alt="Mentor 8" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Roy Mathew</div>
+              <div class="mentor-designation">School of Business and Management</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/naveen_20241209013254..png" alt="Mentor 9" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Naveen Kumara R</div>
+              <div class="mentor-designation">School of Commerce, Finance and Accountancy</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/pukhraj_20240404040358..jpg" alt="Mentor 10" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Pukhraj Agarwal</div>
+              <div class="mentor-designation">School of Law</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/vinay_20241209013328..png" alt="Mentor 11" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Vinay Jha Pillai</div>
+              <div class="mentor-designation">Kengeri Campus</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/3_20241209013516..png" alt="Mentor 12" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Rekha Aranha</div>
+              <div class="mentor-designation">School of Business and Management PG</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/kiran_20240404040526..jpg" alt="Mentor 13" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Kiran Vazirani</div>
+              <div class="mentor-designation">School of Business and Management</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/pritha_20240404040541..jpg" alt="Mentor 14" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Pritha Biswas</div>
+              <div class="mentor-designation">School of Commerce, Finance and Accountatncy</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/sudheesh_20240412031955..jpg" alt="Mentor 15" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Sudhesh N T</div>
+              <div class="mentor-designation">School of Psychological Sciences, Education and Social Work</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/4_20241209013645..png" alt="Mentor 16" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Prof Devika Menon M K</div>
+              <div class="mentor-designation">Kengeri Campus</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/gobi_20250916115426..jpeg" alt="Mentor 17" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Gobi R</div>
+              <div class="mentor-designation">School of Sciences</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/ELLUMKALAYIL MERLIN THOMAS_20250916120128..png" alt="Mentor 18" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Ellumkalayil Merlin Thomas</div>
+              <div class="mentor-designation">Yeshwanthpur Campus</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/aghil P komban_20250916120602..png" alt="Mentor 19" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Aghil P Komban</div>
+              <div class="mentor-designation">Yeshwanthpur Campus</div>
+            </div>
+          </div>
+
+          <div class="mentor-card">
+            <img src="/assests/mentors/anila rose cherian_20250916120757..jpeg" alt="Mentor 20" class="mentor-image">
+            <div class="mentor-info">
+              <div class="mentor-name">Dr Anila Rose Cherian</div>
+              <div class="mentor-designation">School of Sciences</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <footer class="page-footer">
