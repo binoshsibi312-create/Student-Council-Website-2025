@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery & Social — Student Council | CHRIST</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+
+    .top-banner {
+      position: relative;
+      width: 100%;
+      height: 40vh;
+      min-height: 600px;
+      overflow: hidden;
+      background-color: #1a1a1a;
+    }
+
+    .top-banner picture,
+    .top-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .banner-copy {
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .banner-copy h1 {
+      font-family: 'Merriweather', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .banner-copy .sub {
+      font-size: 1.2rem;
+      font-weight: 300;
+      opacity: 0.95;
+    }
+
+    .wrap {
+      display: flex;
+      min-height: calc(100vh - 40vh);
+    }
+
+    .sidebar {
+      width: 280px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: visible;
+      transition: width 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 70px;
+    }
+
+    .sidebar-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 20px;
+    }
+
+    .sidebar.collapsed .sidebar-inner {
+      padding: 20px 10px;
+    }
+
+    .sidebar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .brand-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .uni {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #666;
+      line-height: 1.2;
+    }
+
+    .sc {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .collapse-btn {
+      background: none;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #666;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .collapse-btn:hover {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .sidebar.collapsed .collapse-btn {
+      transform: rotate(180deg);
+    }
+
+    .menu {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      text-decoration: none;
+      color: #555;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .menu-item:hover {
+      background-color: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    .menu-item.active {
+      background-color: #1a1a1a;
+      color: white;
+    }
+
+    .mi-icon {
+      display: none;
+    }
+
+    .mi-text {
+      white-space: nowrap;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .mi-text {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-footer {
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      margin-top: auto;
+    }
+
+    .sidebar-footer .copy {
+      font-size: 0.75rem;
+      color: #999;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .sidebar-footer .copy {
+      opacity: 0;
+    }
+
+    .content {
+      flex: 1;
+      padding: 40px;
+      max-width: 1400px;
+      background-color: #fafafa;
+    }
+
+    .page-section {
+      margin-bottom: 50px;
+    }
+
+    .page-section h2 {
+      font-family: 'Merriweather', serif;
+      font-size: 2rem;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .page-section > p {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .info-box h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .info-box p {
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 15px;
+      opacity: 0.95;
+    }
+
+    .info-box ol {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .info-box li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .info-box strong {
+      font-weight: 600;
+    }
+
+    .info-box a {
+      color: #fff;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .setup-steps {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .setup-steps h3 {
+      font-size: 1.3rem;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+
+    .setup-steps ol {
+      margin-left: 20px;
+    }
+
+    .setup-steps li {
+      margin-bottom: 15px;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .setup-steps code {
+      background: #f5f5f5;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: #d63384;
+    }
+
+    /* Instagram Embed Container */
+    .instagram-embed-container {
+      background: #fff;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .placeholder-message {
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .placeholder-message h3 {
+      font-size: 1.5rem;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .placeholder-message p {
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(188, 24, 136, 0.3);
+    }
+
+    .page-footer {
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 2px solid #e0e0e0;
+      text-align: center;
+      color: #666;
+      background: #fff;
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    .page-footer .small {
+      font-size: 0.85rem;
+      color: #999;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .banner-copy h1 {
+        font-size: 2rem;
+      }
+
+      .banner-copy .sub {
+        font-size: 1rem;
+      }
+
+      .wrap {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .sidebar.collapsed {
+        width: 100%;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .page-section h2 {
+        font-size: 1.5rem;
+      }
+
+      .info-box {
+        padding: 20px;
+      }
+
+      .setup-steps {
+        padding: 20px;
+      }
+
+      .instagram-embed-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="top-banner" id="topBanner">
+    <img id="bannerImg" src="/assets/IMG-20250915-WA0012.jpg" alt="Student Council banner">
+    <div class="banner-overlay">
+      <div class="banner-copy">
+        <h1>Gallery & Social</h1>
+        <p class="sub">Stay connected with our community through moments & memories.</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <aside class="sidebar" id="sidebar" aria-label="Primary navigation">
+      <div class="sidebar-inner">
+        <div class="sidebar-top">
+          <div class="brand">
+            <div class="logo" aria-hidden="true">
+              <img src="https://christuniversity.in/images/emblem_logo.png" alt="Christ University Logo">
+            </div>
+            <div class="brand-text">
+              <div class="uni">CHRIST (Deemed to be University)</div>
+              <div class="sc">Student Council</div>
+            </div>
+          </div>
+          <button id="collapseBtn" class="collapse-btn" aria-pressed="false" title="Collapse sidebar">⟨</button>
+        </div>
+
+        <nav class="menu" aria-label="Student council sections">
+          <a class="menu-item" href="index.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Home</span>
+          </a>
+          <a class="menu-item" href="constitution.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Constitution</span>
+          </a>
+          <a class="menu-item" href="mentors.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Mentors</span>
+          </a>
+          <a class="menu-item" href="members.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Members</span>
+          </a>
+          <a class="menu-item" href="news.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">News & Reports</span>
+          </a>
+          <a class="menu-item active" href="gallery.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Gallery & Social</span>
+          </a>
+          <a class="menu-item" href="daksh.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Daksh</span>
+          </a>
+          <a class="menu-item" href="trailblaze.html">
+            <span class="mi-icon" aria-hidden="true"></span>
+            <span class="mi-text">Trailblaze</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="copy">© <span id="year"></span> CHRIST</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content" id="content" tabindex="-1">
+      <section class="page-section">
+        <h2>Live Instagram Feed</h2>
+        <p>Connect with us on Instagram to stay updated with the latest events, activities, and campus life moments.</p>
+        <div class="instagram-embed-container">
+          <script src="https://elfsightcdn.com/platform.js" async></script>
+          <div class="elfsight-app-21b67ede-b8f8-4408-9054-b77432691923" data-elfsight-app-lazy></div>
+        </div>
+
+      </section>
+
+      <footer class="page-footer">
+        <div>Student Council • CHRIST (Deemed to be University)</div>
+        <div class="small">© CHRIST (Deemed to be University), Bangalore | A Student Council Initiative</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const sidebar = document.getElementById('sidebar');
+    const collapseBtn = document.getElementById('collapseBtn');
+
+    collapseBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      collapseBtn.setAttribute('aria-pressed', isCollapsed);
+      collapseBtn.title = isCollapsed ? 'Expand sidebar' : 'Collapse sidebar';
+    });
+  </script>
+</body>
+</html>

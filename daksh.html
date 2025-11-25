@@ -334,8 +334,12 @@
       background-color: #fff;
       border: 1px solid #e0e0e0;
       border-radius: 6px;
-      padding: 20px;
+      padding: 16px 20px;
       transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
 
     .schedule-item:hover {
@@ -347,6 +351,32 @@
       text-decoration: none;
       color: inherit;
       display: block;
+    }
+
+    .schedule-item .details {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .schedule-item .schedule-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #1a1a1a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    .schedule-item .schedule-btn:hover {
+      background-color: #333;
+      transform: translateY(-2px);
     }
 
     .schedule-location {
@@ -404,22 +434,39 @@
       background-color: #f8f9fa;
       border-radius: 8px;
     }
-
     .daksh-gif-container img {
       flex-shrink: 0;
-      width: 400px;
+      width: 48%;
+      max-width: 520px;
       height: auto;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      object-fit: cover;
+    }
+
+    .daksh-divider {
+      width: 14px;
+      background: #000;
+      height: auto;
+      align-self: stretch;
+      margin: 8px 0;
+      border-radius: 6px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
 
     .daksh-gif-text {
       flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       font-family: 'Merriweather', serif;
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: 700;
       color: #1a1a1a;
-      line-height: 1.4;
+      line-height: 1.2;
+      padding: 10px;
     }
 
     .action-cards {
@@ -531,11 +578,17 @@
 
       .daksh-gif-container img {
         width: 100%;
-        max-width: 300px;
+        max-width: 420px;
+      }
+
+      .daksh-divider {
+        width: 80%;
+        height: 6px;
+        border-radius: 3px;
       }
 
       .daksh-gif-text {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         text-align: center;
       }
     }
@@ -543,7 +596,7 @@
 </head>
 <body>
   <header class="top-banner">
-    <img src="/assests/daksh 2024.jpg" alt="Daksh banner">
+    <img src="/assets/daksh 2024.jpg" alt="Daksh banner">
     <div class="banner-overlay">
       <div class="banner-copy">
         <h1>Daksh 2025</h1>
@@ -582,7 +635,7 @@
             <span class="mi-text">Members</span>
           </a>
           <a class="menu-item" href="news.html">
-            <span class="mi-text">News</span>
+            <span class="mi-text">News & Reports</span>
           </a>
           <a class="menu-item" href="gallery.html">
             <span class="mi-text">Gallery & Social</span>
@@ -627,17 +680,19 @@
           
           <div class="schedule-grid">
             <div class="schedule-item">
-              <a href="https://christuniversity.in/bangalore-central-campus" target="_blank">
-                <div class="schedule-location">Bangalore Central Campus</div>
-                <div class="schedule-time">9:00 AM - 5:00 PM IST</div>
-              </a>
+                <div class="details">
+                  <div class="schedule-location">Bangalore Central Campus</div>
+                  <div class="schedule-time">9:00 AM - 5:00 PM IST</div>
+                </div>
+                <a class="schedule-btn" href="https://christuniversity.in/bangalore-central-campus" target="_blank">Know More</a>
             </div>
             
             <div class="schedule-item">
-              <a href="daksh-online-stalls.html">
-                <div class="schedule-location">Online Stall</div>
-                <div class="schedule-time">5:00 PM - 8:00 PM IST</div>
-              </a>
+                <div class="details">
+                  <div class="schedule-location">Online Stall</div>
+                  <div class="schedule-time">5:00 PM - 8:00 PM IST</div>
+                </div>
+                <a class="schedule-btn" href="daksh-online-stalls.html">Know More</a>
             </div>
           </div>
         </div>
@@ -656,7 +711,8 @@
         </div>
 
         <div class="daksh-gif-container">
-          <img src="/assests/alden_gif.gif" alt="DAKSH Animation" onerror="this.style.display='none'">
+          <img src="/assets/alden_gif.gif" alt="DAKSH Animation" onerror="this.style.display='none'">
+          <div class="daksh-divider" aria-hidden="true"></div>
           <div class="daksh-gif-text">Then DAKSH is the perfect opportunity for you!</div>
         </div>
 
@@ -677,8 +733,8 @@
         
         <div class="action-cards">
           <div class="action-card">
-            <h3>Registration</h3>
-            <p>Register as an individual or as an institution to participate in DAKSH 2025 and explore various career opportunities.</p>
+            <h3>Registration for DAKSH 2025</h3>
+            <p>Register as an individual or institution for DAKSH 2025, the annual educational exhibition and open day, and explore diverse academic and career opportunities.</p>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRb63LqufesNEMfS-o61CFLGrUl67z4LUVaT7eQcchitntRw/viewform" target="_blank">
               <button>Register Now</button>
             </a>
@@ -686,17 +742,17 @@
 
           <div class="action-card">
             <h3>Download Brochure For DAKSH 2025</h3>
-            <p>Get the comprehensive DAKSH 2025 brochure with all event details, schedules, and information.</p>
-            <a href="https://drive.google.com/file/d/1LwoZNqPRIcA7aqqpncnz5EcwD2NjsGdZ/view" target="_blank">
+            <p>Get the complete DAKSH 2025 brochure, packed with event details, schedules, key features, and essential information to guide your experience.</p>
+            <a href="assets/Daksh X Open Day_Brochure copy.pdf" target="_blank">
             <button>Download PDF</button>
             </a>
           </div>
 
           <div class="action-card">
             <h3>Download Brochure For TRAILBLAZE 2025</h3>
-            <p>Get the comprehensive TRAILBLAZE 2025 brochure with all event details, schedules, and information.</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLScw3coEiALOcOgurjWDYelAn1gqiEgNp6uu-_VoS3ImhrIzog/viewform" target="_blank">
-            <button>Register Now</button>
+            <p>Download the comprehensive TRAILBLAZE 2025 brochure to explore competition details, schedules, and guidelines.</p>
+            <a href="assets/Trailblaze brochure.pdf" target="_blank">
+            <button>Download PDF</button>
             </a>
           </div>
         </div>
