@@ -1,0 +1,25 @@
+{
+  "name": "University Student Council — CHRIST (Deemed to be University)",
+  "short_name": "USC CHRIST",
+  "description": "Official portal and Christ Hub broadcast feed for the University Student Council, CHRIST (Deemed to be University).",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b0b0c",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/logos/christ_emblem.png",
+      "sizes": "608x608",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/logos/christ_emblem.png",
+      "sizes": "608x608",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
