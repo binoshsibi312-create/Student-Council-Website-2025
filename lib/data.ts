@@ -50,7 +50,7 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
   { href: "/about", label: "About" },
   { href: "/governance", label: "Governance" },
   { href: "/mentors", label: "Mentors" },
-  // Members is still temporarily disabled — re-add here to bring it back.
+  { href: "/members", label: "Members" },
   { href: "/events", label: "Events" },
   { href: "/procedures", label: "Procedures" },
   { href: "/campus-map", label: "Campus Map" },

@@ -1,0 +1,992 @@
+[
+    {
+        "name":  "Eesha Pareek",
+        "email":  "eesha.pareek@bsccsh.christuniversity.in",
+        "department":  "Department of Computer Science (UG)",
+        "school":  "School of Sciences",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/eeshapareek.jpg"
+    },
+    {
+        "name":  "Aarushi Ahuja",
+        "email":  "aarushi.ahuja@bscdsmh.christuniversity.in",
+        "department":  "Department of Statistics and Data Science (UG)",
+        "school":  "School of Sciences",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/aarushiahuja.png"
+    },
+    {
+        "name":  "Bindu M",
+        "email":  "bindu.m@che.christuniversity.in",
+        "department":  "Department of Chemistry (PG)",
+        "school":  "School of Sciences",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/bindum.jpg"
+    },
+    {
+        "name":  "Kanak Rohra",
+        "email":  "kanak.rohra@bscbch.christuniversity.in",
+        "department":  "Department of Life Sciences",
+        "school":  "School of Sciences",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/kanakrohra.jpg"
+    },
+    {
+        "name":  "Bevan Mathew Cyriac",
+        "email":  "bevan.cyriac@msds.christuniversity.in",
+        "department":  "Department of Statistics and Data Science (PG)",
+        "school":  "School of Sciences",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/bevanmathewcyriac.jpg"
+    },
+    {
+        "name":  "Deeptha Jayasimha",
+        "email":  "deeptha.jayasimha@bscpmh.christuniversity.in",
+        "department":  "Department of Physics and Electronics",
+        "school":  "School of Sciences",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/deepthajayasimha.jpg"
+    },
+    {
+        "name":  "Binosh Sibi",
+        "email":  "binosh.sibi@msam.christuniversity.in",
+        "department":  "Department of Computer Science (PG)",
+        "school":  "School of Sciences",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/binoshsibi.jpg"
+    },
+    {
+        "name":  "Naina Gupta",
+        "email":  "naina.gupta@bscemsh.christuniversity.in",
+        "department":  "Department of Mathematics (UG)",
+        "school":  "School of Sciences",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/nainagupta.jpg"
+    },
+    {
+        "name":  "Adrino Rosario James",
+        "email":  "adrino.james@bcah.christuniversity.in",
+        "department":  "Department of Computer Science (UG)",
+        "school":  "School of Sciences",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/adrinorosariojames.jpg"
+    },
+    {
+        "name":  "Tejal Ganapathy",
+        "email":  "tejal.ganapathy@bscczh.christuniversity.in",
+        "department":  "Department of Chemistry (UG)",
+        "school":  "School of Sciences",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/tejalganapathy.jpg"
+    },
+    {
+        "name":  "Vaishnavi Kalla",
+        "email":  "vaishnavi.kalla@law.christuniversity.in",
+        "department":  "School of Law",
+        "school":  "School of Law",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/vaishnavikalla.jpg"
+    },
+    {
+        "name":  "Komal Haokip Chaurasia",
+        "email":  "komalhaokip.chaurasia@law.christuniversity.in",
+        "department":  "School of Law",
+        "school":  "School of Law",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/komalhaokipchaurasia.jpg"
+    },
+    {
+        "name":  "Priyank Srivastava",
+        "email":  "priyank.srivastava@law.christuniversity.in",
+        "department":  "School of Law",
+        "school":  "School of Law",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/priyanksrivastava.jpg"
+    },
+    {
+        "name":  "Aiswarya Jelt",
+        "email":  "aiswarya.jelt@law.christuniversity.in",
+        "department":  "School of Law",
+        "school":  "School of Law",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/aiswaryajelt.jpg"
+    },
+    {
+        "name":  "Abhishek Paul P",
+        "email":  "abhishekpaul.p@baesh.christuniversity.in",
+        "department":  "Department of Economics",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/abhishekpaulp.jpg"
+    },
+    {
+        "name":  "Niharika Rai",
+        "email":  "niharika.rai@baceh.christuniversity.in",
+        "department":  "Department of Media Studies",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/niharikarai.jpg"
+    },
+    {
+        "name":  "Diya Dhananjayan",
+        "email":  "diya.dhananjayan@mamcs.christuniversity.in",
+        "department":  "Department of Media Studies - PG",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/diyadhananjayan.jpg"
+    },
+    {
+        "name":  "Damanpreet Singh",
+        "email":  "damanpreet.singh@batph.christuniversity.in",
+        "department":  "Department Of Performing Arts, Theatre Studies and Music",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/damanpreetsingh.jpg"
+    },
+    {
+        "name":  "Prerna",
+        "email":  "prerna@bahph.christuniversity.in",
+        "department":  "Department of International Studies, Political Science, and History",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/prerna.jpg"
+    },
+    {
+        "name":  "Fegin Joseph",
+        "email":  "fegin.joseph@msw.christuniversity.in",
+        "department":  "Department of Social Work",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/feginjoseph.jpg"
+    },
+    {
+        "name":  "Ashmita Hota",
+        "email":  "ashmita.hota@soc.christuniversity.in",
+        "department":  "Department of Sociology",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/ashmitahota.jpg"
+    },
+    {
+        "name":  "Mesbah Rahim",
+        "email":  "mesbah.rahim@ed.christuniversity.in",
+        "department":  "Department of Education",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/mesbahrahim.jpg"
+    },
+    {
+        "name":  "Apsara R Krishna",
+        "email":  "apsara.krishna@maeng.christuniversity.in",
+        "department":  "Department of English and Cultural Studies (PG)",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/apsararkrishna.jpg"
+    },
+    {
+        "name":  "Pritika Kaur",
+        "email":  "pritika.kaur@psy.christuniversity.in",
+        "department":  "School of Psychological Sciences (PG)",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/pritikakaur.jpg"
+    },
+    {
+        "name":  "Nidhin Mathew Abraham",
+        "email":  "nidhinmathew.abraham@psy.christuniversity.in",
+        "department":  "School of Psychological Sciences (PG)",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/nidhinmathewabraham.jpg"
+    },
+    {
+        "name":  "Rinsa Cibi",
+        "email":  "rinsa.cibi@psy.christuniversity.in",
+        "department":  "School of Psychological Sciences (PG)",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/rinsacibi.jpg"
+    },
+    {
+        "name":  "Kashish H",
+        "email":  "kashish.h@bapecoh.christuniversity.in",
+        "department":  "School of Psychological Sciences (UG)",
+        "school":  "School of Humanities and Performing Arts, Social Sciences, Psychological Sciences, Education and Social Work",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/kashishh.jpg"
+    },
+    {
+        "name":  "Krish Mour",
+        "email":  "krish.mour@bcomh.christuniversity.in",
+        "department":  "Department of Commerce",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF COMMERCE)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/krishmour.jpg"
+    },
+    {
+        "name":  "Serene Raina Shiju",
+        "email":  "serene.shiju@bcomh.christuniversity.in",
+        "department":  "Department of Commerce",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF COMMERCE)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/serenerainashiju.jpg"
+    },
+    {
+        "name":  "Erin Sona George",
+        "email":  "erin.george@bcomafh.christuniversity.in",
+        "department":  "Department of Commerce",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF COMMERCE)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/erinsonageorge.jpg"
+    },
+    {
+        "name":  "Taruni C",
+        "email":  "taruni.c@mcom.christuniversity.in",
+        "department":  "Department of Commerce",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF COMMERCE)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/tarunic.jpg"
+    },
+    {
+        "name":  "Sarbani Kaur",
+        "email":  "sarbani.kaur@bcomfih.christuniversity.in",
+        "department":  "Department of Commerce",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF COMMERCE)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/sarbanikaur.jpg"
+    },
+    {
+        "name":  "Avinash Ashok",
+        "email":  "avinash.ashok@bcomsfh.christuniversity.in",
+        "department":  "Department of Commerce",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF COMMERCE)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/avinashashok.jpg"
+    },
+    {
+        "name":  "Amrutha Bhavani Sundar",
+        "email":  "amrutha.bhavani@bcomfah.christuniversity.in",
+        "department":  "Department of Professional Studies",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF PROFESSIONAL STUDIES)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/amruthabhavanisundar.jpg"
+    },
+    {
+        "name":  "Rituraj Chowdhury",
+        "email":  "rituraj.chowdhury@bcomfah.christuniversity.in",
+        "department":  "Department of Professional Studies",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF PROFESSIONAL STUDIES)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/riturajchowdhury.jpg"
+    },
+    {
+        "name":  "Malcolm Jeson",
+        "email":  "malcolm.jeson@msie.christuniversity.in",
+        "department":  "Department of Professional Studies",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF PROFESSIONAL STUDIES)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/malcolmjeson.jpg"
+    },
+    {
+        "name":  "Tipu Srinath",
+        "email":  "tipu.srinath@bcombe.christuniversity.in",
+        "department":  "Department of Professional Studies",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF PROFESSIONAL STUDIES)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/tipusrinath.jpg"
+    },
+    {
+        "name":  "Himanshu",
+        "email":  "himanshu.rp@bscash.christuniversity.in",
+        "department":  "Department of Professional Studies",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF PROFESSIONAL STUDIES)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  null
+    },
+    {
+        "name":  "Alka Joji",
+        "email":  "alka.joji@bcomph.christuniversity.in",
+        "department":  "Department of Professional Studies",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF PROFESSIONAL STUDIES)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/alkajoji.jpg"
+    },
+    {
+        "name":  "Vishnu Nellayi Venkideswaran",
+        "email":  "vishnu.venkideswaran@mcom.christuniversity.in",
+        "department":  "Department of Professional Studies",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF PROFESSIONAL STUDIES)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/vishnunellayivenkideswaran.jpg"
+    },
+    {
+        "name":  "Devika Govind",
+        "email":  "devika.govind@bcomifh.christuniversity.in",
+        "department":  "Department of Professional Studies",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF PROFESSIONAL STUDIES)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/devikagovind.jpg"
+    },
+    {
+        "name":  "Tharun K Ram",
+        "email":  "tharun.ram@bcomiaf.christuniversity.in",
+        "department":  "Department of Professional Studies",
+        "school":  "School of Commerce, Finance and Accountancy (DEPARTMENT OF PROFESSIONAL STUDIES)",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/tharunkram.jpg"
+    },
+    {
+        "name":  "Kavya K",
+        "email":  "kavya.k@bbah.christuniversity.in",
+        "department":  "School of Business and Management  UG",
+        "school":  "School of Business and Management",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/kavyak.jpg"
+    },
+    {
+        "name":  "Anika Britto",
+        "email":  "anika.britto@bbah.christuniversity.in",
+        "department":  "School of Business and Management  UG",
+        "school":  "School of Business and Management",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/anikabritto.jpg"
+    },
+    {
+        "name":  "Akshat R Shinde",
+        "email":  "akshat.shinde@bbah.christuniversity.in",
+        "department":  "School of Business and Management  UG",
+        "school":  "School of Business and Management",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/akshatrshinde.jpg"
+    },
+    {
+        "name":  "Jeremiah B George",
+        "email":  "jeremiah.george@bhm.christuniversity.in",
+        "department":  "School of Business and Management  UG",
+        "school":  "School of Business and Management",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/jeremiahbgeorge.jpg"
+    },
+    {
+        "name":  "Mariya C Kurian",
+        "email":  "mariya.kurian@mba.christuniversity.in",
+        "department":  "School of Business and Management PG",
+        "school":  "School of Business and Management PG",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/mariyackurian.jpg"
+    },
+    {
+        "name":  "Deepthi P A",
+        "email":  "deepthi.pa@mba.christuniversity.in",
+        "department":  "School of Business and Management PG",
+        "school":  "School of Business and Management PG",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/deepthipa.jpg"
+    },
+    {
+        "name":  "John Martin",
+        "email":  "john.martin@mba.christuniversity.in",
+        "department":  "School of Business and Management PG",
+        "school":  "School of Business and Management PG",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/johnmartin.jpg"
+    },
+    {
+        "name":  "Anjali Tiwari",
+        "email":  "anjali.tiwari@mba.christuniversity.in",
+        "department":  "School of Business and Management PG",
+        "school":  "School of Business and Management PG",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/anjalitiwari.jpg"
+    },
+    {
+        "name":  "Aaron Zachariah George",
+        "email":  "aaron.zachariahgeorge@mba.christuniversity.in",
+        "department":  "School of  Business and Management PG",
+        "school":  "School of Business and Management PG",
+        "campus":  "Central Campus",
+        "center":  "",
+        "group":  "school",
+        "photo":  "/images/members/aaronzachariahgeorge.png"
+    },
+    {
+        "name":  "Bettina Soni",
+        "email":  "bettina.soni@btech.christuniversity.in",
+        "department":  "School of Engineering and Technology",
+        "school":  "",
+        "campus":  "BKC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/bettinasoni.jpg"
+    },
+    {
+        "name":  "Srishti Sharma",
+        "email":  "srishti.sharma@btech.christuniversity.in",
+        "department":  "School of Engineering and Technology",
+        "school":  "",
+        "campus":  "BKC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/srishtisharma.jpg"
+    },
+    {
+        "name":  "Mugdha Ramesh",
+        "email":  "mugdha.ramesh@arch.christuniversity.in",
+        "department":  "School of Architecture",
+        "school":  "",
+        "campus":  "BKC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/mugdharamesh.jpg"
+    },
+    {
+        "name":  "Pratham KR",
+        "email":  "pratham.kr@mba.christuniversity.in",
+        "department":  "School of Business and Management - PG",
+        "school":  "",
+        "campus":  "BKC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/prathamkr.jpg"
+    },
+    {
+        "name":  "Sandra S",
+        "email":  "sandra.santhosh@mba.christuniversity.in",
+        "department":  "School of Business \u0026 Management - PG",
+        "school":  "",
+        "campus":  "BKC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/sandras.jpg"
+    },
+    {
+        "name":  "Roshan Thomas Simon",
+        "email":  "roshan.thomas@btech.christuniversity.in",
+        "department":  "School of Engineering \u0026 Technology",
+        "school":  "",
+        "campus":  "BKC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/roshanthomassimon.jpg"
+    },
+    {
+        "name":  "Kashish A",
+        "email":  "kashish.a@btech.christuniversity.in",
+        "department":  "School of Engineering and Technology",
+        "school":  "",
+        "campus":  "BKC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/kashisha.jpg"
+    },
+    {
+        "name":  "Aishwarya Khot",
+        "email":  "aishwarya.ashwin@psyh.christuniversity.in",
+        "department":  "School of Psychological Sciences",
+        "school":  "",
+        "campus":  "BKC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/aishwaryakhot.jpg"
+    },
+    {
+        "name":  "Diyaa Panchal",
+        "email":  "diyaa.panchal@bba.christuniversity.in",
+        "department":  "School of Business \u0026 Management - UG",
+        "school":  "",
+        "campus":  "BKC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/diyaapanchal.png"
+    },
+    {
+        "name":  "Nandini Varma",
+        "email":  "nandini.varma@bapsh.christuniversity.in",
+        "department":  "Department of International Studies, Political Science and History",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  null
+    },
+    {
+        "name":  "Fidelia Irin",
+        "email":  "fidelia.a@baeh.christuniversity.in",
+        "department":  "Department of English and Cultural Studies",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/fideliairin.jpg"
+    },
+    {
+        "name":  "Vedant Mamodia",
+        "email":  "vedant.mamodia@bscpsyh.christuniversity.in",
+        "department":  "Department of Psychology",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/vedantmamodia.jpg"
+    },
+    {
+        "name":  "Dhira Rinny Singh",
+        "email":  "dhira.rinny@balibh.christuniversity.in",
+        "department":  "Department of Liberal Arts",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/dhirarinnysingh.jpg"
+    },
+    {
+        "name":  "Barnali Sahu",
+        "email":  "barnali.sahu@baecoh.christuniversity.in",
+        "department":  "Department of Economics",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/barnalisahu.jpg"
+    },
+    {
+        "name":  "Palak Mishra",
+        "email":  "palak.mishra@bamjh.christuniversity.in",
+        "department":  "Department of Media Studies",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/palakmishra.jpg"
+    },
+    {
+        "name":  "Dhruv Francis Karintholil",
+        "email":  "dhruv.karintholil@bbasbah.christuniversity.in",
+        "department":  "School of Business and Management (UG)",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/dhruvfranciskarintholil.jpg"
+    },
+    {
+        "name":  "Safia Quadri",
+        "email":  "safia.quadri@bbattmh.christuniversity.in",
+        "department":  "School of Business and Management (UG)",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/safiaquadri.jpg"
+    },
+    {
+        "name":  "Aanchal Baligar",
+        "email":  "aanchal.baligar@bbafeh.christuniversity.in",
+        "department":  "School of Business and Management (UG)",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/aanchalbaligar.jpg"
+    },
+    {
+        "name":  "Kritika Bhola",
+        "email":  "kritika.bhola@bbafibh.christuniversity.in",
+        "department":  "School of Business and Management (UG)",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/kritikabhola.jpg"
+    },
+    {
+        "name":  "Resham Ghosh",
+        "email":  "resham.ghosh@mba.christuniversity.in",
+        "department":  "School of Business and Management (PG)",
+        "school":  "",
+        "campus":  "BRC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/reshamghosh.jpg"
+    },
+    {
+        "name":  "Dhreetimon Atreeya",
+        "email":  "dhreetimon.atreeya@maeco.christuniversity.in",
+        "department":  "Social Sciences (PG)",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/dhreetimonatreeya.jpg"
+    },
+    {
+        "name":  "Mitha M",
+        "email":  "mitha.m@bscpsyh.christuniversity.in",
+        "department":  "Psychological Sciences",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  null
+    },
+    {
+        "name":  "Rose Mary Abraham",
+        "email":  "rose.mary@bscpsyh.christuniversity.in",
+        "department":  "Psychological Sciences",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/rosemaryabraham.jpg"
+    },
+    {
+        "name":  "Priyanshi Jain",
+        "email":  "priyanshi.jain@bbah.christuniversity.in",
+        "department":  "Business \u0026 Management",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/priyanshijain.jpg"
+    },
+    {
+        "name":  "Joliza Fatima Dias",
+        "email":  "joliza.fatima@bbah.christuniversity.in",
+        "department":  "Business \u0026 Management",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/jolizafatimadias.jpg"
+    },
+    {
+        "name":  "Swarna Suraj Mohanty",
+        "email":  "swarna.suraj@bbafmah.christuniversity.in",
+        "department":  "Business \u0026 Management",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/swarnasurajmohanty.jpg"
+    },
+    {
+        "name":  "Adeek Nanda",
+        "email":  "adeek.nanda@bbafeh.christuniversity.in",
+        "department":  "Business \u0026 Management",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/adeeknanda.jpg"
+    },
+    {
+        "name":  "Anna Jojo",
+        "email":  "anna.jojo@baecoh.christuniversity.in",
+        "department":  "Social Sciences (UG)",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/annajojo.jpg"
+    },
+    {
+        "name":  "Mehardeep Singh",
+        "email":  "mehardeep.singh@bcomh.christuniversity.in",
+        "department":  "Commerce, Finance and Accountancy (DOC)",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  null
+    },
+    {
+        "name":  "Akash Hiremath",
+        "email":  "akash.r@bcomfih.christuniversity.in",
+        "department":  "Commerce, Finance and Accountancy (DOC)",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/akashhiremath.jpg"
+    },
+    {
+        "name":  "Gayathri A V",
+        "email":  "gayathri.av@bcomfah.christuniversity.in",
+        "department":  "Commerce, Finance and Accountancy (DPS)",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/gayathriav.jpg"
+    },
+    {
+        "name":  "R T Sowmi Sonakshi",
+        "email":  "sowmi.sonakshi@bscemsh.christuniversity.in",
+        "department":  "Sciences",
+        "school":  "",
+        "campus":  "BYC",
+        "center":  "",
+        "group":  "campus",
+        "photo":  "/images/members/rtsowmisonakshi.jpg"
+    },
+    {
+        "name":  "Kashish Aggarwal",
+        "email":  "kashish.aggarwal@bapph.christuniversity.in",
+        "department":  "Office of Training for Career and Life Skills (TCLS)",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Office of Training for Career and Life Skills (TCLS)",
+        "group":  "center",
+        "photo":  "/images/members/kashishaggarwal.jpg"
+    },
+    {
+        "name":  "Al Sakib Hami",
+        "email":  "al.sakibhami@bcomh.christuniversity.in",
+        "department":  "Centre for Academic and Professional Support (CAPS)",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Centre for Academic and Professional Support (CAPS)",
+        "group":  "center",
+        "photo":  "/images/members/alsakibhami.jpg"
+    },
+    {
+        "name":  "Anandita Handa",
+        "email":  "anandita.handa@bcomfih.christuniversity.in",
+        "department":  "Centre for Placement and Career Guidance (CPCG)",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Centre for Placement and Career Guidance (CPCG)",
+        "group":  "center",
+        "photo":  "/images/members/ananditahanda.jpg"
+    },
+    {
+        "name":  "Dinu Denny Culas",
+        "email":  "dinu.denny@bcomfih.christuniversity.in",
+        "department":  "Centre for Social Action",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Centre for Social Action",
+        "group":  "center",
+        "photo":  "/images/members/dinudennyculas.jpg"
+    },
+    {
+        "name":  "Eva Mariya Dalu",
+        "email":  "evamariya.dalu@bscemsh.christuniversity.in",
+        "department":  "Office of Alumni Engagement (OAE)",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Office of Alumni Engagement (OAE)",
+        "group":  "center",
+        "photo":  "/images/members/evamariyadalu.jpg"
+    },
+    {
+        "name":  "Basil Sible",
+        "email":  "basil.sible@bcomifh.christuniversity.in",
+        "department":  "Centre For Service Learning (CSL)",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Centre For Service Learning (CSL)",
+        "group":  "center",
+        "photo":  "/images/members/basilsible.jpg"
+    },
+    {
+        "name":  "Husain Adnan Nakhoda",
+        "email":  "husain.nakhoda@bbah.christuniversity.in",
+        "department":  "Centre for Placement and Career Guidance (CPCG)",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Centre for Placement and Career Guidance (CPCG)",
+        "group":  "center",
+        "photo":  "/images/members/husainadnannakhoda.jpg"
+    },
+    {
+        "name":  "Sohini Tarafder",
+        "email":  "sohini.tarafder@bapeh.christuniversity.in",
+        "department":  "DREAMS Intervention Program (DIP)",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "DREAMS Intervention Program (DIP)",
+        "group":  "center",
+        "photo":  "/images/members/sohinitarafder.jpg"
+    },
+    {
+        "name":  "Brahm Jairamuka",
+        "email":  "brahm.jairamuka@bcomh.christuniversity.in",
+        "department":  "Student Welfare Office (SWO)",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Student Welfare Office (SWO)",
+        "group":  "center",
+        "photo":  "/images/members/brahmjairamuka.jpg"
+    },
+    {
+        "name":  "Yuvraj Rajpara",
+        "email":  "yuvraj.rajpara@bsccsh.christuniversity.in",
+        "department":  "National Cadet Corps (NCC)",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "National Cadet Corps (NCC)",
+        "group":  "center",
+        "photo":  "/images/members/yuvrajrajpara.jpg"
+    },
+    {
+        "name":  "Sarah Kuriala",
+        "email":  "sarah.kuriala@bcah.christuniversity.in",
+        "department":  "CHRIST Incubation and Consultancy Foundation",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "CHRIST Incubation and Consultancy Foundation",
+        "group":  "center",
+        "photo":  "/images/members/sarahkuriala.jpg"
+    },
+    {
+        "name":  "Esther Sara Thomas",
+        "email":  "esther.thomas@bacph.christuniversity.in",
+        "department":  "Centre for Counseling and Health Services",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Centre for Counseling and Health Services",
+        "group":  "center",
+        "photo":  "/images/members/esthersarathomas.jpg"
+    },
+    {
+        "name":  "Akshara Gayathri",
+        "email":  "akshara.gayathri@bcomph.christuniversity.in",
+        "department":  "Sustainable Development Goals Cell (SDG)",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Sustainable Development Goals Cell (SDG)",
+        "group":  "center",
+        "photo":  "/images/members/aksharagayathri.jpg"
+    },
+    {
+        "name":  "Riya Prasanth",
+        "email":  "riya.prasanth@bcomiaf.christuniversity.in",
+        "department":  "Office of International Affairs",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Office of International Affairs",
+        "group":  "center",
+        "photo":  "/images/members/riyaprasanth.jpg"
+    },
+    {
+        "name":  "Khushbu Rathod",
+        "email":  "khushbu.rathod@baesh.christuniversity.in",
+        "department":  "Christites for Climate Action",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Christites for Climate Action",
+        "group":  "center",
+        "photo":  "/images/members/khushburathod.jpg"
+    },
+    {
+        "name":  "Shreya Bose",
+        "email":  "shreya.bose@bscdssh.christuniversity.in",
+        "department":  "Department of Physical Education",
+        "school":  "",
+        "campus":  "University-wide",
+        "center":  "Department of Physical Education",
+        "group":  "center",
+        "photo":  "/images/members/shreyabose.jpg"
+    }
+]

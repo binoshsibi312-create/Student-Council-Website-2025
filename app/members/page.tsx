@@ -12,7 +12,7 @@ export default function MembersPage() {
         <SectionHeader
           eyebrow="The People Who Serve"
           title="University Student Council — 2026–27"
-          subtitle="Filter by school/centre and level. Photographs for the full 64-member roster are being updated — verified profiles are shown first."
+          subtitle="Explore the 2026–27 council roster by school, campus, centre or department. Each profile includes the contact and academic details supplied by the council."
         />
         <MemberGrid />
       </section>
