@@ -52,14 +52,13 @@ export async function POST(request: Request) {
 
     const directory = await getOrgDirectory();
     const org = directory[email];
-    const isChristDomain = email.endsWith("@christuniversity.in") || email.endsWith(".christuniversity.in");
 
-    if (!isChristDomain && !org) {
-      return errorResponse("Use a verified official @christuniversity.in account.", 403);
+    if (!org) {
+      return errorResponse(`The account (${email}) is not registered in the Christ Hub broadcaster directory.`, 403);
     }
 
-    if (!org?.active) {
-      return errorResponse(`The account (${email}) is not registered or active in the Christ Hub broadcaster directory.`, 403);
+    if (!org.active) {
+      return errorResponse(`The account (${email}) is not active in the Christ Hub broadcaster directory.`, 403);
     }
 
     let file: { name: string; type: string; buffer: Buffer } | undefined;

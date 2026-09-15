@@ -122,25 +122,26 @@ export default function BroadcasterAccess({
 
   return (
     <>
-      <div className="flex justify-end mb-6.5 -mt-6">
+      <div className="mb-7 -mt-6 flex justify-end">
         <button
-          className="inline-block bg-transparent text-ink border border-ink font-semibold text-[0.82rem] py-2.25 px-5 rounded-md transition-colors duration-250 hover:bg-ink hover:text-white cursor-pointer"
+          className="inline-flex items-center gap-2 rounded-full border border-ink bg-ink px-5 py-2.5 text-[0.78rem] font-semibold text-gold-light shadow-sm transition-all duration-250 hover:-translate-y-0.5 hover:bg-ink-2 hover:shadow-md cursor-pointer"
           onClick={() => setOpen(true)}
         >
-          Post to Christ Hub
+          <span className="text-base leading-none" aria-hidden="true">+</span>
+          Share an update
         </button>
       </div>
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-[9999] bg-ink/60 flex items-center justify-center p-5"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-ink/70 p-4 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={close}
           >
             <motion.div
-              className="bg-white rounded-card-lg shadow-card-lg max-w-130 w-full max-h-[92vh] overflow-y-auto p-8 max-[640px]:p-6"
+              className="w-full max-w-[560px] max-h-[92vh] overflow-y-auto rounded-card-lg border border-white/60 bg-white p-8 shadow-[0_24px_80px_rgba(33,30,26,0.28)] max-[640px]:p-5"
               initial={{ opacity: 0, y: 16, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 16, scale: 0.97 }}
@@ -149,27 +150,32 @@ export default function BroadcasterAccess({
               aria-modal="true"
               aria-labelledby="broadcaster-access-title"
             >
-              <div className="flex items-start justify-between gap-4 mb-3">
-                <div className="text-[0.7rem] font-semibold tracking-[0.2em] text-gold-dark uppercase">
-                  Broadcaster Access
+              <div className="mb-6 flex items-start justify-between gap-4">
+                <div>
+                  <div className="mb-2 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-gold-dark">
+                    Broadcaster studio
+                  </div>
+                  <h3 id="broadcaster-access-title" className="font-display text-[1.55rem] font-semibold leading-tight text-ink">
+                    Share with Christ Hub
+                  </h3>
                 </div>
-                <button onClick={close} className="text-text-muted hover:text-ink cursor-pointer" aria-label="Close posting dialog">
-                  ✕
+                <button onClick={close} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-text-muted transition-colors hover:border-ink hover:text-ink cursor-pointer" aria-label="Close posting dialog">
+                  <span aria-hidden="true">✕</span>
                 </button>
               </div>
-              <h3 id="broadcaster-access-title" className="font-display text-[1.3rem] font-semibold text-ink mb-2">
-                Post to Christ Hub
-              </h3>
-              <p className="text-[0.86rem] text-text-secondary leading-[1.6] font-light mb-5">
-                Use your official @christuniversity.in account. Your organisation is resolved from the broadcaster directory after Google verifies the token.
+              <p className="mb-6 max-w-[440px] text-[0.84rem] font-light leading-[1.6] text-text-secondary">
+                Sign in with the exact account listed as active in the broadcaster directory. Subdomain accounts such as MSAM, MBA and CCA are supported.
               </p>
               {!clientId ? (
                 <p className="text-[0.85rem] text-crimson">Google sign-in is not configured on this deployment.</p>
               ) : !idToken ? (
-                <div ref={signInRef} className="min-h-10" />
+                <div className="rounded-card-md border border-line bg-paper-2 p-5">
+                  <div className="mb-3 text-[0.76rem] font-medium text-text-secondary">Sign in to continue</div>
+                  <div ref={signInRef} className="min-h-10" />
+                </div>
               ) : (
-                <form onSubmit={submit} className="grid gap-4">
-                  <div className="flex items-center justify-between p-3 rounded-md bg-stone-100 border border-line text-[0.78rem]">
+                <form onSubmit={submit} className="grid gap-5">
+                  <div className="flex items-center justify-between rounded-card-md border border-gold/40 bg-gold-light/20 p-3.5 text-[0.78rem]">
                     <div className="truncate">
                       <span className="text-text-muted">Broadcaster: </span>
                       <strong className="text-ink font-medium">{signedInEmail}</strong>
@@ -186,13 +192,13 @@ export default function BroadcasterAccess({
                     </button>
                   </div>
 
-                  <label className="grid gap-1.5 text-[0.78rem] font-medium text-text-secondary">
-                    Media (optional)
+                  <label className="grid gap-2 text-[0.78rem] font-medium text-text-secondary">
+                    <span>Media <span className="font-light text-text-muted">(optional)</span></span>
                     <input
                       name="file"
                       type="file"
                       accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime"
-                      className="text-[0.8rem]"
+                      className="w-full cursor-pointer rounded-card-md border border-dashed border-gold-dark/60 bg-paper-2 p-4 text-[0.78rem] file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-ink file:px-3 file:py-2 file:text-[0.72rem] file:font-semibold file:text-gold-light"
                       onChange={handleFileChange}
                     />
                     <span className="text-[0.7rem] text-text-muted font-light">
@@ -201,7 +207,7 @@ export default function BroadcasterAccess({
                   </label>
 
                   {previewUrl && (
-                    <div className="relative rounded-md overflow-hidden max-h-48 bg-stone-900 flex items-center justify-center">
+                    <div className="relative flex max-h-52 items-center justify-center overflow-hidden rounded-card-md bg-stone-900 ring-1 ring-line">
                       {mediaIsVideo ? (
                         <video src={previewUrl} className="max-h-48 w-full object-contain" controls muted />
                       ) : (
@@ -210,21 +216,21 @@ export default function BroadcasterAccess({
                     </div>
                   )}
 
-                  <label className="grid gap-1.5 text-[0.78rem] font-medium text-text-secondary">
+                  <label className="grid gap-2 text-[0.78rem] font-medium text-text-secondary">
                     Caption
                     <textarea
                       name="caption"
                       required
                       maxLength={2000}
                       rows={4}
-                      className="border border-line rounded-md p-3 text-[0.86rem] font-light resize-y"
+                      className="resize-y rounded-card-md border border-line bg-paper-2 p-3.5 text-[0.86rem] font-light outline-none transition-colors focus:border-gold-dark focus:bg-white"
                       placeholder="What should students know?"
                     />
                   </label>
 
-                  <label className="grid gap-1.5 text-[0.78rem] font-medium text-text-secondary">
+                  <label className="grid gap-2 text-[0.78rem] font-medium text-text-secondary">
                     Category
-                    <select name="category" required className="border border-line rounded-md p-3 text-[0.86rem] bg-white">
+                    <select name="category" required className="rounded-card-md border border-line bg-paper-2 p-3.5 text-[0.86rem] outline-none transition-colors focus:border-gold-dark focus:bg-white">
                       <option value="">Choose a category</option>
                       {CATEGORIES.map((category) => (
                         <option key={category} value={category}>
@@ -242,7 +248,7 @@ export default function BroadcasterAccess({
 
                   <button
                     disabled={submitting}
-                    className="bg-gold text-ink font-semibold text-[0.86rem] py-3 px-5 rounded-md hover:bg-gold-light disabled:opacity-50 cursor-pointer"
+                    className="w-full rounded-full bg-ink px-5 py-3.5 text-[0.86rem] font-semibold text-gold-light shadow-sm transition-all hover:-translate-y-0.5 hover:bg-ink-2 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                     type="submit"
                   >
                     {submitting ? "Publishing…" : "Publish post"}

@@ -141,7 +141,7 @@ export async function getGoogleFeed(): Promise<ChristHubFeed> {
   return {
     semester: process.env.CHRIST_HUB_SEMESTER ?? posts[0]?.semester ?? "",
     generatedAt: new Date().toISOString(),
-    orgs: Object.values(directory).filter((org) => org.active),
+    orgs: Object.values(directory),
     posts,
   };
 }
@@ -360,4 +360,4 @@ export async function archiveChristHubSemester(nextSemester: string) {
   }
   await getOrCreateFolder(drive, rootId, nextSemester);
   return { archivedSemester: currentSemester, nextSemester, archivedPosts: rowsToArchive.length };
-}
+}

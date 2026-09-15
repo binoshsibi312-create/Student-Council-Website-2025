@@ -30,7 +30,7 @@ Create these tabs and exact header names. Column order can be changed because th
 
 `email`, `orgName`, `orgType`, `logoFileId`, `active`
 
-Use one lowercase `@christuniversity.in` address per official broadcaster. `orgType` is `department`, `school`, `club`, `cell`, or `admin`. Set `active` to `yes` or `no` to grant/revoke posting access without deleting history. This table is the authorization boundary: the server ignores any client-supplied org identity and resolves it from the verified Google email.
+Use one lowercase exact email address per official broadcaster, including approved subdomain accounts such as `name@msam.christuniversity.in`, `name@mba.christuniversity.in`, or `name@cca.christuniversity.in`. `orgType` is `department`, `school`, `club`, `cell`, or `admin`. Set `active` to `yes` or `no` to grant/revoke posting access without deleting history. This table is the authorization boundary: the server ignores any client-supplied org identity and allows posting only when the verified Google email exactly matches an active directory row.
 
 ## Drive layout
 
@@ -52,7 +52,7 @@ Christ Hub/
 
 - `GET /api/christ-hub/feed`: same-origin, five-minute cached public feed. The server reads the public Sheet with the API key.
 - `GET /api/christ-hub/media/:fileId`: same-origin cached Drive proxy. Students never request Drive directly.
-- `POST /api/broadcast/upload`: multipart form with `idToken`, `caption`, `category`, and optional `file`. GIS supplies the token in the in-page modal. The route verifies the token, exact Workspace domain, directory membership, media MIME type, and 50 MB limit before writing to Drive and Sheets.
+- `POST /api/broadcast/upload`: multipart form with `idToken`, `caption`, `category`, and optional `file`. GIS supplies the token in the in-page modal. The route verifies the token, exact active directory membership, media MIME type, and 50 MB limit before writing to Drive and Sheets. Root-domain and approved subdomain accounts are both supported when their exact email is listed in `OrgDirectory`.
 - `POST /api/broadcast/archive`: protected maintenance route. Send `Authorization: Bearer $CHRIST_HUB_CRON_SECRET` and JSON such as `{ "nextSemester": "2027-Even" }`. Configure a Vercel Cron or run it manually at semester end, then update `CHRIST_HUB_SEMESTER` to the new value.
 
 The archive operation copies the current semester rows to `Archive_<semester>`, removes them from `Posts`, moves the current Drive folder under `Archive/<semester>`, and creates the next live folder.
