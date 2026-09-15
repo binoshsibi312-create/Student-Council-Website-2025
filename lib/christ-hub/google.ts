@@ -1,6 +1,5 @@
 import { google, type drive_v3, type sheets_v4 } from "googleapis";
-import { readFile, writeFile, mkdir } from "node:fs/promises";
-import { join } from "node:path";
+import { readFile } from "node:fs/promises";
 import { Readable } from "node:stream";
 import type { ChristHubFeed, ChristHubOrg, ChristHubPost, OrgType, PostCategory } from "./types";
 
@@ -262,14 +261,9 @@ export async function uploadChristHubPost(input: {
       }
     }
 
-    // 3. Fallback: Save locally
+    // Vercel's runtime filesystem is read-only. Media must be stored in Drive or Apps Script.
     if (!uploadSucceeded) {
-      const ext = input.file.name.includes(".") ? input.file.name.slice(input.file.name.lastIndexOf(".")) : "";
-      const safeName = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}${ext}`;
-      const uploadDir = join(process.cwd(), "public", "uploads", "christ-hub");
-      await mkdir(uploadDir, { recursive: true });
-      await writeFile(join(uploadDir, safeName), input.file.buffer);
-      driveFileId = `local_${safeName}`;
+      throw new Error("Google Drive upload failed. Check that the configured Google account can edit the Christ Hub Drive folder and that the folder ID is correct.");
     }
   }
 
