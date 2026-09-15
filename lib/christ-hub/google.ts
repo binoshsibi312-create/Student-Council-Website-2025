@@ -257,7 +257,7 @@ export async function uploadChristHubPost(input: {
           }
         }
       } catch (driveError) {
-        console.warn("[christ-hub] Google Drive upload failed, saving media locally as fallback:", driveError);
+        console.warn("[christ-hub] Google Drive upload failed; no local fallback is available:", driveError);
       }
     }
 
