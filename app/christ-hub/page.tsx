@@ -5,7 +5,7 @@ import ChristHubClient from "@/components/christ-hub/ChristHubClient";
 import { getChristHubFeed } from "@/lib/christ-hub/data";
 
 export const metadata: Metadata = { title: "Christ Hub | University Student Council" };
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 export default async function ChristHubPage() {
   const feed = await getChristHubFeed();

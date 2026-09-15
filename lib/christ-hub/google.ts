@@ -54,7 +54,7 @@ function publicSheetsUrl(range: string): string {
 }
 
 async function readValues(range: string): Promise<string[][]> {
-  const response = await fetch(publicSheetsUrl(range), { next: { revalidate: 300 } });
+  const response = await fetch(publicSheetsUrl(range), { cache: "no-store" });
   if (!response.ok) throw new Error(`Google Sheets read failed (${response.status})`);
   const payload = (await response.json()) as { values?: string[][] };
   return payload.values ?? [];
