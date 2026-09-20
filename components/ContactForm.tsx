@@ -58,7 +58,7 @@ export default function ContactForm() {
         body: JSON.stringify({
           name: form.fullName,
           email: form.emailId,
-          _subject: `Student Council ${form.queryType || "Query"} — ${form.fullName}`,
+          _subject: `University Student Council ${form.queryType || "Query"} — ${form.fullName}`,
           _template: "table",
           "Full Name": form.fullName,
           "Register Number": form.registerNumber,

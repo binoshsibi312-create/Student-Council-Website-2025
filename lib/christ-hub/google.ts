@@ -284,6 +284,61 @@ export async function uploadChristHubPost(input: {
   return post;
 }
 
+/** How long after sharing an update its uploader may delete it. Mirrors the client-side window in use-my-posts.ts. */
+const DELETE_WINDOW_MS = 5 * 60 * 1000;
+
+function columnLetter(index: number): string {
+  let n = index + 1;
+  let letters = "";
+  while (n > 0) {
+    const remainder = (n - 1) % 26;
+    letters = String.fromCharCode(65 + remainder) + letters;
+    n = Math.floor((n - 1) / 26);
+  }
+  return letters;
+}
+
+/**
+ * Soft-deletes a post by flipping its status to "removed" so it drops out of
+ * getGoogleFeed's published-only filter. Re-validates ownership and the
+ * 5-minute window server-side rather than trusting the caller, since the
+ * client-side delete affordance is only a UI convenience.
+ */
+export async function deleteChristHubPost(input: { postId: string; requesterEmail: string }) {
+  const { sheets } = await serviceClients();
+  const spreadsheetId = required("CHRIST_HUB_SPREADSHEET_ID");
+  const values = await readValues(POSTS_RANGE);
+  const headers = indexHeaders(values);
+  const idIndex = headers["id"];
+  const orgEmailIndex = headers["orgEmail"];
+  const timestampIndex = headers["timestamp"];
+  const statusIndex = headers["status"];
+  if (idIndex === undefined || orgEmailIndex === undefined || timestampIndex === undefined || statusIndex === undefined) {
+    throw new Error("The Posts sheet is missing required columns.");
+  }
+
+  const rowNumber = values.findIndex((row, i) => i > 0 && String(row[idIndex] ?? "").trim() === input.postId);
+  if (rowNumber < 1) throw new Error("This post could not be found. It may already be deleted.");
+
+  const row = values[rowNumber];
+  const ownerEmail = String(row[orgEmailIndex] ?? "").toLowerCase().trim();
+  if (ownerEmail !== input.requesterEmail.toLowerCase().trim()) {
+    throw new Error("You can only delete an update you shared yourself.");
+  }
+
+  const postedAt = new Date(String(row[timestampIndex] ?? "")).getTime();
+  if (!Number.isFinite(postedAt) || Date.now() - postedAt > DELETE_WINDOW_MS) {
+    throw new Error("This update can no longer be deleted. Deletion is only available for 5 minutes after sharing.");
+  }
+
+  await sheets.spreadsheets.values.update({
+    spreadsheetId,
+    range: `Posts!${columnLetter(statusIndex)}${rowNumber + 1}`,
+    valueInputOption: "RAW",
+    requestBody: { values: [["removed"]] },
+  });
+}
+
 async function appendPostRow(sheets: sheets_v4.Sheets, post: Record<string, unknown>) {
   const spreadsheetId = required("CHRIST_HUB_SPREADSHEET_ID");
   const values = await readValues(POSTS_RANGE);

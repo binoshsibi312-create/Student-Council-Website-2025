@@ -24,7 +24,7 @@ export default function BroadcasterAccess({
   onPosted,
 }: {
   clientId?: string;
-  onPosted: (post: ChristHubPost) => void;
+  onPosted: (post: ChristHubPost, idToken: string) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [idToken, setIdToken] = useState("");
@@ -111,7 +111,7 @@ export default function BroadcasterAccess({
       if (!response.ok || !result.ok || !result.post) {
         throw new Error(result.error ?? "Could not publish this post.");
       }
-      onPosted(result.post);
+      onPosted(result.post, idToken);
       close();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not publish this post.");
@@ -202,7 +202,8 @@ export default function BroadcasterAccess({
                       onChange={handleFileChange}
                     />
                     <span className="text-[0.7rem] text-text-muted font-light">
-                      JPEG, PNG, WebP, MP4, WebM or MOV. Maximum 50 MB.
+                      JPEG, PNG, WebP, MP4, WebM or MOV. Maximum 50 MB. No poster? Skip this — your caption below
+                      is shown as a full text announcement in the story instead.
                     </span>
                   </label>
 

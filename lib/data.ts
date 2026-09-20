@@ -63,7 +63,7 @@ export const MENTOR_LEADERSHIP: Mentor[] = [
   { name: "Dr Fr Viju P D", role: "Pro-Vice Chancellor", dept: "CHRIST (Deemed to be University)", img: "/images/mentors/viju.jpg" },
   { name: "Dr Anil Joseph Pinto", role: "Registrar", dept: "CHRIST (Deemed to be University)", img: "/images/mentors/anil.jpg" },
   { name: "Jyothi Kumar", role: "Registrar (Academics)", dept: "CHRIST (Deemed to be University)", img: "/images/mentors/jyothi_kumar.jpg" },
-  { name: "Dr Kishore Selva Babu", role: "Director, Student Council", dept: "CHRIST (Deemed to be University)", img: "/images/mentors/kishore_selva_babu.jpg" },
+  { name: "Dr Kishore Selva Babu", role: "Director, University Student Council", dept: "CHRIST (Deemed to be University)", img: "/images/mentors/kishore_selva_babu.jpg" },
 ];
 
 export const MENTOR_COORDINATORS: Mentor[] = [
@@ -177,7 +177,7 @@ export const PROCEDURES: Procedure[] = [
     "Bangalore campuses: visit the Office of International Affairs, Ground Floor, Block I for assistance.",
     "Deposit a copy of your Residential Permit with the OIA once issued; renew well before expiry.",
   ], contact: "Office of International Affairs" },
-  { cat: "international", title: "Student Council Membership Nomination", audience: "Aspiring Council Members", steps: [
+  { cat: "international", title: "University Student Council Membership Nomination", audience: "Aspiring Council Members", steps: [
     "Submit a statement of purpose with attendance and marks records to your Class Teacher.",
     "The Class Teacher/HOD shortlist 4 candidates per class for the Faculty Coordinator to interview.",
     "Two members per class are selected for the School Council; eligible members may later apply for the University Council.",

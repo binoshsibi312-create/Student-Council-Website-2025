@@ -1,34 +1,66 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { ChristHubOrg, ChristHubPost } from "@/lib/christ-hub/types";
 import { christHubMediaUrl, formatRelativeTime, orgInitials } from "@/lib/christ-hub/format";
 import { CATEGORY_STYLE } from "@/lib/christ-hub/category";
 import { hoursRemaining } from "@/lib/christ-hub/expiry";
+import { useViewerId } from "@/lib/christ-hub/use-viewer-id";
 
-const STORY_SECONDS = 5;
+const STORY_MS = 5000;
+/** A held press shorter than this still counts as a tap-to-navigate. */
+const HOLD_THRESHOLD_MS = 180;
+/** How often to refresh the "watching now" count while a story is open. */
+const VIEWER_HEARTBEAT_MS = 4000;
+
+interface DeletableEntry {
+  idToken: string;
+  orgEmail: string;
+  uploadedAt: number;
+}
 
 export default function StoryViewer({
   orgs,
   postsByOrg,
   orderedEmails,
   activeOrgEmail,
+  isHighlight,
   onClose,
   onNavigateOrg,
+  getDeletable,
+  onDeletePost,
 }: {
   orgs: ChristHubOrg[];
   postsByOrg: Map<string, ChristHubPost[]>;
   orderedEmails: string[];
   activeOrgEmail: string | null;
+  isHighlight: boolean;
   onClose: () => void;
   onNavigateOrg: (email: string | null) => void;
+  getDeletable: (postId: string) => DeletableEntry | null;
+  onDeletePost: (postId: string) => void;
 }) {
   const [index, setIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+  const [viewerCount, setViewerCount] = useState<number | null>(null);
+
+  const rafRef = useRef<number | null>(null);
+  const elapsedRef = useRef(0);
+  const startRef = useRef(0);
+  const pressStartRef = useRef(0);
+  const holdTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const viewerId = useViewerId();
 
   const org = useMemo(() => orgs.find((o) => o.email === activeOrgEmail) ?? null, [orgs, activeOrgEmail]);
   const posts = activeOrgEmail ? postsByOrg.get(activeOrgEmail) ?? [] : [];
   const post = posts[index];
+  const isVideo = post?.mediaType === "video";
 
   function jumpToOrg(offset: number) {
     if (!activeOrgEmail) return;
@@ -47,6 +79,88 @@ export default function StoryViewer({
     else jumpToOrg(-1);
   }
 
+  // Reset per-post playback state whenever the visible post changes.
+  useEffect(() => {
+    elapsedRef.current = 0;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setProgress(0);
+    setPaused(false);
+    setConfirmingDelete(false);
+    setDeleteError("");
+    setDeleting(false);
+    if (holdTimerRef.current) {
+      clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+  }, [post?.id]);
+
+  // Image/text stories advance on a fixed timer; holding pauses it in place.
+  useEffect(() => {
+    if (!activeOrgEmail || !post || isVideo) return;
+    if (paused) {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      return;
+    }
+    startRef.current = performance.now() - elapsedRef.current;
+    function frame(now: number) {
+      const elapsed = now - startRef.current;
+      elapsedRef.current = elapsed;
+      const pct = Math.min(1, elapsed / STORY_MS);
+      setProgress(pct);
+      if (pct >= 1) {
+        goNext();
+        return;
+      }
+      rafRef.current = requestAnimationFrame(frame);
+    }
+    rafRef.current = requestAnimationFrame(frame);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeOrgEmail, post?.id, paused, isVideo]);
+
+  // Video stories track their own runtime; holding pauses the actual video.
+  useEffect(() => {
+    if (!isVideo || !videoRef.current) return;
+    if (paused) videoRef.current.pause();
+    else videoRef.current.play().catch(() => {});
+  }, [paused, isVideo, post?.id]);
+
+  function handleVideoTimeUpdate(event: React.SyntheticEvent<HTMLVideoElement>) {
+    const el = event.currentTarget;
+    if (el.duration > 0) setProgress(el.currentTime / el.duration);
+  }
+
+  // Best-effort "watching now" count: heartbeat while this story is open.
+  useEffect(() => {
+    if (!activeOrgEmail || !post || !viewerId) return;
+    let cancelled = false;
+    async function beat() {
+      try {
+        const response = await fetch("/api/christ-hub/views", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ postId: post!.id, viewerId }),
+        });
+        if (!response.ok) return;
+        const data = (await response.json()) as { count?: number };
+        if (!cancelled && typeof data.count === "number") setViewerCount(data.count);
+      } catch {
+        // best-effort only — a missed heartbeat just delays the count update
+      }
+    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setViewerCount(null);
+    beat();
+    const interval = setInterval(beat, VIEWER_HEARTBEAT_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeOrgEmail, post?.id, viewerId]);
+
   useEffect(() => {
     if (!activeOrgEmail) return;
     function onKey(e: KeyboardEvent) {
@@ -58,6 +172,62 @@ export default function StoryViewer({
     return () => window.removeEventListener("keydown", onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOrgEmail, index, posts.length]);
+
+  // A quick tap should still navigate instantly; only a press held past the
+  // threshold counts as "hold to pause" (and then a release doesn't also
+  // trigger navigation).
+  function onPressStart() {
+    pressStartRef.current = Date.now();
+    holdTimerRef.current = setTimeout(() => setPaused(true), HOLD_THRESHOLD_MS);
+  }
+
+  function onPressEnd() {
+    if (holdTimerRef.current) {
+      clearTimeout(holdTimerRef.current);
+      holdTimerRef.current = null;
+    }
+    setPaused(false);
+  }
+
+  function handleNavClick(direction: "prev" | "next") {
+    const held = Date.now() - pressStartRef.current >= HOLD_THRESHOLD_MS;
+    if (held) return;
+    if (direction === "prev") goPrev();
+    else goNext();
+  }
+
+  const deletable = post ? getDeletable(post.id) : null;
+
+  const startDeleteConfirm = useCallback(() => {
+    setPaused(true);
+    setConfirmingDelete(true);
+    setDeleteError("");
+  }, []);
+
+  const cancelDelete = useCallback(() => {
+    setConfirmingDelete(false);
+    setDeleteError("");
+    setPaused(false);
+  }, []);
+
+  async function confirmDelete() {
+    if (!post || !deletable) return;
+    setDeleting(true);
+    setDeleteError("");
+    try {
+      const response = await fetch("/api/broadcast/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId: post.id, idToken: deletable.idToken }),
+      });
+      const data = (await response.json()) as { ok?: boolean; error?: string };
+      if (!response.ok || !data.ok) throw new Error(data.error ?? "This update could not be deleted.");
+      onDeletePost(post.id);
+    } catch (error) {
+      setDeleteError(error instanceof Error ? error.message : "This update could not be deleted.");
+      setDeleting(false);
+    }
+  }
 
   return (
     <AnimatePresence>
@@ -73,23 +243,18 @@ export default function StoryViewer({
             <div className="absolute top-0 left-0 right-0 z-10 flex gap-1 p-2.5">
               {posts.map((p, i) => (
                 <div key={p.id} className="flex-1 h-0.75 rounded-full bg-white/25 overflow-hidden">
-                  {i < index && <div className="w-full h-full bg-white" />}
-                  {i === index && (
-                    <motion.div
-                      key={p.id}
-                      className="h-full bg-white"
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      style={{ originX: 0 }}
-                      transition={{ duration: STORY_SECONDS, ease: "linear" }}
-                      onAnimationComplete={goNext}
-                    />
-                  )}
+                  <div
+                    className="h-full bg-white"
+                    style={{
+                      transform: `scaleX(${i < index ? 1 : i === index ? progress : 0})`,
+                      transformOrigin: "0 0",
+                    }}
+                  />
                 </div>
               ))}
             </div>
 
-            <div className="absolute top-5 left-0 right-0 z-10 flex items-center justify-between px-3">
+            <div className="absolute top-5 left-0 right-0 z-10 flex items-center justify-between px-3 gap-2">
               <div className="flex items-center gap-2.5 min-w-0">
                 <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/15 text-white font-display text-[0.75rem] font-medium border border-white/30 shrink-0 overflow-hidden">
                   {christHubMediaUrl(org.logoFileId) ? (
@@ -100,33 +265,101 @@ export default function StoryViewer({
                 </span>
                 <span className="text-white text-[0.82rem] font-medium truncate">{org.orgName}</span>
                 <span className="text-white/55 text-[0.72rem] shrink-0">{formatRelativeTime(post.timestamp)}</span>
+                {isHighlight && <span className="text-white/40 text-[0.68rem] shrink-0">· Highlight</span>}
               </div>
-              <button
-                className="w-8 h-8 flex items-center justify-center text-white/80 hover:text-white cursor-pointer shrink-0"
-                onClick={onClose}
-                aria-label="Close story viewer"
-              >
-                ✕
-              </button>
+              <div className="flex items-center gap-1.5 shrink-0">
+                {deletable && !confirmingDelete && (
+                  <button
+                    className="w-8 h-8 flex items-center justify-center text-white/80 hover:text-white cursor-pointer"
+                    onClick={startDeleteConfirm}
+                    aria-label="Delete this update"
+                    title="Delete this update"
+                  >
+                    🗑
+                  </button>
+                )}
+                <button
+                  className="w-8 h-8 flex items-center justify-center text-white/80 hover:text-white cursor-pointer"
+                  onClick={onClose}
+                  aria-label="Close story viewer"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
 
-            <button className="absolute left-0 top-0 w-1/3 h-full z-[5] cursor-default" aria-label="Previous story" onClick={goPrev} />
-            <button className="absolute right-0 top-0 w-2/3 h-full z-[5] cursor-default" aria-label="Next story" onClick={goNext} />
+            {confirmingDelete && (
+              <div className="absolute top-16 left-3 right-3 z-20 flex items-center justify-between gap-3 rounded-card-md border border-white/15 bg-ink p-3.5 shadow-lg">
+                <span className="text-[0.78rem] text-white font-light leading-[1.4]">
+                  {deleteError || "Delete this update for everyone?"}
+                </span>
+                <div className="flex gap-2 shrink-0">
+                  <button
+                    onClick={cancelDelete}
+                    disabled={deleting}
+                    className="rounded-full border border-white/25 px-3 py-1.5 text-[0.72rem] font-medium text-white/85 hover:text-white cursor-pointer disabled:opacity-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmDelete}
+                    disabled={deleting}
+                    className="rounded-full bg-crimson px-3 py-1.5 text-[0.72rem] font-semibold text-white hover:bg-crimson/85 cursor-pointer disabled:opacity-50"
+                  >
+                    {deleting ? "Deleting…" : "Delete"}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <button
+              className="absolute left-0 top-0 w-1/3 h-full z-[5] cursor-default"
+              aria-label="Previous story"
+              onPointerDown={onPressStart}
+              onPointerUp={onPressEnd}
+              onPointerLeave={onPressEnd}
+              onPointerCancel={onPressEnd}
+              onClick={() => handleNavClick("prev")}
+            />
+            <button
+              className="absolute right-0 top-0 w-2/3 h-full z-[5] cursor-default"
+              aria-label="Next story"
+              onPointerDown={onPressStart}
+              onPointerUp={onPressEnd}
+              onPointerLeave={onPressEnd}
+              onPointerCancel={onPressEnd}
+              onClick={() => handleNavClick("next")}
+            />
 
             <div className="w-full h-full flex items-center justify-center" style={{ background: CATEGORY_STYLE[post.category].gradient }}>
               {(() => {
                 const mediaUrl = christHubMediaUrl(post.driveFileId);
                 if (mediaUrl) {
                   return post.mediaType === "video" ? (
-                    <video src={mediaUrl} className="w-full h-full object-contain" controls autoPlay muted />
+                    <video
+                      key={post.id}
+                      ref={videoRef}
+                      src={mediaUrl}
+                      className="w-full h-full object-contain"
+                      autoPlay
+                      muted
+                      playsInline
+                      onTimeUpdate={handleVideoTimeUpdate}
+                      onEnded={goNext}
+                    />
                   ) : (
                     <img src={mediaUrl} alt="" className="w-full h-full object-contain" />
                   );
                 }
                 return (
-                  <span className="text-white/85 text-[0.8rem] font-semibold tracking-[0.12em] uppercase">
-                    Announcement
-                  </span>
+                  <div className="flex h-full w-full flex-col items-center justify-center px-8 text-center">
+                    <span className="mb-4 inline-block text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-gold-light">
+                      Announcement
+                    </span>
+                    <p className="font-display text-[1.5rem] sm:text-[1.7rem] font-semibold leading-[1.35] text-white">
+                      {post.caption}
+                    </p>
+                  </div>
                 );
               })()}
             </div>
@@ -146,32 +379,32 @@ export default function StoryViewer({
                   })()}
                 </span>
               </div>
-              <p className="text-white text-[0.88rem] leading-[1.55] font-light mb-3">{post.caption}</p>
-              {(post.registrationUrl || post.videoUrl) && (
+              {post.mediaType !== "none" && (
+                <p className="text-white text-[0.88rem] leading-[1.55] font-light mb-3">{post.caption}</p>
+              )}
+              {post.registrationUrl && (
                 <div className="relative z-20 flex flex-wrap gap-2">
-                  {post.registrationUrl && (
-                    <a
-                      href={post.registrationUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[0.76rem] font-semibold text-ink bg-gold py-1.5 px-3 rounded-full hover:bg-gold-light transition-colors"
-                    >
-                      Register →
-                    </a>
-                  )}
-                  {post.videoUrl && (
-                    <a
-                      href={post.videoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[0.76rem] font-semibold text-white bg-white/20 py-1.5 px-3 rounded-full hover:bg-white/30 transition-colors"
-                    >
-                      ▶ Watch video
-                    </a>
-                  )}
+                  <a
+                    href={post.registrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-[0.76rem] font-semibold text-ink bg-gold py-1.5 px-3 rounded-full hover:bg-gold-light transition-colors"
+                  >
+                    Register →
+                  </a>
                 </div>
               )}
             </div>
+
+            {viewerCount !== null && (
+              <div
+                className="absolute bottom-3 right-3 z-20 flex items-center gap-1 rounded-full bg-black/45 px-2.5 py-1 text-[0.7rem] font-medium text-white backdrop-blur-sm"
+                aria-label={`${viewerCount} watching now`}
+              >
+                <span aria-hidden="true">👁</span>
+                {viewerCount}
+              </div>
+            )}
           </div>
         </motion.div>
       )}

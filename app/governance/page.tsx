@@ -9,7 +9,7 @@ const NOMINATION_STEPS = [
   { title: "Shortlisting", desc: "Class Teacher & HoD evaluate applications and forward four candidates per class to the Faculty Coordinator." },
   { title: "Interview", desc: "The Faculty Coordinator interviews shortlisted candidates; two are selected per class for the School Council." },
   { title: "Apply for University Council", desc: "Eligible School Council members apply with a statement of purpose and contribution record to the Faculty Coordinator." },
-  { title: "Final Interview", desc: "The Student Council Coordinator conducts the final interview and confirms University Council membership." },
+  { title: "Final Interview", desc: "The University Student Council Coordinator conducts the final interview and confirms University Council membership." },
 ];
 
 export default function GovernancePage() {
@@ -19,7 +19,7 @@ export default function GovernancePage() {
         <SectionHeader
           eyebrow="How the Council Works"
           title="Constitution & Governance"
-          subtitle="The University Student Council functions under the supervision of the Director, Student Council, coordinated by faculty members for each deanery, and reports to the Vice Chancellor. It is a support system for holistic student development — never an association or bargaining agency."
+          subtitle="The University Student Council functions under the supervision of the Director, University Student Council, coordinated by faculty members for each deanery, and reports to the Vice Chancellor. It is a support system for holistic student development — never an association or bargaining agency."
         />
 
         <div className="grid grid-cols-[1.1fr_0.9fr] gap-5 mb-5 max-[1080px]:grid-cols-1">
@@ -45,7 +45,7 @@ export default function GovernancePage() {
             <h3 className="font-display text-[1.12rem] font-semibold text-ink mb-3.5">Meetings with the Vice Chancellor</h3>
             <p className="text-[0.9rem] text-text-secondary leading-[1.7] mb-2.5 font-light">
               USC members meet the Vice Chancellor once every semester, alongside the Pro-Vice
-              Chancellor, Registrar, Deans and Student Council Coordinators, to present suggestions and
+              Chancellor, Registrar, Deans and University Student Council Coordinators, to present suggestions and
               feedback pertaining to academics.
             </p>
             <h3 className="font-display text-[1.12rem] font-semibold text-ink mb-3.5 mt-6">Open Forum</h3>
@@ -74,8 +74,8 @@ export default function GovernancePage() {
             <p className="text-[0.9rem] text-text-secondary leading-[1.7] mb-2.5 font-light">
               Normal tenure is <strong>one year</strong>, renewable on fresh nomination. Senior-student
               nominations happen every <strong>February</strong>; first-year nominations happen every{" "}
-              <strong>July</strong>. Outgoing Council members hand over to the new Council on Student
-              Council Day.
+              <strong>July</strong>. Outgoing Council members hand over to the new Council on University
+              Student Council Day.
             </p>
             <p className="text-[0.9rem] text-text-secondary leading-[1.7] font-light">
               All newly inducted members attend a compulsory <strong>two-day orientation</strong> on the
@@ -101,7 +101,7 @@ export default function GovernancePage() {
               <tr>
                 <td className="py-3.75 px-4.5 border-t border-line text-text-secondary align-top font-light"><strong className="font-medium text-ink">University Student Council</strong> (Apex Body)</td>
                 <td className="py-3.75 px-4.5 border-t border-line text-text-secondary align-top font-light">All UG &amp; PG programme reps, plus nominees from CSA, NCC, SWO, CAPS, Peer Education, International Students, Cultural &amp; Sports Teams</td>
-                <td className="py-3.75 px-4.5 border-t border-line text-text-secondary align-top font-light">Monthly with the Director of Student Council &amp; Faculty Coordinators; once per semester with the Vice Chancellor / Campus Director</td>
+                <td className="py-3.75 px-4.5 border-t border-line text-text-secondary align-top font-light">Monthly with the Director of the University Student Council &amp; Faculty Coordinators; once per semester with the Vice Chancellor / Campus Director</td>
               </tr>
               <tr>
                 <td className="py-3.75 px-4.5 border-t border-line text-text-secondary align-top font-light"><strong className="font-medium text-ink">School Student Councils</strong></td>
