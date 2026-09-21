@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Governance | University Student Coun
 const NOMINATION_STEPS = [
   { title: "Apply at Deanery Level", desc: "Submit a statement of purpose with attendance and marks records to your Class Teacher." },
   { title: "Shortlisting", desc: "Class Teacher & HoD evaluate applications and forward four candidates per class to the Faculty Coordinator." },
-  { title: "Interview", desc: "The Faculty Coordinator interviews shortlisted candidates; two are selected per class for the School Council." },
+  { title: "Interview", desc: "The Faculty Coordinator interviews shortlisted candidates; one is selected per class for the School Council." },
   { title: "Apply for University Council", desc: "Eligible School Council members apply with a statement of purpose and contribution record to the Faculty Coordinator." },
   { title: "Final Interview", desc: "The University Student Council Coordinator conducts the final interview and confirms University Council membership." },
 ];
@@ -33,9 +33,8 @@ export default function GovernancePage() {
               Cultural Team and Sports &amp; Games Team.
             </p>
             <p className="text-[0.9rem] text-text-secondary leading-[1.7] mb-2.5 font-light">
-              The <strong>School Level (SSC)</strong> is the supporting body: two representatives per
-              class (one Boy, one Girl) where class strength exceeds 40 students, otherwise one
-              representative.
+              The <strong>School Level (SSC)</strong> is the supporting body: one representative per
+              class, regardless of class strength.
             </p>
             <p className="text-[0.9rem] text-text-secondary leading-[1.7] font-light">
               The Director may dissolve the Council at their discretion at any time prior to its functional duration.
@@ -105,7 +104,7 @@ export default function GovernancePage() {
               </tr>
               <tr>
                 <td className="py-3.75 px-4.5 border-t border-line text-text-secondary align-top font-light"><strong className="font-medium text-ink">School Student Councils</strong></td>
-                <td className="py-3.75 px-4.5 border-t border-line text-text-secondary align-top font-light">2 reps per class (1 male, 1 female) if class size &gt; 40; else 1 rep</td>
+                <td className="py-3.75 px-4.5 border-t border-line text-text-secondary align-top font-light">1 rep per class, regardless of class size</td>
                 <td className="py-3.75 px-4.5 border-t border-line text-text-secondary align-top font-light">At least once a month — minutes &amp; feedback presented to the University Council</td>
               </tr>
             </tbody>

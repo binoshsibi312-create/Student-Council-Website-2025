@@ -180,7 +180,7 @@ export const PROCEDURES: Procedure[] = [
   { cat: "international", title: "University Student Council Membership Nomination", audience: "Aspiring Council Members", steps: [
     "Submit a statement of purpose with attendance and marks records to your Class Teacher.",
     "The Class Teacher/HOD shortlist 4 candidates per class for the Faculty Coordinator to interview.",
-    "Two members per class are selected for the School Council; eligible members may later apply for the University Council.",
+    "One member per class is selected for the School Council; eligible members may later apply for the University Council.",
   ], contact: "Your Faculty Coordinator" },
 ];
 
