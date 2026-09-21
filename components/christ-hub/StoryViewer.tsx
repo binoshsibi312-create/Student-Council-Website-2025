@@ -8,7 +8,7 @@ import { CATEGORY_STYLE } from "@/lib/christ-hub/category";
 import { hoursRemaining } from "@/lib/christ-hub/expiry";
 import { useViewerId } from "@/lib/christ-hub/use-viewer-id";
 
-const STORY_MS = 5000;
+const STORY_MS = 15000;
 /** A held press shorter than this still counts as a tap-to-navigate. */
 const HOLD_THRESHOLD_MS = 180;
 /** How often to refresh the "watching now" count while a story is open. */
@@ -64,6 +64,13 @@ export default function StoryViewer({
 
   function jumpToOrg(offset: number) {
     if (!activeOrgEmail) return;
+    // A highlight reel is scoped to the one org the user tapped into — it
+    // never spills into another org's highlights on its own; running out
+    // just closes the viewer.
+    if (isHighlight) {
+      onClose();
+      return;
+    }
     const pos = orderedEmails.indexOf(activeOrgEmail);
     const next = orderedEmails[pos + offset];
     onNavigateOrg(next ?? null);
@@ -398,10 +405,23 @@ export default function StoryViewer({
 
             {viewerCount !== null && (
               <div
-                className="absolute bottom-3 right-3 z-20 flex items-center gap-1 rounded-full bg-black/45 px-2.5 py-1 text-[0.7rem] font-medium text-white backdrop-blur-sm"
+                className="absolute bottom-3 right-3 z-20 flex items-center gap-1 text-[0.66rem] font-medium text-white/50"
                 aria-label={`${viewerCount} watching now`}
               >
-                <span aria-hidden="true">👁</span>
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
                 {viewerCount}
               </div>
             )}
