@@ -1,6 +1,5 @@
 import { google, type drive_v3, type sheets_v4 } from "googleapis";
 import { readFile } from "node:fs/promises";
-import { Readable } from "node:stream";
 import type { ChristHubFeed, ChristHubOrg, ChristHubPost, OrgType, PostCategory } from "./types";
 
 const CATEGORIES: PostCategory[] = ["Academic", "Cultural", "Sports", "Deadline", "Admin"];
@@ -153,14 +152,21 @@ export async function serviceClients() {
   if (refreshToken && clientSecret && clientId) {
     const auth = new google.auth.OAuth2(clientId, clientSecret);
     auth.setCredentials({ refresh_token: refreshToken });
-    return { drive: google.drive({ version: "v3", auth }), sheets: google.sheets({ version: "v4", auth }) };
+    return { drive: google.drive({ version: "v3", auth }), sheets: google.sheets({ version: "v4", auth }), auth };
   }
 
   const auth = new google.auth.GoogleAuth({
     credentials: await readServiceAccountCredentials(),
     scopes: ["https://www.googleapis.com/auth/drive", "https://www.googleapis.com/auth/spreadsheets"],
   });
-  return { drive: google.drive({ version: "v3", auth }), sheets: google.sheets({ version: "v4", auth }) };
+  return { drive: google.drive({ version: "v3", auth }), sheets: google.sheets({ version: "v4", auth }), auth };
+}
+
+async function accessTokenFor(auth: { getAccessToken: () => Promise<unknown> }): Promise<string> {
+  const result = await auth.getAccessToken();
+  const token = typeof result === "string" ? result : (result as { token?: string | null } | null)?.token;
+  if (!token) throw new Error("Could not obtain a Google access token.");
+  return token;
 }
 
 function slugify(valueToSlug: string): string {
@@ -187,83 +193,74 @@ async function getOrCreateFolder(drive: drive_v3.Drive, parentId: string, name: 
   return created.data.id;
 }
 
-export async function uploadChristHubPost(input: {
+/**
+ * Opens a Google Drive resumable-upload session and hands the session URL
+ * back to the browser, which then PUTs the file bytes to Google directly.
+ * The file never passes through our own server/Vercel function, which is
+ * what lets uploads exceed Vercel's ~4.5 MB request body limit — routing a
+ * 50 MB photo or video through our API route would always be rejected with
+ * a 413 before it reached our code, regardless of any limit we enforce here.
+ */
+export async function createChristHubUploadSession(input: {
+  org: ChristHubOrg;
+  fileName: string;
+  mimeType: string;
+  fileSize: number;
+}): Promise<string> {
+  const { drive, auth } = await serviceClients();
+  const rootId = required("CHRIST_HUB_DRIVE_ROOT_FOLDER_ID");
+  const semester = process.env.CHRIST_HUB_SEMESTER ?? "Current";
+
+  const semesterFolderId = await getOrCreateFolder(drive, rootId, semester);
+  const orgFolderId = await getOrCreateFolder(drive, semesterFolderId, slugify(input.org.orgName));
+  const accessToken = await accessTokenFor(auth);
+
+  const response = await fetch(
+    "https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&supportsAllDrives=true&fields=id",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json; charset=UTF-8",
+        "X-Upload-Content-Type": input.mimeType,
+        "X-Upload-Content-Length": String(input.fileSize),
+      },
+      body: JSON.stringify({ name: `${Date.now()}-${input.fileName}`, parents: [orgFolderId] }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Could not start an upload session with Google Drive (${response.status}). Check that the configured Google account can edit the Christ Hub Drive folder.`);
+  }
+  const uploadUrl = response.headers.get("location");
+  if (!uploadUrl) throw new Error("Google Drive did not return an upload session URL.");
+  return uploadUrl;
+}
+
+/**
+ * Records a published post. For media posts, the file has already landed in
+ * Drive via the resumable session above — this just makes it link-viewable
+ * and writes the Sheets row. Text-only announcements skip straight to the
+ * Sheets row.
+ */
+export async function finalizeChristHubPost(input: {
   org: ChristHubOrg;
   caption: string;
   category: PostCategory;
-  file?: { name: string; type: string; buffer: Buffer };
+  media?: { driveFileId: string; mediaType: "image" | "video" };
 }) {
   const { drive, sheets } = await serviceClients();
-  const rootId = required("CHRIST_HUB_DRIVE_ROOT_FOLDER_ID");
   const semester = process.env.CHRIST_HUB_SEMESTER ?? "Current";
-  let driveFileId = "";
-  let mediaType: "image" | "video" | "none" = "none";
 
-  if (input.file) {
-    mediaType = input.file.type.startsWith("video/") ? "video" : "image";
-    let uploadSucceeded = false;
-
-    // 1. If Google Apps Script Web App is configured, upload via Apps Script (uses user storage quota, bypasses Shared Drive requirement)
-    const appsScriptUrl = process.env.CHRIST_HUB_APPS_SCRIPT_URL;
-    if (appsScriptUrl) {
-      try {
-        const gasRes = await fetch(appsScriptUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            secret: process.env.CHRIST_HUB_CRON_SECRET,
-            fileName: input.file.name,
-            mimeType: input.file.type,
-            base64: input.file.buffer.toString("base64"),
-            rootFolderId: rootId,
-            semester,
-            orgName: input.org.orgName,
-          }),
-        });
-        const gasData = (await gasRes.json()) as { ok?: boolean; fileId?: string; error?: string };
-        if (gasData.ok && gasData.fileId) {
-          driveFileId = gasData.fileId;
-          uploadSucceeded = true;
-        } else {
-          console.warn("[christ-hub] Apps Script upload response error:", gasData.error);
-        }
-      } catch (gasErr) {
-        console.warn("[christ-hub] Apps Script upload failed, trying next method:", gasErr);
-      }
-    }
-
-    // 2. Try direct Google Drive Service Account (if Shared Drive is available)
-    if (!uploadSucceeded) {
-      try {
-        const semesterFolderId = await getOrCreateFolder(drive, rootId, semester);
-        const orgFolderId = await getOrCreateFolder(drive, semesterFolderId, slugify(input.org.orgName));
-        const uploaded = await drive.files.create({
-          requestBody: { name: `${Date.now()}-${input.file.name}`, parents: [orgFolderId], mimeType: input.file.type },
-          media: { mimeType: input.file.type, body: Readable.from(input.file.buffer) },
-          fields: "id",
-          supportsAllDrives: true,
-        });
-        driveFileId = uploaded.data.id ?? "";
-        if (driveFileId) {
-          uploadSucceeded = true;
-          try {
-            await drive.permissions.create({
-              fileId: driveFileId,
-              requestBody: { type: "anyone", role: "reader" },
-              supportsAllDrives: true,
-            });
-          } catch {
-            // Folder level or domain permissions apply
-          }
-        }
-      } catch (driveError) {
-        console.warn("[christ-hub] Google Drive upload failed; no local fallback is available:", driveError);
-      }
-    }
-
-    // Vercel's runtime filesystem is read-only. Media must be stored in Drive or Apps Script.
-    if (!uploadSucceeded) {
-      throw new Error("Google Drive upload failed. Check that the configured Google account can edit the Christ Hub Drive folder and that the folder ID is correct.");
+  if (input.media) {
+    try {
+      await drive.permissions.create({
+        fileId: input.media.driveFileId,
+        requestBody: { type: "anyone", role: "reader" },
+        supportsAllDrives: true,
+      });
+    } catch {
+      // Folder-level or domain permissions may already cover this file.
     }
   }
 
@@ -275,8 +272,8 @@ export async function uploadChristHubPost(input: {
     orgType: input.org.orgType,
     category: input.category,
     caption: input.caption,
-    mediaType,
-    driveFileId: driveFileId || undefined,
+    mediaType: input.media?.mediaType ?? ("none" as const),
+    driveFileId: input.media?.driveFileId,
     semester,
     status: "published" as const,
   };

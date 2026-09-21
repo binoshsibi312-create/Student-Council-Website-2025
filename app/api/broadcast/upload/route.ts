@@ -1,37 +1,42 @@
 import { OAuth2Client } from "google-auth-library";
 import { NextResponse } from "next/server";
-import { getOrgDirectory, uploadChristHubPost } from "@/lib/christ-hub/google";
+import { getOrgDirectory, finalizeChristHubPost } from "@/lib/christ-hub/google";
 import type { PostCategory } from "@/lib/christ-hub/types";
 
 export const runtime = "nodejs";
 
-const MAX_FILE_BYTES = 50 * 1024 * 1024;
-const ALLOWED_TYPES = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "video/mp4",
-  "video/webm",
-  "video/quicktime",
-]);
 const CATEGORIES = new Set<PostCategory>(["Academic", "Cultural", "Sports", "Deadline", "Admin"]);
 
 function errorResponse(message: string, status: number) {
   return NextResponse.json({ ok: false, error: message }, { status });
 }
 
+/**
+ * Finalizes a post after any media has already been uploaded straight to
+ * Google Drive by the browser (see /api/broadcast/upload-session). This
+ * route only ever receives small JSON — caption, category, and a Drive file
+ * id — never the file bytes themselves.
+ */
 export async function POST(request: Request) {
   try {
-    const form = await request.formData();
-    const idToken = String(form.get("idToken") ?? "");
-    const caption = String(form.get("caption") ?? "").trim();
-    const category = String(form.get("category") ?? "") as PostCategory;
-    const fileValue = form.get("file");
+    const body = (await request.json().catch(() => null)) as {
+      idToken?: string;
+      caption?: string;
+      category?: string;
+      driveFileId?: string;
+      mediaType?: string;
+    } | null;
+
+    const idToken = String(body?.idToken ?? "").trim();
+    const caption = String(body?.caption ?? "").trim();
+    const category = String(body?.category ?? "") as PostCategory;
+    const driveFileId = String(body?.driveFileId ?? "").trim();
+    const mediaType = body?.mediaType === "video" ? "video" : body?.mediaType === "image" ? "image" : undefined;
 
     if (!idToken) return errorResponse("Sign-in is required.", 401);
     if (!caption || caption.length > 2000) return errorResponse("Caption is required and must be under 2,000 characters.", 400);
     if (!CATEGORIES.has(category)) return errorResponse("Choose a valid category.", 400);
-    if (fileValue && !(fileValue instanceof File)) return errorResponse("The uploaded media is invalid.", 400);
+    if (driveFileId && !mediaType) return errorResponse("The uploaded media is invalid.", 400);
 
     const googleClientId = process.env.GOOGLE_CLIENT_ID;
     const publicGoogleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -56,22 +61,19 @@ export async function POST(request: Request) {
     if (!org) {
       return errorResponse(`The account (${email}) is not registered in the Christ Hub broadcaster directory.`, 403);
     }
-
     if (!org.active) {
       return errorResponse(`The account (${email}) is not active in the Christ Hub broadcaster directory.`, 403);
     }
 
-    let file: { name: string; type: string; buffer: Buffer } | undefined;
-    if (fileValue instanceof File && fileValue.size > 0) {
-      if (fileValue.size > MAX_FILE_BYTES) return errorResponse("Media must be 50 MB or smaller.", 400);
-      if (!ALLOWED_TYPES.has(fileValue.type)) return errorResponse("Use JPEG, PNG, WebP, MP4, WebM, or MOV media.", 400);
-      file = { name: fileValue.name || "christ-hub-media", type: fileValue.type, buffer: Buffer.from(await fileValue.arrayBuffer()) };
-    }
-
-    const post = await uploadChristHubPost({ org, caption, category, file });
+    const post = await finalizeChristHubPost({
+      org,
+      caption,
+      category,
+      media: driveFileId && mediaType ? { driveFileId, mediaType } : undefined,
+    });
     return NextResponse.json({ ok: true, post }, { status: 201 });
   } catch (error) {
-    console.error("[christ-hub] upload failed", error);
+    console.error("[christ-hub] upload finalize failed", error);
     const rawMessage = error instanceof Error ? error.message : "The post could not be published. Please try again.";
     return errorResponse(rawMessage, 500);
   }

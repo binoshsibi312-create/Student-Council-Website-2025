@@ -18,6 +18,16 @@ declare global {
 }
 
 const CATEGORIES: PostCategory[] = ["Academic", "Cultural", "Sports", "Deadline", "Admin"];
+const MAX_FILE_BYTES = 50 * 1024 * 1024;
+
+/** Vercel's function responses aren't always JSON (e.g. a plain-text 413 from the platform itself), so parse defensively rather than letting a bad response crash the flow. */
+async function safeJson(response: Response): Promise<Record<string, unknown> | null> {
+  try {
+    return (await response.json()) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
+}
 
 export default function BroadcasterAccess({
   clientId,
@@ -30,6 +40,7 @@ export default function BroadcasterAccess({
   const [idToken, setIdToken] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [uploadStage, setUploadStage] = useState<"uploading" | "publishing" | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [mediaIsVideo, setMediaIsVideo] = useState(false);
   const signInRef = useRef<HTMLDivElement>(null);
@@ -101,22 +112,72 @@ export default function BroadcasterAccess({
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    const caption = String(form.get("caption") ?? "").trim();
+    const category = String(form.get("category") ?? "");
+    const fileValue = form.get("file");
+    const file = fileValue instanceof File && fileValue.size > 0 ? fileValue : null;
+
+    if (file && file.size > MAX_FILE_BYTES) {
+      setMessage("Media must be 50 MB or smaller.");
+      return;
+    }
+
     setSubmitting(true);
     setMessage("");
-    const form = new FormData(formElement);
-    form.append("idToken", idToken);
     try {
-      const response = await fetch("/api/broadcast/upload", { method: "POST", body: form });
-      const result = (await response.json()) as { ok?: boolean; error?: string; post?: ChristHubPost };
-      if (!response.ok || !result.ok || !result.post) {
-        throw new Error(result.error ?? "Could not publish this post.");
+      let driveFileId: string | undefined;
+      let mediaType: string | undefined;
+
+      if (file) {
+        // Step 1: ask our server to open a Drive upload session. This
+        // request is tiny (just the file's name/type/size), so it's never
+        // at risk of hitting a platform request-size limit.
+        setUploadStage("uploading");
+        const sessionResponse = await fetch("/api/broadcast/upload-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken, fileName: file.name, mimeType: file.type, fileSize: file.size }),
+        });
+        const sessionResult = await safeJson(sessionResponse);
+        if (!sessionResponse.ok || !sessionResult?.ok || typeof sessionResult.uploadUrl !== "string") {
+          throw new Error(typeof sessionResult?.error === "string" ? sessionResult.error : "Could not start the upload. Please try again.");
+        }
+        mediaType = typeof sessionResult.mediaType === "string" ? sessionResult.mediaType : undefined;
+
+        // Step 2: send the actual file bytes straight to Google — never
+        // through our own server — so 50 MB photos and videos aren't
+        // capped by our function's request body limit.
+        const putResponse = await fetch(sessionResult.uploadUrl, {
+          method: "PUT",
+          headers: { "Content-Type": file.type },
+          body: file,
+        });
+        const driveFile = await safeJson(putResponse);
+        if (!putResponse.ok || typeof driveFile?.id !== "string") {
+          throw new Error("The upload to Google Drive failed. Please try again.");
+        }
+        driveFileId = driveFile.id;
       }
-      onPosted(result.post, idToken);
+
+      // Step 3: finalize — this is the only step for a text-only announcement.
+      setUploadStage("publishing");
+      const response = await fetch("/api/broadcast/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken, caption, category, driveFileId, mediaType }),
+      });
+      const result = await safeJson(response);
+      if (!response.ok || !result?.ok || !result.post) {
+        throw new Error(typeof result?.error === "string" ? result.error : "Could not publish this post.");
+      }
+      onPosted(result.post as ChristHubPost, idToken);
       close();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not publish this post.");
     } finally {
       setSubmitting(false);
+      setUploadStage(null);
     }
   }
 
@@ -252,7 +313,7 @@ export default function BroadcasterAccess({
                     className="w-full rounded-full bg-ink px-5 py-3.5 text-[0.86rem] font-semibold text-gold-light shadow-sm transition-all hover:-translate-y-0.5 hover:bg-ink-2 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                     type="submit"
                   >
-                    {submitting ? "Publishing…" : "Publish post"}
+                    {uploadStage === "uploading" ? "Uploading media…" : uploadStage === "publishing" ? "Publishing…" : submitting ? "Publishing…" : "Publish post"}
                   </button>
                 </form>
               )}
