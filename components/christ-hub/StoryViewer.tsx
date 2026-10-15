@@ -227,7 +227,7 @@ export default function StoryViewer({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ postId: post.id, idToken: deletable.idToken }),
       });
-      const data = (await response.json()) as { ok?: boolean; error?: string };
+      const data = ((await response.json().catch(() => null)) ?? {}) as { ok?: boolean; error?: string };
       if (!response.ok || !data.ok) throw new Error(data.error ?? "This update could not be deleted.");
       onDeletePost(post.id);
     } catch (error) {
@@ -251,7 +251,7 @@ export default function StoryViewer({
               {posts.map((p, i) => (
                 <div key={p.id} className="flex-1 h-0.75 rounded-full bg-white/25 overflow-hidden">
                   <div
-                    className="h-full bg-white"
+                    className="h-full bg-card"
                     style={{
                       transform: `scaleX(${i < index ? 1 : i === index ? progress : 0})`,
                       transformOrigin: "0 0",

@@ -46,7 +46,7 @@ export interface Floor {
 }
 
 export const SIDEBAR_ITEMS: SidebarItem[] = [
-  { href: "/christ-hub", label: "Christ Hub" },
+  { href: "/", label: "Christ Hub" },
   { href: "/about", label: "About" },
   { href: "/governance", label: "Governance" },
   { href: "/mentors", label: "Mentors" },

@@ -23,8 +23,8 @@ export default function CampusMap() {
             key={f.id}
             className={`font-medium text-[0.78rem] py-2 px-4.5 rounded-full cursor-pointer transition-colors border ${
               f.id === activeFloor
-                ? "bg-ink border-ink text-gold-light"
-                : "bg-white border-line text-text-secondary hover:border-ink hover:text-ink"
+                ? "bg-raised border-gold/50 text-gold-light"
+                : "bg-card border-line text-text-secondary hover:border-fg hover:text-fg"
             }`}
             onClick={() => selectFloor(f.id)}
           >
@@ -36,7 +36,7 @@ export default function CampusMap() {
       <div className="grid grid-cols-[1fr_300px] gap-7 items-start max-[1080px]:grid-cols-1">
         <div>
           <div className="mb-4.5">
-            <h3 className="font-display text-[1.05rem] font-semibold text-ink mb-0.75">{floor.title}</h3>
+            <h3 className="font-display text-[1.05rem] font-semibold text-fg mb-0.75">{floor.title}</h3>
             <p className="text-[0.78rem] text-text-muted font-light">Select a hotspot to view details</p>
           </div>
           <div
@@ -51,10 +51,10 @@ export default function CampusMap() {
                   key={i}
                   className={`relative flex items-center gap-1.75 py-1.75 px-2.25 cursor-pointer transition-all overflow-hidden rounded-[4px] border ${
                     active
-                      ? "bg-ink border-ink"
+                      ? "bg-raised border-gold"
                       : circulation
-                        ? "bg-paper-3 border-line hover:border-ink hover:-translate-y-0.5 hover:shadow-[0_6px_14px_-6px_rgba(0,0,0,0.16)]"
-                        : "bg-white border-line hover:border-ink hover:-translate-y-0.5 hover:shadow-[0_6px_14px_-6px_rgba(0,0,0,0.16)]"
+                        ? "bg-paper-3 border-line hover:border-fg hover:-translate-y-0.5 hover:shadow-[0_6px_14px_-6px_rgba(0,0,0,0.5)]"
+                        : "bg-card border-line hover:border-fg hover:-translate-y-0.5 hover:shadow-[0_6px_14px_-6px_rgba(0,0,0,0.5)]"
                   }`}
                   style={{ gridColumn: `${r.c} / span ${r.cs || 1}`, gridRow: r.r }}
                   onClick={() => setSelected(r)}
@@ -79,7 +79,7 @@ export default function CampusMap() {
           {selected ? (
             <>
               <div className="text-[0.68rem] font-semibold text-gold-dark uppercase tracking-[0.08em] mb-2">Selected</div>
-              <h4 className="font-display text-[1.2rem] font-semibold text-ink mb-2.5">{selected.name}</h4>
+              <h4 className="font-display text-[1.2rem] font-semibold text-fg mb-2.5">{selected.name}</h4>
               <p className="text-[0.86rem] text-text-secondary leading-[1.65] font-light">{selected.desc}</p>
             </>
           ) : (

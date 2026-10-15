@@ -1,7 +1,7 @@
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 const CACHE_NAME = `usc-christ-shell-${CACHE_VERSION}`;
 
-const PRECACHE_URLS = ["/", "/christ-hub", "/manifest.json", "/images/logos/christ_emblem.png"];
+const PRECACHE_URLS = ["/", "/manifest.json", "/images/logos/christ_emblem.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -40,8 +40,17 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Static assets (images, fonts, CSS/JS chunks): cache first, network as backfill.
-  event.respondWith(cacheFirst(request));
+  // Immutable assets only: content-hashed build output, site images and Drive
+  // media (served with an immutable Cache-Control). Everything else — other
+  // API routes especially — goes straight to the network so the worker can
+  // never answer a live request with a stale copy or a synthetic error.
+  if (
+    url.pathname.startsWith("/_next/static/") ||
+    url.pathname.startsWith("/images/") ||
+    url.pathname.startsWith("/api/christ-hub/media/")
+  ) {
+    event.respondWith(cacheFirst(request));
+  }
 });
 
 async function staleWhileRevalidate(request) {

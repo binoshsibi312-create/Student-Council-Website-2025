@@ -25,7 +25,7 @@ function isValidChristEmail(email: string) {
 }
 
 const fieldClass =
-  "w-full py-2.75 px-3.5 border border-line rounded-md font-body text-[0.9rem] outline-none transition-colors bg-white focus:border-ink";
+  "w-full py-2.75 px-3.5 border border-line rounded-md font-body text-[0.9rem] outline-none transition-colors bg-card focus:border-fg";
 const labelClass = "block text-[0.8rem] font-medium text-text-secondary mb-1.75";
 
 export default function ContactForm() {

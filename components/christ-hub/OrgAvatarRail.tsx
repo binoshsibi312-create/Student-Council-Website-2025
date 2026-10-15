@@ -17,7 +17,7 @@ export default function OrgAvatarRail({
   if (orgs.length === 0) return null;
 
   return (
-    <div className="relative -mx-1 mb-8 overflow-hidden px-1 pb-2 after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-20 after:bg-gradient-to-l after:from-white after:via-white/85 after:to-transparent">
+    <div className="relative -mx-1 mb-8 overflow-hidden px-1 pb-2 after:pointer-events-none after:absolute after:inset-y-0 after:right-0 after:w-20 after:bg-gradient-to-l after:from-paper after:via-paper/85 after:to-transparent">
       <div className="flex gap-5 overflow-x-auto pb-2 pr-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {orgs.map((org) => {
         const isPinned = pinned.includes(org.email);
@@ -29,7 +29,7 @@ export default function OrgAvatarRail({
               onClick={() => onOpenOrg(org.email)}
               aria-label={`View posts from ${org.orgName}`}
             >
-              <span className="flex items-center justify-center w-full h-full rounded-full bg-ink-2 border-2 border-white text-white/90 font-display text-[0.95rem] font-medium overflow-hidden">
+              <span className="flex items-center justify-center w-full h-full rounded-full bg-ink-2 border-2 border-paper text-white/90 font-display text-[0.95rem] font-medium overflow-hidden">
                 {christHubMediaUrl(org.logoFileId) ? (
                   <img src={christHubMediaUrl(org.logoFileId)!} alt="" className="w-full h-full object-cover" />
                 ) : (
@@ -51,7 +51,7 @@ export default function OrgAvatarRail({
                 }}
                 aria-label={isPinned ? `Unfollow ${org.orgName}` : `Follow ${org.orgName}`}
                 className={`absolute -right-1 -top-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border text-[11px] transition-colors ${
-                  isPinned ? "bg-gold border-gold text-ink" : "bg-white border-line text-text-muted hover:text-ink hover:border-ink"
+                  isPinned ? "bg-gold border-gold text-ink" : "bg-card border-line text-text-muted hover:text-fg hover:border-fg"
                 }`}
               >
                 ★

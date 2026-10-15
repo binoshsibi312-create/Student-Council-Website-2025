@@ -24,7 +24,7 @@ export default function EventsPage() {
         />
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(280px,100%),1fr))] gap-5">
           {EVENTS.map((e) => (
-            <div className="bg-ink text-white rounded-card-md p-7" key={e.title}>
+            <div className="bg-card border border-line text-white rounded-card-md p-7" key={e.title}>
               <span className="block text-[0.68rem] font-semibold text-gold-light uppercase tracking-[0.1em] mb-3">{e.tag}</span>
               <h3 className="font-display text-[1.12rem] font-semibold mb-2">{e.title}</h3>
               <p className="text-[0.84rem] text-white/72 leading-[1.6] mb-3.5 font-light">{e.body}</p>

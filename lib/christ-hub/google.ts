@@ -200,12 +200,19 @@ async function getOrCreateFolder(drive: drive_v3.Drive, parentId: string, name: 
  * what lets uploads exceed Vercel's ~4.5 MB request body limit — routing a
  * 50 MB photo or video through our API route would always be rejected with
  * a 413 before it reached our code, regardless of any limit we enforce here.
+ *
+ * `origin` must be the browser page's origin (e.g. https://usc.example or
+ * http://localhost:3000). Google only attaches CORS headers to the session
+ * URL's PUT response when the session was opened with a matching `Origin`
+ * header; without it the browser blocks the upload and fetch() rejects with
+ * a bare "Failed to fetch".
  */
 export async function createChristHubUploadSession(input: {
   org: ChristHubOrg;
   fileName: string;
   mimeType: string;
   fileSize: number;
+  origin: string;
 }): Promise<string> {
   const { drive, auth } = await serviceClients();
   const rootId = required("CHRIST_HUB_DRIVE_ROOT_FOLDER_ID");
@@ -221,6 +228,7 @@ export async function createChristHubUploadSession(input: {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        Origin: input.origin,
         "Content-Type": "application/json; charset=UTF-8",
         "X-Upload-Content-Type": input.mimeType,
         "X-Upload-Content-Length": String(input.fileSize),

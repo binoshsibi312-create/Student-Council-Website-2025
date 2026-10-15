@@ -18,7 +18,7 @@ export default function PostCard({
   const remaining = hoursRemaining(post.timestamp);
 
   return (
-    <div className="bg-white border border-line rounded-card-md overflow-hidden transition-all duration-250 hover:border-gold hover:shadow-card-sm">
+    <div className="bg-card border border-line rounded-card-md overflow-hidden transition-all duration-250 hover:border-gold hover:shadow-card-sm">
       <button
         className="flex items-center gap-2.5 p-4 pb-3 w-full text-left cursor-pointer"
         onClick={() => onOpenOrg(post.orgEmail)}
@@ -27,7 +27,7 @@ export default function PostCard({
           {logoUrl ? <img src={logoUrl} alt="" className="w-full h-full object-cover" /> : orgInitials(post.orgName)}
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block font-display text-[0.9rem] font-semibold text-ink truncate">{post.orgName}</span>
+          <span className="block font-display text-[0.9rem] font-semibold text-fg truncate">{post.orgName}</span>
           <span className="block text-[0.7rem] text-text-muted">{formatRelativeTime(post.timestamp)}</span>
         </span>
         <span className="shrink-0 text-[0.62rem] font-medium text-text-muted whitespace-nowrap">
@@ -67,7 +67,7 @@ export default function PostCard({
                 href={post.registrationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-[0.76rem] font-semibold text-ink bg-gold/15 py-1.5 px-3 rounded-full hover:bg-gold/25 transition-colors"
+                className="inline-flex items-center gap-1 text-[0.76rem] font-semibold text-fg bg-gold/15 py-1.5 px-3 rounded-full hover:bg-gold/25 transition-colors"
               >
                 Register →
               </a>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -9,10 +9,20 @@ import { SIDEBAR_ITEMS } from "@/lib/data";
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
+  const navRef = useRef<HTMLElement>(null);
+
+  // On narrow screens the nav is a horizontally scrolling row of pills;
+  // bring the current page's pill into view (a no-op when nothing overflows).
+  useEffect(() => {
+    const nav = navRef.current;
+    const active = nav?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (!nav || !active || nav.scrollWidth <= nav.clientWidth) return;
+    nav.scrollLeft = active.offsetLeft - nav.offsetLeft - (nav.clientWidth - active.offsetWidth) / 2;
+  }, [pathname]);
 
   return (
     <aside
-      className={`sidebar-shell${collapsed ? " collapsed" : ""} shrink-0 bg-white border-r border-line sticky top-0 h-screen z-50 max-[1080px]:relative max-[1080px]:h-auto max-[1080px]:border-r-0 max-[1080px]:border-b`}
+      className={`sidebar-shell${collapsed ? " collapsed" : ""} shrink-0 bg-card border-r border-line sticky top-0 h-screen z-50 max-[1080px]:relative max-[1080px]:h-auto max-[1080px]:border-r-0 max-[1080px]:border-b`}
       aria-label="Primary navigation"
     >
       <div
@@ -33,13 +43,13 @@ export default function Sidebar() {
               <div className="text-[0.68rem] font-medium text-text-muted tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">
                 CHRIST (Deemed to be University)
               </div>
-              <div className="font-display text-[0.95rem] font-semibold text-ink whitespace-nowrap overflow-hidden text-ellipsis">
+              <div className="font-display text-[0.95rem] font-semibold text-fg whitespace-nowrap overflow-hidden text-ellipsis">
                 University Student Council
               </div>
             </div>
           </Link>
           <button
-            className="shrink-0 w-7.5 h-7.5 rounded-full border border-line bg-white text-text-muted cursor-pointer flex items-center justify-center transition-colors hover:border-ink hover:text-ink"
+            className="shrink-0 w-7.5 h-7.5 rounded-full border border-line bg-card text-text-muted cursor-pointer flex items-center justify-center transition-colors hover:border-fg hover:text-fg max-[1080px]:hidden"
             onClick={() => setCollapsed((c) => !c)}
             aria-pressed={collapsed}
             title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -58,19 +68,20 @@ export default function Sidebar() {
           </button>
         </div>
 
-        <nav className="flex-1 flex flex-col gap-1 w-full overflow-y-auto max-[1080px]:flex-row max-[1080px]:flex-wrap max-[1080px]:overflow-x-auto">
+        <nav ref={navRef} className="flex-1 flex flex-col gap-1 w-full overflow-y-auto max-[1080px]:flex-row max-[1080px]:flex-nowrap max-[1080px]:overflow-x-auto max-[1080px]:gap-1.5 max-[1080px]:pb-1">
           {SIDEBAR_ITEMS.map((item) => {
             const active = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center rounded-lg no-underline text-[0.87rem] font-medium whitespace-nowrap w-full transition-colors ${
+                aria-current={active ? "page" : undefined}
+                className={`flex items-center rounded-lg no-underline text-[0.87rem] font-medium whitespace-nowrap w-full transition-colors max-[1080px]:w-auto max-[1080px]:shrink-0 max-[1080px]:rounded-full max-[1080px]:border max-[1080px]:border-line ${
                   collapsed ? "justify-center px-1.5 py-2.5" : "px-3.5 py-2.5"
                 } ${
                   active
-                    ? "bg-ink text-gold-light"
-                    : "text-text-secondary hover:bg-paper-2 hover:text-ink"
+                    ? "bg-raised text-gold-light max-[1080px]:border-gold/50"
+                    : "text-text-secondary hover:bg-paper-2 hover:text-fg"
                 }`}
               >
                 <span className={collapsed ? "hidden" : ""}>{item.label}</span>

@@ -24,8 +24,8 @@ export default function FilterTabs({
           key={t.key}
           className={`font-medium text-[0.78rem] py-2 px-4.5 rounded-full cursor-pointer transition-colors border ${
             active === t.key
-              ? "bg-ink border-ink text-gold-light"
-              : "bg-white border-line text-text-secondary hover:border-ink hover:text-ink"
+              ? "bg-raised border-gold/50 text-gold-light"
+              : "bg-card border-line text-text-secondary hover:border-fg hover:text-fg"
           }`}
           onClick={() => onChange(t.key)}
         >
@@ -36,8 +36,8 @@ export default function FilterTabs({
         <button
           className={`font-medium text-[0.78rem] py-2 px-4.5 rounded-full cursor-pointer transition-colors border ${
             active === "following"
-              ? "bg-ink border-ink text-gold-light"
-              : "bg-white border-line text-text-secondary hover:border-ink hover:text-ink"
+              ? "bg-raised border-gold/50 text-gold-light"
+              : "bg-card border-line text-text-secondary hover:border-fg hover:text-fg"
           }`}
           onClick={() => onChange("following")}
         >

@@ -28,16 +28,16 @@ export default function ReportsPage() {
           {REPORTS.map((r) => (
             <a
               key={r.year}
-              className="bg-white border border-line rounded-card-md p-8 no-underline block transition-all duration-250 hover:border-gold hover:shadow-card-sm hover:-translate-y-0.5"
+              className="bg-card border border-line rounded-card-md p-8 no-underline block transition-all duration-250 hover:border-gold hover:shadow-card-sm hover:-translate-y-0.5"
               href={r.href}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div className="font-display text-[1.9rem] font-semibold text-ink mb-2">{r.year}</div>
+              <div className="font-display text-[1.9rem] font-semibold text-fg mb-2">{r.year}</div>
               <p className="text-[0.84rem] text-text-secondary mb-4 font-light">
                 Full record of Council activities, events and achievements for the academic year.
               </p>
-              <span className="text-[0.76rem] font-semibold text-ink inline-flex items-center gap-1.5">View Report →</span>
+              <span className="text-[0.76rem] font-semibold text-fg inline-flex items-center gap-1.5">View Report →</span>
             </a>
           ))}
         </div>

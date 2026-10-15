@@ -31,10 +31,10 @@ export default function ProceduresPanel() {
                 key={p.index}
                 className={`flex flex-col gap-0.75 text-left border-0 border-b border-line py-3.75 px-5 cursor-pointer transition-colors ${
                   p.hidden ? "hidden" : ""
-                } ${active ? "bg-ink" : "bg-transparent hover:bg-white"}`}
+                } ${active ? "bg-raised" : "bg-transparent hover:bg-card"}`}
                 onClick={() => setActiveIndex(p.index)}
               >
-                <span className={`font-display text-[0.9rem] font-semibold ${active ? "text-white" : "text-ink"}`}>
+                <span className={`font-display text-[0.9rem] font-semibold ${active ? "text-white" : "text-fg"}`}>
                   {p.title}
                 </span>
                 <span className={`text-[0.68rem] font-medium ${active ? "text-white/55" : "text-text-muted"}`}>
@@ -45,10 +45,10 @@ export default function ProceduresPanel() {
           })}
         </div>
 
-        <div className="p-3.5 px-5 border-t border-line mt-auto bg-white">
+        <div className="p-3.5 px-5 border-t border-line mt-auto bg-card">
           <input
             type="text"
-            className="w-full py-2 px-0.5 border-0 border-b border-line text-[0.84rem] font-body outline-none bg-transparent focus:border-ink"
+            className="w-full py-2 px-0.5 border-0 border-b border-line text-[0.84rem] font-body outline-none bg-transparent focus:border-fg"
             placeholder="Search a procedure…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -56,13 +56,13 @@ export default function ProceduresPanel() {
         </div>
       </div>
 
-      <div className="p-9 bg-white">
+      <div className="p-9 bg-card">
         {current ? (
           <>
             <div className="text-[0.7rem] font-semibold text-gold-dark uppercase tracking-[0.08em] mb-2.5">
               {current.audience}
             </div>
-            <h3 className="font-display text-[1.4rem] font-semibold text-ink mb-5.5 tracking-[-0.01em]">
+            <h3 className="font-display text-[1.4rem] font-semibold text-fg mb-5.5 tracking-[-0.01em]">
               {current.title}
             </h3>
             <ol className="proc-steps">

@@ -71,7 +71,9 @@ export async function POST(request: Request) {
       return errorResponse(`The account (${email}) is not active in the Christ Hub broadcaster directory.`, 403);
     }
 
-    const uploadUrl = await createChristHubUploadSession({ org, fileName, mimeType, fileSize });
+    // The browser's own origin, so Google allows its cross-origin PUT to the session URL.
+    const origin = request.headers.get("origin") ?? new URL(request.url).origin;
+    const uploadUrl = await createChristHubUploadSession({ org, fileName, mimeType, fileSize, origin });
     const mediaType = mimeType.startsWith("video/") ? "video" : "image";
     return NextResponse.json({ ok: true, uploadUrl, mediaType });
   } catch (error) {

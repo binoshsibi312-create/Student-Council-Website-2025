@@ -29,6 +29,15 @@ async function safeJson(response: Response): Promise<Record<string, unknown> | n
   }
 }
 
+/** fetch() rejects with a bare "Failed to fetch" on any network or CORS failure; swap that for a message naming the step that broke. */
+async function fetchStep(url: string, init: RequestInit, networkErrorMessage: string): Promise<Response> {
+  try {
+    return await fetch(url, init);
+  } catch {
+    throw new Error(networkErrorMessage);
+  }
+}
+
 export default function BroadcasterAccess({
   clientId,
   onPosted,
@@ -76,7 +85,7 @@ export default function BroadcasterAccess({
         },
       });
       signInRef.current.replaceChildren();
-      window.google.accounts.id.renderButton(signInRef.current, { theme: "outline", size: "large", width: "320" });
+      window.google.accounts.id.renderButton(signInRef.current, { theme: "filled_black", size: "large", width: "320" });
     };
     if (window.google) {
       render();
@@ -134,11 +143,15 @@ export default function BroadcasterAccess({
         // request is tiny (just the file's name/type/size), so it's never
         // at risk of hitting a platform request-size limit.
         setUploadStage("uploading");
-        const sessionResponse = await fetch("/api/broadcast/upload-session", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ idToken, fileName: file.name, mimeType: file.type, fileSize: file.size }),
-        });
+        const sessionResponse = await fetchStep(
+          "/api/broadcast/upload-session",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idToken, fileName: file.name, mimeType: file.type, fileSize: file.size }),
+          },
+          "Couldn't reach the Christ Hub server to start the upload. Check your connection and try again."
+        );
         const sessionResult = await safeJson(sessionResponse);
         if (!sessionResponse.ok || !sessionResult?.ok || typeof sessionResult.uploadUrl !== "string") {
           throw new Error(typeof sessionResult?.error === "string" ? sessionResult.error : "Could not start the upload. Please try again.");
@@ -148,11 +161,11 @@ export default function BroadcasterAccess({
         // Step 2: send the actual file bytes straight to Google — never
         // through our own server — so 50 MB photos and videos aren't
         // capped by our function's request body limit.
-        const putResponse = await fetch(sessionResult.uploadUrl, {
-          method: "PUT",
-          headers: { "Content-Type": file.type },
-          body: file,
-        });
+        const putResponse = await fetchStep(
+          sessionResult.uploadUrl,
+          { method: "PUT", headers: { "Content-Type": file.type }, body: file },
+          "The media upload to Google Drive was interrupted. Check your connection and try again."
+        );
         const driveFile = await safeJson(putResponse);
         if (!putResponse.ok || typeof driveFile?.id !== "string") {
           throw new Error("The upload to Google Drive failed. Please try again.");
@@ -162,11 +175,15 @@ export default function BroadcasterAccess({
 
       // Step 3: finalize — this is the only step for a text-only announcement.
       setUploadStage("publishing");
-      const response = await fetch("/api/broadcast/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken, caption, category, driveFileId, mediaType }),
-      });
+      const response = await fetchStep(
+        "/api/broadcast/upload",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken, caption, category, driveFileId, mediaType }),
+        },
+        "Couldn't reach the Christ Hub server to publish. Check your connection and try again."
+      );
       const result = await safeJson(response);
       if (!response.ok || !result?.ok || !result.post) {
         throw new Error(typeof result?.error === "string" ? result.error : "Could not publish this post.");
@@ -185,7 +202,7 @@ export default function BroadcasterAccess({
     <>
       <div className="mb-7 -mt-6 flex justify-end">
         <button
-          className="inline-flex items-center gap-2 rounded-full border border-ink bg-ink px-5 py-2.5 text-[0.78rem] font-semibold text-gold-light shadow-sm transition-all duration-250 hover:-translate-y-0.5 hover:bg-ink-2 hover:shadow-md cursor-pointer"
+          className="inline-flex items-center gap-2 rounded-full border border-gold bg-gold px-5 py-2.5 text-[0.78rem] font-semibold text-ink shadow-sm transition-all duration-250 hover:-translate-y-0.5 hover:bg-gold-light hover:shadow-md cursor-pointer"
           onClick={() => setOpen(true)}
         >
           <span className="text-base leading-none" aria-hidden="true">+</span>
@@ -202,7 +219,7 @@ export default function BroadcasterAccess({
             onClick={close}
           >
             <motion.div
-              className="w-full max-w-[560px] max-h-[92vh] overflow-y-auto rounded-card-lg border border-white/60 bg-white p-8 shadow-[0_24px_80px_rgba(33,30,26,0.28)] max-[640px]:p-5"
+              className="w-full max-w-[560px] max-h-[92vh] overflow-y-auto rounded-card-lg border border-line bg-card p-8 shadow-[0_24px_80px_rgba(0,0,0,0.6)] max-[640px]:p-5"
               initial={{ opacity: 0, y: 16, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 16, scale: 0.97 }}
@@ -216,11 +233,11 @@ export default function BroadcasterAccess({
                   <div className="mb-2 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-gold-dark">
                     Broadcaster studio
                   </div>
-                  <h3 id="broadcaster-access-title" className="font-display text-[1.55rem] font-semibold leading-tight text-ink">
+                  <h3 id="broadcaster-access-title" className="font-display text-[1.55rem] font-semibold leading-tight text-fg">
                     Share with Christ Hub
                   </h3>
                 </div>
-                <button onClick={close} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-text-muted transition-colors hover:border-ink hover:text-ink cursor-pointer" aria-label="Close posting dialog">
+                <button onClick={close} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-text-muted transition-colors hover:border-fg hover:text-fg cursor-pointer" aria-label="Close posting dialog">
                   <span aria-hidden="true">✕</span>
                 </button>
               </div>
@@ -239,7 +256,7 @@ export default function BroadcasterAccess({
                   <div className="flex items-center justify-between rounded-card-md border border-gold/40 bg-gold-light/20 p-3.5 text-[0.78rem]">
                     <div className="truncate">
                       <span className="text-text-muted">Broadcaster: </span>
-                      <strong className="text-ink font-medium">{signedInEmail}</strong>
+                      <strong className="text-fg font-medium">{signedInEmail}</strong>
                     </div>
                     <button
                       type="button"
@@ -259,7 +276,7 @@ export default function BroadcasterAccess({
                       name="file"
                       type="file"
                       accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime"
-                      className="w-full cursor-pointer rounded-card-md border border-dashed border-gold-dark/60 bg-paper-2 p-4 text-[0.78rem] file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-ink file:px-3 file:py-2 file:text-[0.72rem] file:font-semibold file:text-gold-light"
+                      className="w-full cursor-pointer rounded-card-md border border-dashed border-gold-dark/60 bg-paper-2 p-4 text-[0.78rem] file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-gold file:px-3 file:py-2 file:text-[0.72rem] file:font-semibold file:text-fg"
                       onChange={handleFileChange}
                     />
                     <span className="text-[0.7rem] text-text-muted font-light">
@@ -285,14 +302,14 @@ export default function BroadcasterAccess({
                       required
                       maxLength={2000}
                       rows={4}
-                      className="resize-y rounded-card-md border border-line bg-paper-2 p-3.5 text-[0.86rem] font-light outline-none transition-colors focus:border-gold-dark focus:bg-white"
+                      className="resize-y rounded-card-md border border-line bg-paper-2 p-3.5 text-[0.86rem] font-light outline-none transition-colors focus:border-gold-dark focus:bg-card"
                       placeholder="What should students know?"
                     />
                   </label>
 
                   <label className="grid gap-2 text-[0.78rem] font-medium text-text-secondary">
                     Category
-                    <select name="category" required className="rounded-card-md border border-line bg-paper-2 p-3.5 text-[0.86rem] outline-none transition-colors focus:border-gold-dark focus:bg-white">
+                    <select name="category" required className="rounded-card-md border border-line bg-paper-2 p-3.5 text-[0.86rem] outline-none transition-colors focus:border-gold-dark focus:bg-card">
                       <option value="">Choose a category</option>
                       {CATEGORIES.map((category) => (
                         <option key={category} value={category}>
@@ -303,14 +320,14 @@ export default function BroadcasterAccess({
                   </label>
 
                   {message && (
-                    <div className="p-3 bg-red-50 border border-red-200 rounded-md text-[0.8rem] text-red-700 font-normal leading-relaxed" role="alert">
+                    <div className="p-3 bg-crimson/10 border border-crimson/40 rounded-md text-[0.8rem] text-crimson font-normal leading-relaxed" role="alert">
                       {message}
                     </div>
                   )}
 
                   <button
                     disabled={submitting}
-                    className="w-full rounded-full bg-ink px-5 py-3.5 text-[0.86rem] font-semibold text-gold-light shadow-sm transition-all hover:-translate-y-0.5 hover:bg-ink-2 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+                    className="w-full rounded-full bg-gold px-5 py-3.5 text-[0.86rem] font-semibold text-ink shadow-sm transition-all hover:-translate-y-0.5 hover:bg-gold-light hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                     type="submit"
                   >
                     {uploadStage === "uploading" ? "Uploading media…" : uploadStage === "publishing" ? "Publishing…" : submitting ? "Publishing…" : "Publish post"}

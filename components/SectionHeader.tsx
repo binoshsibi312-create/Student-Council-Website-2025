@@ -17,7 +17,7 @@ export default function SectionHeader({
         {eyebrow}
       </div>
       <h2
-        className={`font-display text-[clamp(1.7rem,2.6vw,2.2rem)] font-semibold text-ink tracking-[-0.01em] ${subtitle ? "mb-3.5" : ""} ${titleClassName}`}
+        className={`font-display text-[clamp(1.7rem,2.6vw,2.2rem)] font-semibold text-fg tracking-[-0.01em] ${subtitle ? "mb-3.5" : ""} ${titleClassName}`}
       >
         {title}
       </h2>

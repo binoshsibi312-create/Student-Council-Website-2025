@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+const SEEN_KEY = "usc:splash-seen";
 
 export default function Splash({ children }: { children: ReactNode }) {
   const [lineIn, setLineIn] = useState(false);
@@ -14,6 +15,19 @@ export default function Splash({ children }: { children: ReactNode }) {
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
+    // The intro plays once per browser session; after that, go straight to content.
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(SEEN_KEY) === "1";
+      sessionStorage.setItem(SEEN_KEY, "1");
+    } catch {
+      // storage unavailable (private mode etc.) — just play the intro
+    }
+    if (seen) {
+      skip();
+      return;
+    }
+
     const timers: ReturnType<typeof setTimeout>[] = [];
     const at = (fn: () => void, ms: number) => timers.push(setTimeout(fn, ms));
 
@@ -138,7 +152,7 @@ export default function Splash({ children }: { children: ReactNode }) {
       </motion.div>
 
       <motion.div
-        className="relative w-full min-h-screen bg-paper text-ink"
+        className="relative w-full min-h-screen bg-paper text-fg"
         animate={{ opacity: done ? 1 : 0 }}
         transition={{ duration: 0.8 }}
       >

@@ -11,7 +11,7 @@ export default function Shell({ children }: { children: ReactNode }) {
       >
         {children}
         <footer className="text-center mt-16 pt-8 border-t border-line">
-          <div className="font-display text-base font-semibold text-ink mb-1.5">
+          <div className="font-display text-base font-semibold text-fg mb-1.5">
             University Student Council — CHRIST (Deemed to be University)
           </div>
           <div className="text-[0.78rem] text-text-muted font-light">
