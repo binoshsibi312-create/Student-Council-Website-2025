@@ -17,7 +17,7 @@
         "campus":  "Central Campus",
         "center":  "",
         "group":  "school",
-        "photo":  "/images/members/aarushiahuja.png"
+        "photo":  "/images/members/aarushiahuja.jpg"
     },
     {
         "name":  "Bindu M",
@@ -507,7 +507,7 @@
         "campus":  "Central Campus",
         "center":  "",
         "group":  "school",
-        "photo":  "/images/members/aaronzachariahgeorge.png"
+        "photo":  "/images/members/aaronzachariahgeorge.jpg"
     },
     {
         "name":  "Bettina Soni",
@@ -597,7 +597,7 @@
         "campus":  "BKC",
         "center":  "",
         "group":  "campus",
-        "photo":  "/images/members/diyaapanchal.png"
+        "photo":  "/images/members/diyaapanchal.jpg"
     },
     {
         "name":  "Nandini Varma",
@@ -727,7 +727,7 @@
         "campus":  "BYC",
         "center":  "",
         "group":  "campus",
-        "photo":  null
+        "photo":  "/images/members/mitham.jpg"
     },
     {
         "name":  "Rose Mary Abraham",
@@ -797,7 +797,7 @@
         "campus":  "BYC",
         "center":  "",
         "group":  "campus",
-        "photo":  null
+        "photo":  "/images/members/mehardeepsingh.jpg"
     },
     {
         "name":  "Akash Hiremath",
