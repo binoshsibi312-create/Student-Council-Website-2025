@@ -108,7 +108,7 @@ export const WALL: { photo: Photo; caption: string; desktop: WallSpot; mobile?: 
   { photo: d("ncc-artillery", "NCC cadets showing a mounted gun to visitors", 900, 600), caption: "Lock, load & learn", desktop: [292, 548, 216, 3, -9], mobile: [22, 662, 150, 2, -6] },
   { photo: PHOTOS.docMuseum, caption: "Starry-night stall art", desktop: [522, 522, 216, 1.5, -4.5], mobile: [183, 1156, 150, -2.5, 7.5] },
   { photo: PHOTOS.droneExhibit, caption: "Built to fly", desktop: [772, 542, 216, -3, 9] },
-  { photo: d("opening-stage", "Guests on stage at the Daksh 2025 inauguration", 900, 600), caption: "Inaguration Ceremony", desktop: [60, 830, 216, -2, 6], mobile: [30, 898, 150, -2, 6] },
+  { photo: d("opening-stage", "Guests on stage at the Daksh 2025 inauguration", 900, 600), caption: "Inauguration Ceremony", desktop: [60, 830, 216, -2, 6], mobile: [30, 898, 150, -2, 6] },
   { photo: d("tree-art", "A painted tree artwork at a stall", 900, 493), caption: "Art that grows", desktop: [310, 848, 216, 2.5, -7.5] },
   { photo: d("cad-design", "A 3D design open on a workstation", 900, 600), caption: "Designed in 3D", desktop: [540, 822, 216, 3, -9] },
   { photo: d("walls-of-fame", "A stall wall covered in photos and notes", 900, 600), caption: "Walls of fame", desktop: [790, 842, 216, -1.5, 4.5], mobile: [191, 920, 150, 3, -9] },
