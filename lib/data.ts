@@ -46,14 +46,14 @@ export interface Floor {
 }
 
 export const SIDEBAR_ITEMS: SidebarItem[] = [
-  { href: "/", label: "Christ Hub" },
+  { href: "/", label: "Daksh 2026" },
+  { href: "/trailblaze", label: "Trailblaze" },
   { href: "/about", label: "About" },
   { href: "/governance", label: "Governance" },
   { href: "/mentors", label: "Mentors" },
   { href: "/members", label: "Members" },
   { href: "/events", label: "Events" },
   { href: "/procedures", label: "Procedures" },
-  { href: "/campus-map", label: "Campus Map" },
   { href: "/reports", label: "Reports" },
   { href: "/contact", label: "Connect" },
 ];

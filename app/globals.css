@@ -28,6 +28,20 @@
   --color-text-muted: #8b8b94;
   --color-line: #2a2a30;
 
+  /* Design B (Daksh design board + brochure) — used only under /preview */
+  --color-db-navy: #032e4b;
+  --color-db-steel: #517493;
+  --color-db-royal: #253b81;
+  --color-db-butter: #ffd679;
+  --color-db-maroon: #56071d;
+  --color-db-mist: #eef1fb;
+  --color-db-ink: #0f1d33;
+  --font-gs: var(--nf-general-sans), "Segoe UI", sans-serif;
+  --font-manjari: var(--nf-manjari), "Segoe UI", sans-serif;
+  --font-hand: var(--nf-hand), "Comic Sans MS", cursive;
+  /* Daksh / Trailblaze pages: Gilda Display headings */
+  --font-gilda: var(--nf-gilda), Georgia, serif;
+
   --font-display: var(--font-cormorant), Georgia, serif;
   --font-body: var(--font-roboto), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-accent: var(--font-bodoni), Georgia, serif;
@@ -250,4 +264,20 @@
    the wrapper scrolls horizontally on narrow screens instead of squashing. */
 .meeting-table {
   min-width: 580px;
+}
+
+/* Alden, the Daksh mascot — a gentle idle bob with a little tilt */
+@keyframes alden-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-6px) rotate(-1.5deg); }
+  50% { transform: translateY(-10px) rotate(0deg); }
+  75% { transform: translateY(-6px) rotate(1.5deg); }
+}
+.alden-bob {
+  animation: alden-bob 3.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .alden-bob {
+    animation: none;
+  }
 }

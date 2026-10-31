@@ -1,7 +1,7 @@
 {
   "name": "University Student Council — CHRIST (Deemed to be University)",
   "short_name": "USC CHRIST",
-  "description": "Official portal and Christ Hub broadcast feed for the University Student Council, CHRIST (Deemed to be University).",
+  "description": "Official portal of the University Student Council, CHRIST (Deemed to be University) — home of Daksh, the Education & Career Guidance Fair.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

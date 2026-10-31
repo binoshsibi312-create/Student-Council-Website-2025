@@ -27,7 +27,7 @@ const bodoniModa = Bodoni_Moda({
 export const metadata: Metadata = {
   title: "University Student Council | CHRIST (Deemed to be University)",
   description:
-    "Official Portal of the University Student Council, CHRIST (Deemed to be University) — governance, mentors, members, campus map and procedural guidance for Christites.",
+    "Official Portal of the University Student Council, CHRIST (Deemed to be University) — Daksh 2026, Trailblaze, governance, mentors, members, events and procedural guidance for Christites.",
   icons: {
     icon: "/images/logos/christ_emblem.png",
     apple: "/images/logos/christ_emblem.png",
