@@ -58,6 +58,23 @@
 :root {
   --sidebar-w: 272px;
   --sidebar-w-collapsed: 88px;
+  /* Page scale; see the zoom steps below. Divide viewport heights by it. */
+  --page-zoom: 1;
+}
+
+/* Wide screens: scale the whole page so it fills the window the way it does
+   at ~1536px wide (e.g. a 1920px laptop at 100% looks like it does at 125%
+   browser zoom) instead of leaving empty margins. Under zoom, viewport units
+   are scaled too, so full-height elements use calc(100dvh / var(--page-zoom)). */
+@media (min-width: 1600px) { :root { --page-zoom: 1.04; } }
+@media (min-width: 1700px) { :root { --page-zoom: 1.1; } }
+@media (min-width: 1800px) { :root { --page-zoom: 1.17; } }
+@media (min-width: 1900px) { :root { --page-zoom: 1.24; } }
+@media (min-width: 2000px) { :root { --page-zoom: 1.3; } }
+@media (min-width: 2150px) { :root { --page-zoom: 1.4; } }
+@media (min-width: 2300px) { :root { --page-zoom: 1.5; } }
+html {
+  zoom: var(--page-zoom);
 }
 
 /* Wrapped in @layer base so these lose to Tailwind utility classes (like
@@ -158,14 +175,14 @@
 .scroll-banner-wrap {
   position: relative;
   width: 100%;
-  height: 300vh;
+  height: calc(300vh / var(--page-zoom));
 }
 .scroll-banner-sticky {
   position: sticky;
   top: 0;
   width: 100%;
-  height: 100vh;
-  height: 100svh;
+  height: calc(100vh / var(--page-zoom));
+  height: calc(100svh / var(--page-zoom));
   overflow: hidden;
   background: var(--color-ink);
 }

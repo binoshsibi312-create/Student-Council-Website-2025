@@ -58,7 +58,7 @@ export default function Splash({ children }: { children: ReactNode }) {
   return (
     <>
       <motion.div
-        className="fixed inset-0 w-screen h-screen z-[9999] bg-ink flex justify-center items-center overflow-hidden"
+        className="fixed inset-0 z-[9999] bg-ink flex justify-center items-center overflow-hidden"
         animate={{ opacity: done ? 0 : 1, scale: done ? 1.04 : 1 }}
         transition={{ duration: 0.8, ease: EASE }}
         style={{ pointerEvents: done ? "none" : "auto" }}

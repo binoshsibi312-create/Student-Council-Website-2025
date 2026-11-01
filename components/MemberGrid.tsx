@@ -8,6 +8,17 @@ function memberInitials(name: string) {
   return name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
 }
 
+/** Label/value rows for a card: centre members show just their centre; others skip any empty field. */
+function memberDetails(member: CouncilMember): [string, string][] {
+  if (member.group === "center") return [["Centre", member.center]];
+  const rows: [string, string][] = [
+    ["Department", member.department],
+    ["School", member.school],
+    ["Campus", member.campus],
+  ];
+  return rows.filter(([, value]) => value);
+}
+
 const selectClass = "w-full rounded-md border border-line bg-card px-3.5 py-2.75 text-[0.8rem] text-fg outline-none transition-colors focus:border-fg";
 
 function MemberCard({ member }: { member: CouncilMember }) {
@@ -28,9 +39,9 @@ function MemberCard({ member }: { member: CouncilMember }) {
           {member.email}
         </a>
         <div className="space-y-1 text-[0.74rem] leading-[1.4] text-text-muted">
-          <div><span className="font-semibold text-text-secondary">{member.group === "center" ? "Centre" : "Department"}:</span> {member.group === "center" ? member.center : member.department}</div>
-          <div><span className="font-semibold text-text-secondary">{member.group === "center" ? "Scope" : "School"}:</span> {member.group === "center" ? "Centre / Office" : member.school}</div>
-          <div><span className="font-semibold text-text-secondary">Campus:</span> {member.campus}</div>
+          {memberDetails(member).map(([label, value]) => (
+            <div key={label}><span className="font-semibold text-text-secondary">{label}:</span> {value}</div>
+          ))}
         </div>
       </div>
     </article>
