@@ -23,7 +23,7 @@ const INVESTITURE = {
   address: ev("investiture/address", "An address from the podium at the Investiture Ceremony"),
   oath: ev("investiture/oath", "Councillors taking the oath, hands on hearts"),
   flag: ev("investiture/flag", "The University flag carried across the stage"),
-  oathLine: ev("investiture/oath-line", "Councillors reciting the oath of office"),
+  director: ev("investiture/director", "Dr Kishore Selva Babu, Director of the University Student Council, addressing the Investiture Ceremony", 1200, 1600),
 };
 const GB_MEETING = {
   podium: ev("gb-meeting/podium", "A councillor presenting at the podium", 1067, 1600),
@@ -152,9 +152,6 @@ export default function EventsPage() {
               <p className="mt-3 text-base font-light leading-[1.65] text-text-secondary">
                 An open forum where students put their questions and concerns directly to the Vice-Chancellor, alongside the
                 University Student Council.
-              </p>
-              <p className="mt-6 border-l-2 border-gold pl-5 font-display text-[1.45rem] leading-snug font-semibold italic text-gold-light max-[640px]:text-[1.2rem]">
-                Every voice in the room, heard by the University’s leadership.
               </p>
             </div>
             <Shot photo={VC_FORUM.group} className="aspect-[16/10] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.9)]" />
@@ -311,8 +308,23 @@ export default function EventsPage() {
             </p>
           </div>
           <Shot photo={INVESTITURE.stage} className="mt-8 aspect-[21/9] rounded-[22px] shadow-[0_40px_80px_-40px_rgba(37,59,129,0.7)] max-[640px]:aspect-[4/3]" />
-          <div className="mx-auto mt-5 grid max-w-[920px] grid-cols-4 gap-3.5 max-[640px]:grid-cols-2 max-[640px]:gap-2.5">
-            {[INVESTITURE.oath, INVESTITURE.flag, INVESTITURE.certificates, INVESTITURE.address].map((p) => (
+          {/* Arches flank the Director, who stands taller in the centre */}
+          <div className="mt-5 grid grid-cols-[1fr_1fr_1.3fr_1fr_1fr] items-end gap-3.5 max-[640px]:grid-cols-2 max-[640px]:gap-2.5">
+            {[INVESTITURE.oath, INVESTITURE.flag].map((p) => (
+              <Shot key={p.src} photo={p} className="aspect-[3/4] rounded-t-full rounded-b-xl border border-gold/25" />
+            ))}
+            <figure className="relative max-[640px]:order-first max-[640px]:col-span-2">
+              <Shot
+                photo={INVESTITURE.director}
+                className="aspect-[3/4.3] rounded-t-full rounded-b-xl border-2 border-gold/70 shadow-[0_0_0_6px_rgba(184,146,58,0.12),0_30px_60px_-30px_rgba(0,0,0,0.9)] max-[640px]:aspect-[4/3.6]"
+                imgClass="object-[50%_30%]"
+              />
+              <figcaption className="absolute inset-x-3 bottom-3 rounded-lg border border-white/10 bg-ink/75 px-3.5 py-2.5 text-center backdrop-blur-md">
+                <span className="block font-display text-[1.02rem] leading-tight font-semibold text-fg">Dr Kishore Selva Babu</span>
+                <span className="block text-[0.7rem] text-gold-light">Director, University Student Council</span>
+              </figcaption>
+            </figure>
+            {[INVESTITURE.certificates, INVESTITURE.address].map((p) => (
               <Shot key={p.src} photo={p} className="aspect-[3/4] rounded-t-full rounded-b-xl border border-gold/25" />
             ))}
           </div>
