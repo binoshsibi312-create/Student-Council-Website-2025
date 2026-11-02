@@ -298,3 +298,9 @@ html {
     animation: none;
   }
 }
+
+/* Events page: the Bhasha Utsav ribbon of scripts (content is doubled, so -50% loops seamlessly) */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
