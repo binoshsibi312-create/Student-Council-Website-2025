@@ -1,26 +1,32 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { Gochi_Hand } from "next/font/google";
 import Shell from "@/components/Shell";
 import SectionHeader from "@/components/SectionHeader";
 import { ButtonLink, Chip, Eyebrow, H2, Img } from "@/components/daksh/ui";
-import { DAKSH, PHOTOS, TEACHERS_DAY, type Photo } from "@/lib/daksh";
+import { DAKSH, TEACHERS_DAY, type Photo } from "@/lib/daksh";
+
+// Handwritten accents for the Gratitude Day note (see DakshType for why the var is re-declared).
+const hand = Gochi_Hand({ variable: "--nf-hand", subsets: ["latin"], weight: "400" });
+const handVar = { "--font-hand": 'var(--nf-hand), "Comic Sans MS", cursive' } as CSSProperties;
 
 export const metadata: Metadata = { title: "Events | University Student Council" };
 
 const ev = (name: string, alt: string, width = 1600, height = 1200): Photo => ({ src: `/images/events/2026/${name}.jpg`, alt, width, height });
 
 const GRATITUDE = {
-  staffAvenue: ev("gratitude-day/staff-avenue", "Support staff lined up along the bamboo avenue with students on Gratitude Day"),
-  staffFaces: ev("gratitude-day/staff-faces", "Housekeeping staff listening during the Gratitude Day celebration"),
-  courtyard: ev("gratitude-day/courtyard", "Students and staff filling the courtyard for Gratitude Day"),
-  choir: ev("gratitude-day/choir", "The University Choir singing the Gratitude Day song", 1200, 1600),
-  choirSteps: ev("gratitude-day/choir-steps", "The choir on the Central Block steps"),
-  address: ev("gratitude-day/address", "A councillor addressing the gathering"),
+  quad: ev("gratitude-day/quad", "Students, staff and the choir filling the quadrangle for Gratitude Day, seen from the balconies above", 2000, 1500),
+  staff: ev("gratitude-day/staff", "Housekeeping staff listening to the Gratitude Day song"),
+  choir: ev("gratitude-day/choir-song", "The University Choir singing the Gratitude Day song"),
+  vc: ev("gratitude-day/vc", "The Vice-Chancellor addressing the Gratitude Day gathering"),
+  drums: ev("gratitude-day/drums", "A drummer from the band keeping time during the song"),
+  staffCouncil: ev("gratitude-day/staff-council", "A councillor standing with the support staff"),
+  singer: ev("gratitude-day/singer", "A councillor leading the gathering in song", 1200, 1600),
 };
 const INVESTITURE = {
-  stage: ev("investiture/council-stage", "The 2026–27 University Student Council on stage at the Investiture Ceremony", 1600, 1066),
+  stage: ev("investiture/council-stage", "The 2026–27 University Student Council with the Vice-Chancellor, the Director and faculty at the Investiture Ceremony", 2000, 1500),
   certificates: ev("investiture/certificates", "Councillors receiving their certificates on stage"),
-  address: ev("investiture/address", "An address from the podium at the Investiture Ceremony"),
+  vc: ev("investiture/address", "The Vice-Chancellor addressing the Investiture Ceremony"),
   oath: ev("investiture/oath", "Councillors taking the oath, hands on hearts"),
   flag: ev("investiture/flag", "The University flag carried across the stage"),
   director: ev("investiture/director", "Dr Kishore Selva Babu, Director of the University Student Council, addressing the Investiture Ceremony", 1200, 1600),
@@ -41,6 +47,7 @@ const VC_FORUM = {
   studentQuestion: ev("vc-open-forum/student-question", "A student putting a question to the panel", 1600, 1067),
 };
 const BHASHA = ev("bhasha-utsav", "The University Student Council in ethnic wear on the Central Block steps at Bhasha Utsav", 1280, 720);
+const DAKSH_OPENING = ev("daksh-opening", "The ribbon being cut to open the Daksh 2025 University Open Day", 2000, 1157);
 
 const [soloDance, ensembleDance, band, felicitation, teachersAudience] = TEACHERS_DAY.photos;
 
@@ -57,9 +64,6 @@ const INDEX = [
 ];
 
 const COMMITTEES = ["Logistics", "Events", "Promotions", "IT & Website", "Documentation", "Design"];
-
-/** Languages heard on campus at Bhasha Utsav, each in its own script. */
-const SCRIPTS = ["ಕನ್ನಡ", "हिन्दी", "தமிழ்", "മലയാളം", "తెలుగు", "বাংলা", "मराठी", "ગુજરાતી", "ਪੰਜਾਬੀ", "ଓଡ଼ିଆ", "অসমীয়া", "English"];
 
 const SKY_WALK =
   "Proposed by the University Student Council and approved by the University and regulatory authorities, the Sky Walk eases student movement and pedestrian safety — proof that a small idea can have a lasting campus-wide impact.";
@@ -96,30 +100,33 @@ export default function EventsPage() {
 
       <div className="flex flex-col gap-20 max-[640px]:gap-12">
         {/* Featured: Daksh 2026 */}
-        <section className="relative isolate flex min-h-[380px] flex-col justify-end overflow-hidden rounded-[22px] px-12 py-11 max-[1080px]:px-8 max-[640px]:min-h-[440px] max-[640px]:px-5 max-[640px]:py-6">
-          <Img photo={PHOTOS.entranceArch} className="absolute inset-0 -z-10 h-full w-full object-cover" />
-          <div
-            className="absolute inset-0 -z-10 max-[640px]:hidden"
-            style={{ background: "linear-gradient(90deg, rgba(9,9,10,0.94) 0%, rgba(9,9,10,0.55) 60%, rgba(9,9,10,0.1) 100%)" }}
-          />
-          <div className="absolute inset-0 -z-10 hidden max-[640px]:block" style={{ background: "linear-gradient(180deg, rgba(9,9,10,0.1) 0%, rgba(9,9,10,0.95) 100%)" }} />
-          <div>
-            <Chip accent>Flagship event · Coming up</Chip>
+        {/* Text and photo side by side, so nothing sits on top of the picture */}
+        <section className="grid grid-cols-[1fr_1.4fr] overflow-hidden rounded-[22px] border border-line bg-[radial-gradient(circle_at_0%_100%,rgba(184,146,58,0.2),transparent_60%),var(--color-card)] max-[1080px]:grid-cols-1">
+          <div className="flex flex-col justify-end px-11 py-10 max-[1080px]:px-8 max-[640px]:px-5 max-[640px]:py-6">
+            <div>
+              <Chip accent>Flagship event · Coming up</Chip>
+            </div>
+            <h2 className="mt-4 font-display text-[clamp(2.6rem,5vw,4rem)] font-bold leading-none text-fg">Daksh 2026</h2>
+            <p className="mt-2.5 font-display text-[clamp(1.15rem,2vw,1.5rem)] font-semibold italic text-gold-light">
+              Education &amp; Career Guidance Fair · {DAKSH.dates.replace(" 2026", "")}
+            </p>
+            <p className="mt-2.5 max-w-[520px] text-base font-light leading-[1.6] text-text-secondary">
+              Department stalls, career counselling, the Trailblaze competitions and the University Open Day — all at{" "}
+              {DAKSH.venue}.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3 max-[640px]:flex-col">
+              <ButtonLink href="/">Explore Daksh →</ButtonLink>
+              <ButtonLink href="/trailblaze" primary={false}>
+                Trailblaze competitions
+              </ButtonLink>
+            </div>
           </div>
-          <h2 className="mt-4 font-display text-[clamp(2.6rem,5vw,4rem)] font-bold leading-none text-fg">Daksh 2026</h2>
-          <p className="mt-2.5 font-display text-[clamp(1.15rem,2vw,1.5rem)] font-semibold italic text-gold-light">
-            Education &amp; Career Guidance Fair · {DAKSH.dates.replace(" 2026", "")}
-          </p>
-          <p className="mt-2.5 max-w-[560px] text-base font-light leading-[1.6] text-[#e8e6e0] max-[640px]:hidden">
-            Department stalls, career counselling, the Trailblaze competitions and the University Open Day — all at{" "}
-            {DAKSH.venue}.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3 max-[640px]:flex-col">
-            <ButtonLink href="/">Explore Daksh →</ButtonLink>
-            <ButtonLink href="/trailblaze" primary={false}>
-              Trailblaze competitions
-            </ButtonLink>
-          </div>
+          <figure className="relative min-h-[400px] max-[1080px]:order-first max-[1080px]:aspect-[16/9] max-[1080px]:min-h-0">
+            <Img photo={DAKSH_OPENING} className="absolute inset-0 h-full w-full object-cover object-[55%_45%]" />
+            <figcaption className="absolute bottom-3.5 left-3.5 rounded-full border border-white/15 bg-ink/70 px-3.5 py-1.5 text-[0.72rem] font-medium text-white/85 backdrop-blur-md">
+              Opening Daksh 2025 · University Open Day
+            </figcaption>
+          </figure>
         </section>
 
         {/* Date ribbon — the year at a glance, latest first; each stop jumps to its section */}
@@ -196,7 +203,7 @@ export default function EventsPage() {
           </div>
         </section>
 
-        {/* 12 Sep — Bhasha Utsav: cinematic, with a ribbon of scripts */}
+        {/* 12 Sep — Bhasha Utsav: cinematic */}
         <section className={section} id="bhasha-utsav">
           <div className="relative isolate overflow-hidden rounded-[22px]">
             <Img photo={BHASHA} className="aspect-[16/8] w-full object-cover object-[50%_35%] max-[640px]:aspect-[4/5]" />
@@ -208,15 +215,6 @@ export default function EventsPage() {
                 The one festival that brings every Christite together — the Council leads the opening procession in ethnic
                 attire, celebrating the University’s many languages and cultures.
               </p>
-            </div>
-          </div>
-          <div className="relative mt-4 overflow-hidden rounded-xl border border-gold/25 bg-[linear-gradient(90deg,rgba(184,146,58,0.12),rgba(184,146,58,0.04))] py-3.5">
-            <div className="flex w-max animate-[marquee_40s_linear_infinite] gap-10 font-display text-[1.5rem] text-gold-light/90 motion-reduce:animate-none">
-              {[...SCRIPTS, ...SCRIPTS].map((s, i) => (
-                <span key={i} className="whitespace-nowrap" aria-hidden={i >= SCRIPTS.length}>
-                  {s} <span className="ml-10 text-gold/40">✦</span>
-                </span>
-              ))}
             </div>
           </div>
         </section>
@@ -297,7 +295,7 @@ export default function EventsPage() {
           </div>
         </section>
 
-        {/* 10 Mar — Investiture: the stage, then arch-framed moments */}
+        {/* 10 Mar — Investiture: the Council, two equal addresses, then the order of ceremony */}
         <section className={section} id="investiture">
           <div className="text-center">
             <Eyebrow>10 March 2026 · Central Campus</Eyebrow>
@@ -307,56 +305,89 @@ export default function EventsPage() {
               represent every Christite for the year ahead.
             </p>
           </div>
-          <Shot photo={INVESTITURE.stage} className="mt-8 aspect-[21/9] rounded-[22px] shadow-[0_40px_80px_-40px_rgba(37,59,129,0.7)] max-[640px]:aspect-[4/3]" />
-          {/* Arches flank the Director, who stands taller in the centre */}
-          <div className="mt-5 grid grid-cols-[1fr_1fr_1.3fr_1fr_1fr] items-end gap-3.5 max-[640px]:grid-cols-2 max-[640px]:gap-2.5">
-            {[INVESTITURE.oath, INVESTITURE.flag].map((p) => (
-              <Shot key={p.src} photo={p} className="aspect-[3/4] rounded-t-full rounded-b-xl border border-gold/25" />
-            ))}
-            <figure className="relative max-[640px]:order-first max-[640px]:col-span-2">
-              <Shot
-                photo={INVESTITURE.director}
-                className="aspect-[3/4.3] rounded-t-full rounded-b-xl border-2 border-gold/70 shadow-[0_0_0_6px_rgba(184,146,58,0.12),0_30px_60px_-30px_rgba(0,0,0,0.9)] max-[640px]:aspect-[4/3.6]"
-                imgClass="object-[50%_30%]"
-              />
-              <figcaption className="absolute inset-x-3 bottom-3 rounded-lg border border-white/10 bg-ink/75 px-3.5 py-2.5 text-center backdrop-blur-md">
-                <span className="block font-display text-[1.02rem] leading-tight font-semibold text-fg">Dr Kishore Selva Babu</span>
-                <span className="block text-[0.7rem] text-gold-light">Director, University Student Council</span>
-              </figcaption>
-            </figure>
-            {[INVESTITURE.certificates, INVESTITURE.address].map((p) => (
-              <Shot key={p.src} photo={p} className="aspect-[3/4] rounded-t-full rounded-b-xl border border-gold/25" />
+          <figure className="mt-8">
+            <Shot photo={INVESTITURE.stage} className="aspect-[16/8] rounded-[22px] shadow-[0_40px_80px_-40px_rgba(37,59,129,0.7)] max-[640px]:aspect-[4/3]" imgClass="object-[50%_68%]" />
+            <figcaption className="mt-3 text-center text-[0.82rem] font-light text-text-muted">
+              The 2026–27 Council with the Vice-Chancellor, the Director and faculty
+            </figcaption>
+          </figure>
+          {/* The Vice-Chancellor and the Director, given equal weight */}
+          <div className="mt-8 grid grid-cols-2 gap-5 max-[640px]:grid-cols-1 max-[640px]:gap-4">
+            {[
+              { photo: INVESTITURE.vc, name: "The Vice-Chancellor", role: "CHRIST (Deemed to be University)", pos: "object-[52%_40%]" },
+              { photo: INVESTITURE.director, name: "Dr Kishore Selva Babu", role: "Director, University Student Council", pos: "object-[50%_30%]" },
+            ].map((s) => (
+              <figure key={s.name} className="overflow-hidden rounded-[18px] border border-gold/30 bg-card shadow-[0_30px_60px_-34px_rgba(0,0,0,0.9)]">
+                <Shot photo={s.photo} className="aspect-[5/4] rounded-none" imgClass={s.pos} />
+                <figcaption className="flex items-center gap-4 border-t border-gold/25 px-6 py-4 max-[640px]:px-4.5">
+                  <span className="h-9 w-[3px] shrink-0 rounded-full bg-gold-light" aria-hidden="true" />
+                  <span>
+                    <span className="block font-display text-[1.35rem] leading-tight font-semibold text-fg">{s.name}</span>
+                    <span className="block text-[0.78rem] text-gold-light">{s.role}</span>
+                  </span>
+                  <span className="ml-auto text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-white/40 max-[640px]:hidden">Address</span>
+                </figcaption>
+              </figure>
             ))}
           </div>
+          {/* Order of ceremony */}
+          <ol className="mt-5 grid grid-cols-3 gap-5 max-[640px]:grid-cols-1 max-[640px]:gap-4">
+            {[
+              { photo: INVESTITURE.oath, n: "I", label: "The oath of office" },
+              { photo: INVESTITURE.flag, n: "II", label: "The University flag" },
+              { photo: INVESTITURE.certificates, n: "III", label: "Certificates of office" },
+            ].map((m) => (
+              <li key={m.n}>
+                <Shot photo={m.photo} className="aspect-[4/3]" />
+                <div className="mt-3 flex items-baseline gap-3 border-t border-line pt-3">
+                  <span className="font-display text-[1.1rem] font-bold text-gold/80">{m.n}</span>
+                  <span className="font-display text-[1.1rem] font-semibold text-fg">{m.label}</span>
+                </div>
+              </li>
+            ))}
+          </ol>
         </section>
 
-        {/* 2 Mar — Gratitude Day: a scrapbook */}
-        <section className={section} id="gratitude-day">
-          <div className="grid grid-cols-[1.15fr_1fr] items-center gap-10 max-[1080px]:grid-cols-1">
-            <div>
+        {/* 2 Mar — Gratitude Day: a thank-you note, the whole quad, then the song's moments set on a stave */}
+        <section className={`${section} ${hand.variable}`} id="gratitude-day" style={handVar}>
+          <div className="grid grid-cols-[1fr_1.35fr] items-stretch gap-8 max-[1080px]:grid-cols-1 max-[1080px]:gap-6">
+            <div className="flex flex-col">
               <Heading date="2 March 2026 · Central Campus" title="Gratitude Day">
                 Every March, the Council thanks the people who keep the University running — security, housekeeping, gardening and
                 administration staff — ending with Gratitude Day, when the Council and the University Choir sing the Gratitude Day
                 song.
               </Heading>
-              <Shot photo={GRATITUDE.staffAvenue} className="mt-7 aspect-[4/3]" />
+              <div className="mt-7 -rotate-[1.5deg] rounded-[6px] bg-[#f4f1ea] px-7 py-6 text-[#2a2620] shadow-[0_22px_40px_-16px_rgba(0,0,0,0.8)] max-[1080px]:mx-2 max-[640px]:px-5">
+                <p className="font-hand text-[1.7rem] leading-[1.15] max-[640px]:text-[1.4rem]">
+                  Thank you — for the early mornings, the clean corridors, the safe gates and the gardens in bloom.
+                </p>
+                <p className="mt-3 text-right font-hand text-[1.15rem] text-[#7a5b1c]">— the University Student Council</p>
+              </div>
             </div>
-            <div className="relative h-[560px] max-[1080px]:h-[520px] max-[640px]:h-[440px]">
+            <Shot photo={GRATITUDE.quad} className="min-h-[420px] rounded-[22px] max-[1080px]:aspect-[4/3] max-[1080px]:min-h-0" imgClass="object-[50%_60%]" />
+          </div>
+          {/* Five stave lines run behind the photos, which rise and fall like notes */}
+          <div className="relative mt-10 min-[1081px]:pb-10 max-[1080px]:mt-7">
+            <div
+              className="pointer-events-none absolute inset-x-0 top-1/2 h-[120px] -translate-y-1/2 opacity-70 max-[1080px]:hidden"
+              style={{ background: "repeating-linear-gradient(180deg, rgba(184,146,58,0.35) 0 1px, transparent 1px 30px)" }}
+              aria-hidden="true"
+            />
+            <ol className="relative grid grid-cols-6 items-start gap-4 max-[1080px]:grid-cols-3 max-[640px]:grid-cols-2 max-[640px]:gap-2.5">
               {[
-                { p: GRATITUDE.choir, cls: "left-[4%] top-0 w-[46%] -rotate-[4deg]", cap: "The Gratitude Day song", aspect: "aspect-[3/4]" },
-                { p: GRATITUDE.staffFaces, cls: "right-[2%] top-[6%] w-[50%] rotate-[3deg]", cap: "Thank you, every day" },
-                { p: GRATITUDE.choirSteps, cls: "left-[10%] bottom-[2%] w-[52%] rotate-[2deg]", cap: "On the Central Block steps" },
-                { p: GRATITUDE.courtyard, cls: "right-0 bottom-[10%] w-[44%] -rotate-[3deg]", cap: "The whole campus, together" },
-              ].map(({ p, cls, cap, aspect }) => (
-                <figure
-                  key={p.src}
-                  className={`absolute rounded-[4px] bg-[#f4f1ea] p-2.5 pb-3 shadow-[0_18px_34px_-10px_rgba(0,0,0,0.75)] transition-transform duration-300 hover:z-10 hover:rotate-0 hover:scale-[1.04] ${cls}`}
-                >
-                  <Img photo={p} className={`w-full rounded-[2px] object-cover ${aspect ?? "aspect-[4/3]"}`} />
-                  <figcaption className="mt-1.5 font-display text-[0.98rem] leading-tight font-semibold italic text-[#2a2620] max-[640px]:text-[0.78rem]">{cap}</figcaption>
-                </figure>
+                { p: GRATITUDE.staff, cap: "The ones we thank", lift: "min-[1081px]:translate-y-8" },
+                { p: GRATITUDE.choir, cap: "The University Choir", lift: "min-[1081px]:-translate-y-2" },
+                { p: GRATITUDE.singer, cap: "Leading the song", lift: "min-[1081px]:translate-y-10", pos: "object-[50%_30%]" },
+                { p: GRATITUDE.vc, cap: "The Vice-Chancellor", lift: "min-[1081px]:translate-y-0", pos: "object-[40%_40%]" },
+                { p: GRATITUDE.drums, cap: "Keeping time", lift: "min-[1081px]:translate-y-9" },
+                { p: GRATITUDE.staffCouncil, cap: "Side by side", lift: "min-[1081px]:-translate-y-1" },
+              ].map(({ p, cap, lift, pos }) => (
+                <li key={p.src} className={lift}>
+                  <Shot photo={p} className="aspect-[3/4] rounded-[14px] border border-gold/25 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.9)]" imgClass={pos ?? ""} />
+                  <p className="mt-2 font-hand text-[1.05rem] leading-tight text-gold-light">♪ {cap}</p>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </section>
 
