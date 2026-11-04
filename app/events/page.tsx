@@ -26,7 +26,7 @@ const GRATITUDE = {
 const INVESTITURE = {
   stage: ev("investiture/council-stage", "The 2026–27 University Student Council with the Vice-Chancellor, the Director and faculty at the Investiture Ceremony", 2000, 1500),
   certificates: ev("investiture/certificates", "Councillors receiving their certificates on stage"),
-  vc: ev("investiture/address", "The Vice-Chancellor addressing the Investiture Ceremony"),
+  vc: ev("investiture/address", "Rev Col Fr Dr Jose CC, Vice-Chancellor, addressing the Investiture Ceremony"),
   oath: ev("investiture/oath", "Councillors taking the oath, hands on hearts"),
   flag: ev("investiture/flag", "The University flag carried across the stage"),
   director: ev("investiture/director", "Dr Kishore Selva Babu, Director of the University Student Council, addressing the Investiture Ceremony", 1200, 1600),
@@ -40,7 +40,7 @@ const GB_MEETING = {
 };
 const VC_FORUM = {
   group: ev("vc-open-forum/group", "The Vice-Chancellor, faculty and the University Student Council outside Block IV", 1600, 891),
-  response: ev("vc-open-forum/response", "A question being answered from the panel", 1600, 1067),
+  vc: ev("vc-open-forum/vc", "Rev Col Fr Dr Jose CC, Vice-Chancellor, answering a question at the open forum", 1400, 1190),
   hall: ev("vc-open-forum/hall", "The packed hall at the open forum", 1600, 1067),
   question: ev("vc-open-forum/question", "A councillor reading out a question", 1212, 1600),
   panel: ev("vc-open-forum/panel", "Panel members in discussion", 1600, 1067),
@@ -50,18 +50,6 @@ const BHASHA = ev("bhasha-utsav", "The University Student Council in ethnic wear
 const DAKSH_OPENING = ev("daksh-opening", "The ribbon being cut to open the Daksh 2025 University Open Day", 2000, 1157);
 
 const [soloDance, ensembleDance, band, felicitation, teachersAudience] = TEACHERS_DAY.photos;
-
-/** Latest first; drives the date ribbon at the top. */
-const INDEX = [
-  { id: "vc-open-forum", date: "22 Sep", title: "Open Forum" },
-  { id: "ploggathon", date: "19–20 Sep", title: "Ploggathon" },
-  { id: "bhasha-utsav", date: "12 Sep", title: "Bhasha Utsav" },
-  { id: "teachers-day", date: "5 Sep", title: "Teachers’ Day" },
-  { id: "gb-meeting", date: "27 Aug", title: "General Body Meeting" },
-  { id: "ltp", date: "8–9 Jul", title: "Leadership Training" },
-  { id: "investiture", date: "10 Mar", title: "Investiture" },
-  { id: "gratitude-day", date: "2 Mar", title: "Gratitude Day" },
-];
 
 const COMMITTEES = ["Logistics", "Events", "Promotions", "IT & Website", "Documentation", "Design"];
 
@@ -129,24 +117,6 @@ export default function EventsPage() {
           </figure>
         </section>
 
-        {/* Date ribbon — the year at a glance, latest first; each stop jumps to its section */}
-        <nav aria-label="2026 events" className="-mx-1 overflow-x-auto pb-2">
-          <ol className="relative flex min-w-full gap-0 px-1">
-            <span className="absolute top-[7px] right-4 left-4 h-px bg-gradient-to-r from-gold via-gold/40 to-line" aria-hidden="true" />
-            {INDEX.map((e, i) => (
-              <li key={e.id} className="relative min-w-[118px] flex-1 pr-4">
-                <a href={`#${e.id}`} className="group block no-underline">
-                  <span
-                    className={`relative z-10 block h-[15px] w-[15px] rounded-full border-2 ${i === 0 ? "border-gold bg-gold shadow-[0_0_0_5px_rgba(184,146,58,0.18)]" : "border-gold/70 bg-paper group-hover:bg-gold"} transition-colors`}
-                  />
-                  <span className="mt-3 block text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-gold-light">{e.date}</span>
-                  <span className="mt-1 block font-display text-[1.08rem] font-semibold leading-tight text-fg group-hover:text-gold-light">{e.title}</span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-
         {/* 22 Sep — VC Open Forum: editorial spotlight + filmstrip */}
         <section className={section} id="vc-open-forum">
           <div className="grid grid-cols-[1fr_1.35fr] items-end gap-10 max-[1080px]:grid-cols-1 max-[1080px]:gap-6">
@@ -165,7 +135,7 @@ export default function EventsPage() {
           </div>
           <div className="mt-4 grid h-[240px] grid-cols-[1fr_1fr_0.7fr_1fr] gap-3.5 max-[1080px]:h-auto max-[1080px]:grid-cols-2 max-[640px]:gap-2.5">
             <Shot photo={VC_FORUM.studentQuestion} className="h-full max-[1080px]:aspect-[4/3.4]" />
-            <Shot photo={VC_FORUM.response} className="h-full max-[1080px]:aspect-[4/3.4]" />
+            <Shot photo={VC_FORUM.vc} className="h-full max-[1080px]:aspect-[4/3.4]" imgClass="object-[62%_40%]" />
             <Shot photo={VC_FORUM.question} className="h-full max-[1080px]:aspect-[4/3.4]" imgClass="object-[50%_25%]" />
             <Shot photo={VC_FORUM.hall} className="h-full max-[1080px]:aspect-[4/3.4]" />
           </div>
@@ -314,7 +284,7 @@ export default function EventsPage() {
           {/* The Vice-Chancellor and the Director, given equal weight */}
           <div className="mt-8 grid grid-cols-2 gap-5 max-[640px]:grid-cols-1 max-[640px]:gap-4">
             {[
-              { photo: INVESTITURE.vc, name: "The Vice-Chancellor", role: "CHRIST (Deemed to be University)", pos: "object-[52%_40%]" },
+              { photo: INVESTITURE.vc, name: "Rev Col Fr Dr Jose CC", role: "Vice-Chancellor, CHRIST (Deemed to be University)", pos: "object-[52%_40%]" },
               { photo: INVESTITURE.director, name: "Dr Kishore Selva Babu", role: "Director, University Student Council", pos: "object-[50%_30%]" },
             ].map((s) => (
               <figure key={s.name} className="overflow-hidden rounded-[18px] border border-gold/30 bg-card shadow-[0_30px_60px_-34px_rgba(0,0,0,0.9)]">
