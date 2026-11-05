@@ -108,8 +108,8 @@ export function KeyInfo({ tiles, title, children }: { tiles: Tile[]; title: stri
           ))}
         </div>
       </div>
-      <div className="flex flex-wrap items-center gap-3 rounded-[16px] border border-line bg-card py-[18px] pr-5 pl-[26px] max-[640px]:flex-col max-[640px]:items-stretch max-[640px]:border-0 max-[640px]:bg-transparent max-[640px]:p-0">
-        <div className="mr-auto flex items-center gap-2.5 max-[640px]:hidden">
+      <div className="flex flex-wrap items-center gap-3 rounded-[16px] border border-line bg-card py-[18px] pr-5 pl-[26px] min-[1300px]:flex-nowrap max-[640px]:flex-col max-[640px]:items-stretch max-[640px]:border-0 max-[640px]:bg-transparent max-[640px]:p-0">
+        <div className="mr-auto flex min-w-0 items-center gap-2.5 max-[1299px]:basis-full max-[640px]:hidden min-[1300px]:flex-1">
           <Sparkle className="h-4 w-4 text-gold-light" />
           <Heading as="p" className="text-[19px] leading-[1.2]">
             {title}

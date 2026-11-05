@@ -73,8 +73,8 @@ export default function DakshPage() {
                 University Student Council presents
               </p>
               <h1 className="flex flex-col gap-2 max-[640px]:gap-1">
-                <DakshLogo light className="w-[470px] max-[1080px]:w-[380px] max-[640px]:w-[200px]" />
-                <span className="font-gilda text-[64px] leading-none text-fg uppercase [text-shadow:0_4px_24px_rgba(0,0,0,0.7)] max-[1080px]:text-[52px] max-[640px]:text-[30px]">
+                <DakshLogo light className="w-[340px] max-[1080px]:w-[290px] max-[640px]:w-[170px]" />
+                <span className="font-gilda text-[46px] leading-none text-fg uppercase [text-shadow:0_4px_24px_rgba(0,0,0,0.7)] max-[1080px]:text-[40px] max-[640px]:text-[25px]">
                   &amp; Open Day <span className="text-gold-light">2026</span>
                 </span>
               </h1>
@@ -162,7 +162,7 @@ export default function DakshPage() {
                     </Heading>
                   </div>
                 </div>
-                <Hand className="text-[26px] max-[640px]:text-[21px]">Come see CHRIST for yourself!</Hand>
+                <Hand className="text-[26px] max-[640px]:text-[21px]">Come see CHRIST University for yourself!</Hand>
                 <p className="max-w-[560px] text-[18px] leading-[1.6] text-text-secondary max-[640px]:text-[16px]">{OPEN_DAY.summary}</p>
                 <p className="max-w-[560px] text-[16px] leading-[1.6] text-text-secondary max-[640px]:hidden">{OPEN_DAY.more}</p>
                 <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-[16px] bg-gold px-4 pt-2.5 pb-2 text-[14px] font-bold leading-[1.4] text-ink">
@@ -390,7 +390,7 @@ export default function DakshPage() {
               <Hand className="text-[26px] max-[640px]:text-[20px]">ALDEN&apos;s got your back!</Hand>
               {[
                 { label: "Daksh & Open Day", people: CONTACTS },
-                { label: "Trailblaze competitions", people: TRAILBLAZE_CONTACTS },
+                { label: "Trailblaze competitions", people: TRAILBLAZE_CONTACTS.slice(0, 2) },
               ].map((g) => (
                 <div key={g.label} className="flex flex-col gap-3 border-t border-line pt-4 first-of-type:mt-1">
                   <Kicker>{g.label}</Kicker>
