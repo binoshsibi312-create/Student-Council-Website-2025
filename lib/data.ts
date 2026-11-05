@@ -46,7 +46,7 @@ export interface Floor {
 }
 
 export const SIDEBAR_ITEMS: SidebarItem[] = [
-  { href: "/", label: "Daksh 2026" },
+  { href: "/", label: "Daksh & Open Day 2026" },
   { href: "/trailblaze", label: "Trailblaze" },
   { href: "/about", label: "About" },
   { href: "/governance", label: "Governance" },
@@ -59,7 +59,7 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
 ];
 
 export const MENTOR_LEADERSHIP: Mentor[] = [
-  { name: "Dr Fr Joseph C C", role: "Vice Chancellor", dept: "CHRIST (Deemed to be University)", img: "/images/mentors/josecc.jpg" },
+  { name: "Col Dr Fr Jose C C", role: "Vice Chancellor", dept: "CHRIST (Deemed to be University)", img: "/images/mentors/josecc.jpg" },
   { name: "Dr Fr Viju P D", role: "Pro-Vice Chancellor", dept: "CHRIST (Deemed to be University)", img: "/images/mentors/viju.jpg" },
   { name: "Dr Anil Joseph Pinto", role: "Registrar", dept: "CHRIST (Deemed to be University)", img: "/images/mentors/anil.jpg" },
   { name: "Jyothi Kumar", role: "Registrar (Academics)", dept: "CHRIST (Deemed to be University)", img: "/images/mentors/jyothi_kumar.jpg" },

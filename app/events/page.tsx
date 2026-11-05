@@ -26,7 +26,7 @@ const GRATITUDE = {
 const INVESTITURE = {
   stage: ev("investiture/council-stage", "The 2026–27 University Student Council with the Vice-Chancellor, the Director and faculty at the Investiture Ceremony", 2000, 1500),
   certificates: ev("investiture/certificates", "Councillors receiving their certificates on stage"),
-  vc: ev("investiture/address", "Rev Col Fr Dr Jose CC, Vice-Chancellor, addressing the Investiture Ceremony"),
+  vc: ev("investiture/address", "Col Dr Fr Jose C C, Vice-Chancellor, addressing the Investiture Ceremony"),
   oath: ev("investiture/oath", "Councillors taking the oath, hands on hearts"),
   flag: ev("investiture/flag", "The University flag carried across the stage"),
   director: ev("investiture/director", "Dr Kishore Selva Babu, Director of the University Student Council, addressing the Investiture Ceremony", 1200, 1600),
@@ -40,7 +40,7 @@ const GB_MEETING = {
 };
 const VC_FORUM = {
   group: ev("vc-open-forum/group", "The Vice-Chancellor, faculty and the University Student Council outside Block IV", 1600, 891),
-  vc: ev("vc-open-forum/vc", "Rev Col Fr Dr Jose CC, Vice-Chancellor, answering a question at the open forum", 1400, 1190),
+  vc: ev("vc-open-forum/vc", "Col Dr Fr Jose C C, Vice-Chancellor, answering a question at the open forum", 1400, 1190),
   hall: ev("vc-open-forum/hall", "The packed hall at the open forum", 1600, 1067),
   question: ev("vc-open-forum/question", "A councillor reading out a question", 1212, 1600),
   panel: ev("vc-open-forum/panel", "Panel members in discussion", 1600, 1067),
@@ -87,14 +87,14 @@ export default function EventsPage() {
       />
 
       <div className="flex flex-col gap-20 max-[640px]:gap-12">
-        {/* Featured: Daksh 2026 */}
+        {/* Featured: Daksh & Open Day 2026 */}
         {/* Text and photo side by side, so nothing sits on top of the picture */}
         <section className="grid grid-cols-[1fr_1.4fr] overflow-hidden rounded-[22px] border border-line bg-[radial-gradient(circle_at_0%_100%,rgba(184,146,58,0.2),transparent_60%),var(--color-card)] max-[1080px]:grid-cols-1">
           <div className="flex flex-col justify-end px-11 py-10 max-[1080px]:px-8 max-[640px]:px-5 max-[640px]:py-6">
             <div>
               <Chip accent>Flagship event · Coming up</Chip>
             </div>
-            <h2 className="mt-4 font-display text-[clamp(2.6rem,5vw,4rem)] font-bold leading-none text-fg">Daksh 2026</h2>
+            <h2 className="mt-4 font-display text-[clamp(2.6rem,5vw,4rem)] font-bold leading-none text-fg">Daksh &amp; Open Day 2026</h2>
             <p className="mt-2.5 font-display text-[clamp(1.15rem,2vw,1.5rem)] font-semibold italic text-gold-light">
               Education &amp; Career Guidance Fair · {DAKSH.dates.replace(" 2026", "")}
             </p>
@@ -103,7 +103,7 @@ export default function EventsPage() {
               {DAKSH.venue}.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 max-[640px]:flex-col">
-              <ButtonLink href="/">Explore Daksh →</ButtonLink>
+              <ButtonLink href="/">Explore Daksh &amp; Open Day →</ButtonLink>
               <ButtonLink href="/trailblaze" primary={false}>
                 Trailblaze competitions
               </ButtonLink>
@@ -284,7 +284,7 @@ export default function EventsPage() {
           {/* The Vice-Chancellor and the Director, given equal weight */}
           <div className="mt-8 grid grid-cols-2 gap-5 max-[640px]:grid-cols-1 max-[640px]:gap-4">
             {[
-              { photo: INVESTITURE.vc, name: "Rev Col Fr Dr Jose CC", role: "Vice-Chancellor, CHRIST (Deemed to be University)", pos: "object-[52%_40%]" },
+              { photo: INVESTITURE.vc, name: "Col Dr Fr Jose C C", role: "Vice-Chancellor, CHRIST (Deemed to be University)", pos: "object-[52%_40%]" },
               { photo: INVESTITURE.director, name: "Dr Kishore Selva Babu", role: "Director, University Student Council", pos: "object-[50%_30%]" },
             ].map((s) => (
               <figure key={s.name} className="overflow-hidden rounded-[18px] border border-gold/30 bg-card shadow-[0_30px_60px_-34px_rgba(0,0,0,0.9)]">

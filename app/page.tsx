@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import ContactList from "@/components/ContactList";
 import Shell from "@/components/Shell";
 import DakshType from "@/components/daksh/DakshType";
 import { Btn, Hand, Heading, KeyInfo, Kicker, Polaroid, Sparkle, WallPolaroid } from "@/components/daksh/kit";
 import { DakshLogo, Img, Mascot } from "@/components/daksh/ui";
-import { CAMPUSES, COMPETITIONS, CONTACTS, DAKSH, PHOTOS, SCHOOLS, SOCIALS, TRAILBLAZE, WALL } from "@/lib/daksh";
+import { BRAND, CAMPUSES, COMPETITIONS, CONTACTS, DAKSH, OPEN_DAY, PHOTOS, SCHOOLS, SOCIALS, TRAILBLAZE, TRAILBLAZE_CONTACTS, WALL } from "@/lib/daksh";
 
 export const metadata: Metadata = {
-  title: "Daksh 2026 | University Student Council",
-  description: `Daksh 2026 — CHRIST's Education & Career Guidance Fair and University Open Day, ${DAKSH.dates} at ${DAKSH.venue}.`,
+  title: "Daksh & Open Day 2026 | University Student Council",
+  description: `Daksh & Open Day 2026 — CHRIST's Education & Career Guidance Fair and University Open Day, ${DAKSH.dates} at ${DAKSH.venue}.`,
 };
 
 const DEPARTMENT_COUNT = SCHOOLS.reduce((n, s) => n + s.departments.length, 0);
@@ -64,16 +65,25 @@ export default function DakshPage() {
               className="absolute inset-0 -z-10"
               style={{ background: "linear-gradient(180deg, rgba(12,12,14,0) 35%, rgba(12,12,14,0.62) 68%, rgba(12,12,14,0.96) 100%)" }}
             />
-            <Sparkle className="absolute top-12 right-14 h-[34px] w-[34px] text-gold-light max-[640px]:top-10 max-[640px]:right-10 max-[640px]:h-6 max-[640px]:w-6" />
-            <Sparkle className="absolute top-[110px] right-[110px] h-[18px] w-[18px] text-white/80 max-[640px]:hidden" />
+            {/* The Open Day badge, pinned top-right */}
+            <img
+              src={BRAND.openDayLogo.src}
+              alt={BRAND.openDayLogo.alt}
+              width={BRAND.openDayLogo.width}
+              height={BRAND.openDayLogo.height}
+              className="absolute top-10 right-12 w-[150px] -rotate-6 drop-shadow-[0_10px_24px_rgba(0,0,0,0.6)] max-[1080px]:w-[120px] max-[640px]:top-6 max-[640px]:right-5 max-[640px]:w-[84px]"
+            />
+            <Sparkle className="absolute top-[200px] right-[60px] h-[18px] w-[18px] text-white/80 max-[1080px]:top-[170px] max-[640px]:hidden" />
             <div className="flex flex-col gap-3.5 max-[640px]:gap-2.5">
               <p className="flex items-center gap-3.5 text-[17px] font-bold uppercase leading-[1.2] tracking-[0.22em] text-fg [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] max-[640px]:gap-2.5 max-[640px]:text-[11px] max-[640px]:tracking-[0.18em]">
                 <span className="h-0.5 w-10 shrink-0 bg-gold-light max-[640px]:w-6" aria-hidden="true" />
                 University Student Council presents
               </p>
-              <h1 className="flex flex-wrap items-end gap-x-[22px] gap-y-2 max-[640px]:gap-x-3">
-                <DakshLogo light className="w-[520px] max-[1080px]:w-[400px] max-[640px]:w-[210px]" />
-                <span className="font-gilda text-[96px] leading-none text-gold-light max-[1080px]:text-[76px] max-[640px]:text-[40px]">2026</span>
+              <h1 className="flex flex-col gap-2 max-[640px]:gap-1">
+                <DakshLogo light className="w-[470px] max-[1080px]:w-[380px] max-[640px]:w-[200px]" />
+                <span className="font-gilda text-[64px] leading-none text-fg uppercase [text-shadow:0_4px_24px_rgba(0,0,0,0.7)] max-[1080px]:text-[52px] max-[640px]:text-[30px]">
+                  &amp; Open Day <span className="text-gold-light">2026</span>
+                </span>
               </h1>
               <Heading as="p" className="text-[24px] leading-[1.2] max-[640px]:text-[16px]">
                 Education &amp; Career Guidance Fair&nbsp; · &nbsp;University Open Day
@@ -82,7 +92,7 @@ export default function DakshPage() {
           </section>
 
           <KeyInfo
-            title="Be part of Daksh 2026"
+            title="Be part of Daksh & Open Day 2026"
             tiles={[
               { label: "Where", value: DAKSH.venue, note: DAKSH.address },
               { label: "Online stalls", value: "Available", note: "Details will be shared shortly" },
@@ -126,7 +136,7 @@ export default function DakshPage() {
               <p className="flex items-center gap-2 rounded-[16px] border border-line py-2 pr-4 pl-3.5 text-[14px] leading-[1.5] text-text-secondary">
                 <Sparkle className="h-3 w-3 text-gold-light" />
                 <span>
-                  Same days: University Open Day<span className="max-[640px]:hidden"> at {DAKSH.venue}</span>
+                  Theme: <span className="text-fg">{DAKSH.theme}</span>
                 </span>
               </p>
             </div>
@@ -136,6 +146,73 @@ export default function DakshPage() {
               tilt={3}
               className="w-[364px] max-[1080px]:mx-auto max-[640px]:hidden"
             />
+          </section>
+
+          {/* University Open Day — the badge, the brochure's invitation and what to explore */}
+          <section aria-labelledby="open-day-title" className="relative isolate flex flex-col gap-7 overflow-hidden rounded-[16px] bg-[#16244a] p-12 max-[1080px]:px-8 max-[640px]:gap-5 max-[640px]:px-5 max-[640px]:py-7">
+            <div className="absolute -top-[140px] -right-[120px] -z-10 h-[380px] w-[380px] rounded-full border-[28px] border-gold-light/12" aria-hidden="true" />
+            <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] items-center gap-12 max-[1080px]:grid-cols-1 max-[1080px]:gap-8">
+              <div className="flex flex-col items-start gap-3">
+                <div className="flex items-center gap-5 max-[640px]:gap-4">
+                  <img
+                    src={BRAND.openDayLogo.src}
+                    alt={BRAND.openDayLogo.alt}
+                    width={BRAND.openDayLogo.width}
+                    height={BRAND.openDayLogo.height}
+                    loading="lazy"
+                    className="w-[132px] shrink-0 drop-shadow-[0_10px_24px_rgba(0,0,0,0.45)] max-[640px]:w-[88px]"
+                  />
+                  <div className="flex flex-col gap-2">
+                    <Kicker className="text-gold-light">In collaboration with the Open Day Team</Kicker>
+                    <Heading className="text-[42px] max-[640px]:text-[28px]">
+                      <span id="open-day-title">University Open Day</span>
+                    </Heading>
+                  </div>
+                </div>
+                <Hand className="text-[26px] max-[640px]:text-[21px]">Come see CHRIST for yourself!</Hand>
+                <p className="max-w-[560px] text-[18px] leading-[1.6] text-text-secondary max-[640px]:text-[16px]">{OPEN_DAY.summary}</p>
+                <p className="max-w-[560px] text-[16px] leading-[1.6] text-text-secondary max-[640px]:hidden">{OPEN_DAY.more}</p>
+                <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-[16px] bg-gold px-4 pt-2.5 pb-2 text-[14px] font-bold leading-[1.4] text-ink">
+                  <span>{DAKSH.dates}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{DAKSH.hours}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{DAKSH.venue}</span>
+                </p>
+              </div>
+              <div className="grid h-[400px] grid-cols-[1fr_1.15fr] grid-rows-2 gap-3 max-[640px]:h-[300px] max-[640px]:gap-2">
+                <Img photo={PHOTOS.openDayWalk} className="row-span-2 h-full w-full rounded-[14px] object-cover" />
+                <Img photo={PHOTOS.openDayParents} className="h-full w-full rounded-[14px] object-cover" />
+                <Img photo={PHOTOS.openDayStudents} className="h-full w-full rounded-[14px] object-cover" />
+              </div>
+            </div>
+            <ul className="grid grid-cols-4 gap-3.5 max-[1080px]:grid-cols-2 max-[640px]:grid-cols-1 max-[640px]:gap-2.5">
+              {OPEN_DAY.highlights.map((h) => (
+                <li key={h.title} className="flex flex-col gap-1.5 rounded-[14px] border border-white/12 bg-white/[0.05] px-5 pt-[18px] pb-5 max-[640px]:px-4 max-[640px]:py-3.5">
+                  <span className="flex items-center gap-2">
+                    <Sparkle className="h-3.5 w-3.5 text-gold-light" />
+                    <span className="text-[16px] font-bold leading-[1.3] text-fg">{h.title}</span>
+                  </span>
+                  <span className="text-[14px] leading-[1.5] text-text-secondary">{h.body}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-col gap-3 border-t border-white/12 pt-6 max-[640px]:pt-5">
+              <Kicker className="text-gold-light">Also explore · CHRIST online programmes</Kicker>
+              {[
+                { label: "Undergraduate", list: OPEN_DAY.online.ug },
+                { label: "Postgraduate", list: OPEN_DAY.online.pg },
+              ].map((g) => (
+                <div key={g.label} className="flex flex-wrap items-center gap-2">
+                  <span className="mr-1 w-[120px] text-[13px] font-bold uppercase tracking-[0.12em] text-white/60 max-[640px]:w-full">{g.label}</span>
+                  {g.list.map((p) => (
+                    <span key={p} className="rounded-[11px] bg-white/10 px-3 pt-[6px] pb-[4px] text-[14px] leading-[1.5] text-fg">
+                      {p}
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
           </section>
 
           {/* Overview of CHRIST */}
@@ -318,19 +395,15 @@ export default function DakshPage() {
             <div className="flex flex-col gap-2.5">
               <Heading className="text-[32px] max-[640px]:text-[24px]">In case of queries, contact us</Heading>
               <Hand className="text-[26px] max-[640px]:text-[20px]">ALDEN&apos;s got your back!</Hand>
-              <div className="flex flex-wrap gap-x-12 gap-y-4 pt-2">
-                {CONTACTS.map((c) => (
-                  <div key={c.email} className="flex flex-col gap-1">
-                    <div className="text-[16px] font-bold leading-[1.3] text-fg">{c.name}</div>
-                    <a href={`mailto:${c.email}`} className="text-[14px] leading-[1.5] break-all text-gold-light hover:underline">
-                      {c.email}
-                    </a>
-                    <a href={`tel:${c.tel}`} className="text-[14px] leading-[1.5] text-fg hover:text-gold-light">
-                      {c.phone}
-                    </a>
-                  </div>
-                ))}
-              </div>
+              {[
+                { label: "Daksh & Open Day", people: CONTACTS },
+                { label: "Trailblaze competitions", people: TRAILBLAZE_CONTACTS },
+              ].map((g) => (
+                <div key={g.label} className="flex flex-col gap-3 border-t border-line pt-4 first-of-type:mt-1">
+                  <Kicker>{g.label}</Kicker>
+                  <ContactList people={g.people} />
+                </div>
+              ))}
               <div className="flex flex-wrap gap-x-5 gap-y-1 text-[14px] leading-[1.5] text-fg">
                 <a href={`mailto:${DAKSH.email}`} className="hover:text-gold-light">
                   {DAKSH.email}

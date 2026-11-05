@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import ContactList from "@/components/ContactList";
 import Shell from "@/components/Shell";
 import DakshType from "@/components/daksh/DakshType";
 import { Btn, Hand, Heading, KeyInfo, Kicker, Sparkle } from "@/components/daksh/kit";
 import { DakshLogo, Mascot } from "@/components/daksh/ui";
-import { COMPETITIONS, DAKSH, PHOTOS, SOCIALS, TRAILBLAZE } from "@/lib/daksh";
+import { COMPETITIONS, DAKSH, PHOTOS, SOCIALS, TRAILBLAZE, TRAILBLAZE_CONTACTS } from "@/lib/daksh";
 
 export const metadata: Metadata = {
-  title: "Trailblaze | Daksh 2026 Competitions",
-  description: `Trailblaze — ${COMPETITIONS.length} Daksh 2026 competitions on the theme “${TRAILBLAZE.theme}”: ${COMPETITIONS.map((c) => c.name).join(", ")}. ${DAKSH.dates}.`,
+  title: "Trailblaze | Daksh & Open Day 2026 Competitions",
+  description: `Trailblaze — ${COMPETITIONS.length} Daksh & Open Day 2026 competitions on the theme “${TRAILBLAZE.theme}”: ${COMPETITIONS.map((c) => c.name).join(", ")}. ${DAKSH.dates}.`,
 };
 
 /** Colour band for each competition card, in COMPETITIONS order: [background, text, sparkle]. */
@@ -24,7 +25,7 @@ const BANDS = [
 const STEPS = [
   ["01", "Pick your stage", "Seven competitions", "Seven competitions — choose the one that fits your talent, solo or as a team."],
   ["02", "Register yourself", "Individuals only", "Registration is individual — each participant signs up on their own. Institutions do not register."],
-  ["03", "Get the brochure", "Coming soon", "The Trailblaze brochure, with full rules for every competition, will be up here soon."],
+  ["03", "Read the brochure", "Rules & fees", "The Trailblaze brochure has the guidelines, judging criteria and registration fee for every competition."],
 ];
 
 export default function TrailblazePage() {
@@ -59,7 +60,7 @@ export default function TrailblazePage() {
             <div className="flex flex-col gap-4 max-[640px]:gap-2.5">
               <p className="flex items-center gap-3.5 text-[17px] font-bold uppercase leading-[1.2] tracking-[0.22em] text-fg [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] max-[640px]:gap-2.5 max-[640px]:text-[11px] max-[640px]:tracking-[0.18em]">
                 <span className="h-0.5 w-10 shrink-0 bg-gold-light max-[640px]:w-6" aria-hidden="true" />
-                Daksh 2026 Competitions
+                Daksh &amp; Open Day 2026 Competitions
               </p>
               <h1 className="font-gilda text-[112px] leading-none text-fg max-[1080px]:text-[88px] max-[640px]:text-[56px]">TRAILBLAZE</h1>
               <Hand className="text-[48px] max-[640px]:text-[27px]">{TRAILBLAZE.theme}</Hand>
@@ -71,13 +72,15 @@ export default function TrailblazePage() {
             tiles={[
               { label: "Where", value: DAKSH.venue, note: DAKSH.address },
               { label: "Competitions", value: `${COMPETITIONS.length} competitions`, note: COMPETITIONS.map((c) => c.name.split(":")[0]).join(" · ") },
-              { label: "Theme", value: TRAILBLAZE.theme, note: TRAILBLAZE.tagline },
+              { label: "Theme", value: TRAILBLAZE.theme, note: `${TRAILBLAZE.tagline} — ${DAKSH.theme.split(":")[0]}` },
               { label: "Registration", value: "Individual participants only", note: "Students register themselves — no institution entries" },
             ]}
           >
             {/* The registration link isn't out yet; until then this points to how to take part. */}
             <Btn href="#take-part">Register — Participants</Btn>
-            <Btn variant="outline">Trailblaze brochure ↓ · soon</Btn>
+            <Btn href={TRAILBLAZE.brochure} download variant="outline">
+              Trailblaze brochure ↓
+            </Btn>
             <Btn href="/" variant="outline">
               Back to Daksh
             </Btn>
@@ -117,10 +120,12 @@ export default function TrailblazePage() {
                         <dd className="text-[#0f1d33]">{c.format}</dd>
                         {c.concept && (
                           <>
-                            <dt className="font-bold text-[#253b81]">Concept</dt>
+                            <dt className="font-bold text-[#253b81]">Theme</dt>
                             <dd className="text-[#0f1d33]">“{c.concept}”</dd>
                           </>
                         )}
+                        <dt className="font-bold text-[#253b81]">Fee</dt>
+                        <dd className="font-bold text-[#56071d]">{c.fee}</dd>
                       </dl>
                       <p className="mt-1 text-[14px] leading-[1.5] text-[#0f1d33]/80 max-[640px]:hidden">{c.description}</p>
                     </div>
@@ -137,10 +142,11 @@ export default function TrailblazePage() {
                   <br />
                   Tomorrow
                 </Heading>
-                <Hand className="text-[26px] max-[640px]:text-[20px]">
-                  The world we watch.
-                  <br className="max-[640px]:hidden" /> The world we create.
-                </Hand>
+                <Hand className="text-[26px] max-[640px]:text-[20px]">{TRAILBLAZE.tagline}</Hand>
+                <p className="max-w-[420px] text-[15px] leading-[1.6] text-white/75">
+                  {DAKSH.theme} — tracing how human ingenuity has reshaped professions, ideas and societies, and how today’s
+                  innovations carve the path to tomorrow.
+                </p>
               </div>
             </div>
           </section>
@@ -171,6 +177,15 @@ export default function TrailblazePage() {
             </p>
           </section>
 
+          {/* Trailblaze contacts, from the brochure */}
+          <section aria-labelledby="tb-contact" className="flex flex-col gap-4 rounded-[16px] border border-line bg-card px-11 py-10 max-[640px]:px-5 max-[640px]:py-6">
+            <Kicker>Trailblaze queries</Kicker>
+            <Heading className="text-[32px] max-[640px]:text-[24px]">
+              <span id="tb-contact">In case of queries, contact us</span>
+            </Heading>
+            <ContactList people={TRAILBLAZE_CONTACTS} className="pt-1" />
+          </section>
+
           {/* Back to Daksh, with the logo and ALDEN */}
           <section className="relative isolate flex items-center gap-9 overflow-hidden rounded-[16px] border border-line bg-card p-11 max-[1080px]:flex-col max-[1080px]:items-start max-[640px]:gap-4 max-[640px]:p-5">
             <div className="absolute -top-[120px] -right-[70px] -z-10 h-[260px] w-[260px] rounded-full border-[22px] border-gold/45 max-[640px]:hidden" aria-hidden="true" />
@@ -179,11 +194,11 @@ export default function TrailblazePage() {
               <DakshLogo light className="w-[230px] max-[640px]:w-[180px]" />
               <Heading className="text-[32px] max-[640px]:text-[24px]">Competing is just the start</Heading>
               <p className="max-w-[509px] text-[16px] leading-[1.6] text-text-secondary max-[640px]:hidden">
-                Explore every school, meet students and faculty and get career guidance — all on the same two days.
+                Explore every school, tour the campus at University Open Day and get career guidance — all on the same two days.
               </p>
             </div>
             <div className="self-end max-[1080px]:self-start max-[640px]:w-full">
-              <Btn href="/">Explore Daksh →</Btn>
+              <Btn href="/">Explore Daksh &amp; Open Day →</Btn>
             </div>
           </section>
         </div>

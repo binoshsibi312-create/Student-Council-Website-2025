@@ -1,6 +1,6 @@
 // Daksh 2026, University Open Day and Trailblaze content.
-// Sources: daksh.christuniversity.in, the Daksh 2026 | University Open Day
-// brochure (public/docs) and the "Trailblaze — The Culture of Tomorrow" brief.
+// Sources: daksh.christuniversity.in and the Daksh 2026 | University Open Day
+// and Trailblaze competition brochures (public/docs, November 2026 editions).
 // Photos are from Daksh 2025 / Open Day.
 
 export const DAKSH = {
@@ -18,6 +18,7 @@ export const DAKSH = {
   registerIndividuals: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
   registerInstitutions: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
   brochure: "/docs/daksh-2026-open-day-brochure.pdf",
+  theme: "Imprints of Innovation: Past, Present and Future",
 };
 
 export const BRAND = {
@@ -25,13 +26,34 @@ export const BRAND = {
   /** White wordmark for dark backgrounds. */
   logoLight: { src: "/images/daksh/brand/daksh-logo-light.png", alt: "Daksh", width: 1228, height: 370 },
   emblem: { src: "/images/daksh/brand/daksh-emblem.png", alt: "", width: 600, height: 743 },
+  openDayLogo: { src: "/images/daksh/brand/open-day-logo.png", alt: "University Open Day 2026–27 badge", width: 480, height: 480 },
   mascot: { src: "/images/daksh/brand/alden-mascot.jpg", alt: "Alden, the Daksh owl mascot, giving a thumbs up from a laptop", width: 700, height: 681 },
 };
 
-/** Brochure contacts ("In case of queries, contact us"). */
-export const CONTACTS = [
-  { name: "Amrutha Bhavani Sundar", email: "amrutha.bhavani@christuniversity.in", phone: "+91 90223 38984", tel: "+919022338984" },
-  { name: "Malcolm Jeson", email: "malcolm.jeson@msie.christuniversity.in", phone: "+91 63633 37126", tel: "+916363337126" },
+export interface Contact {
+  name: string;
+  email: string;
+  phone: string;
+  tel: string;
+}
+
+const contact = (name: string, email: string, phone: string): Contact => ({ name, email, phone, tel: phone.replace(/\s/g, "") });
+
+/** Daksh & Open Day brochure: "Contact us". */
+export const CONTACTS: Contact[] = [
+  contact("Amrutha Bhavani Sundar", "amrutha.bhavani@bcomfah.christuniversity.in", "+91 90223 38984"),
+  contact("Malcolm Jeson", "malcolm.jeson@msie.christuniversity.in", "+91 63633 37126"),
+  contact("Gauri V Nair", "gauri.nair@bcomfah.christuniversity.in", "+91 90725 57561"),
+  contact("Ramisha R", "ramisha.r@bscbbh.christuniversity.in", "+91 70126 69229"),
+];
+
+/** Trailblaze brochure: "In case of queries, contact us". */
+export const TRAILBLAZE_CONTACTS: Contact[] = [
+  contact("Aiswarya Jelt", "aiswarya.jelt@law.christuniversity.in", "+91 70121 35057"),
+  contact("Avinash Ashok", "avinash.ashok@bcomsfh.christuniversity.in", "+91 85537 71953"),
+  contact("Devika Menon", "devika.menon@christuniversity.in", "+91 88847 32513"),
+  contact("Dr Suja Mol John", "suja.john@christuniversity.in", "+91 98455 99589"),
+  contact("Dr Naveen Kumara R", "naveenkumara.r@christuniversity.in", "+91 77950 95065"),
 ];
 
 export const SOCIALS = [
@@ -51,8 +73,20 @@ export const UNIVERSITY_STATS = [
 export const OPEN_DAY = {
   title: "University Open Day",
   summary:
-    "On the same two days as Daksh, the University opens Bangalore Central Campus to visitors — walk the grounds, step inside the facilities and see everyday life at CHRIST for yourself.",
+    "Step into the world of possibilities at CHRIST (Deemed to be University) through Open Day! Explore the campus through guided tours of its modern classrooms, state-of-the-art laboratories and collaborative learning spaces.",
+  more: "Experience the vibrant academic environment and discover the facilities that inspire learning, innovation and growth — while envisioning yourself as part of a thriving university community.",
   partner: "Presented by the University Student Council in collaboration with the Open Day Team.",
+  highlights: [
+    { title: "Guided campus tours", body: "Walk the Central Campus and see everyday life at CHRIST for yourself." },
+    { title: "Modern classrooms", body: "See where lectures, seminars and discussions happen every day." },
+    { title: "State-of-the-art laboratories", body: "Step inside the labs where projects and research come to life." },
+    { title: "Collaborative learning spaces", body: "Find the spaces where students learn, build and create together." },
+  ],
+  /** Online programmes listed alongside Open Day in the brochure. */
+  online: {
+    ug: ["BBA", "BCom", "BCA"],
+    pg: ["MCom", "MA (Applied Economics)", "MA (English with Communication Studies)", "MCA", "MSc (AI and Machine Learning)", "MSc (Data Science)"],
+  },
 };
 
 export interface Photo {
@@ -174,7 +208,8 @@ export const MOMENTS: { photo: Photo; caption: string; tilt: number }[] = [
 
 export const TRAILBLAZE = {
   theme: "The Culture of Tomorrow",
-  tagline: "The world we watch. The world we create.",
+  tagline: "Past · Present · Future",
+  brochure: "/docs/trailblaze-2026-brochure.pdf",
 };
 
 export interface Competition {
@@ -188,30 +223,34 @@ export interface Competition {
   format: string;
   /** Sub-theme some competitions set, e.g. “Echoes of Tomorrow”. */
   concept?: string;
+  /** Registration fee, as printed in the brochure. */
+  fee: string;
   description: string;
 }
 
-/** The seven Trailblaze competitions, from “Trailblaze — The Culture of Tomorrow”. */
+/** The seven Trailblaze competitions, from the Trailblaze 2026 competition brochure. */
 export const COMPETITIONS: Competition[] = [
   {
     name: "Mind-Maze",
     kind: "Quiz Competition",
     tag: "Quiz",
     tagline: "Think Fast, Answer Faster.",
-    team: "2–3 members",
-    format: "3 rounds — written MCQ, audio-visual buzzer, rapid fire",
+    team: "Up to 3 members",
+    format: "3 rounds — written MCQ, bounce & pounce, audio-visual buzzer",
+    fee: "₹200 per team",
     description:
-      "The quiz explores the world around us, with questions touching on pop culture, technology, climate, current trends and the future — a broad general-knowledge competition with the theme as one component.",
+      "A high-intensity quiz testing sharpness, awareness and intellect — current affairs, pop culture, logic, science, Indian polity, music, sports and general knowledge.",
   },
   {
     name: "Dialectica",
     kind: "Asian Parliamentary Debate",
     tag: "Debate",
     tagline: "Make Your Point. Own the Room.",
-    team: "3 (Government) + 3 (Opposition)",
-    format: "Asian Parliamentary Debate",
+    team: "3 members — Government or Opposition, by draw of lots",
+    format: "Preliminaries, semi-finals and finals · 3–7 minute speeches · 30 minutes’ preparation",
+    fee: "₹200 per team",
     description:
-      "Motions may draw from pop culture, technology, climate change, social media, consumerism and the future of society — asking what kind of future we want and challenging the assumptions shaping it.",
+      "Think critically, argue persuasively and communicate confidently on pressing global and social issues — judged on matter, manner and method.",
   },
   {
     name: "Celluloid: Filmlets",
@@ -219,10 +258,11 @@ export const COMPETITIONS: Competition[] = [
     tag: "Film",
     tagline: "Frame the Story. Own the Screen.",
     team: "3–8 members",
-    format: "5–8 minutes, including credits",
+    format: "6–8 minutes including credits · any language, with English subtitles",
     concept: "Echoes of Tomorrow",
+    fee: "₹300 per team",
     description:
-      "Interpret the future through film — climate futures, AI, changing societies, dystopian worlds, pop culture or entirely imaginative futures. Teams decide what tomorrow means to them.",
+      "Imagine how the choices, ideas and innovations of today shape the future — a personal story, a social issue or an imaginative vision. Original work only, with no AI-generated content.",
   },
   {
     name: "ReelScape: Stories in Motion",
@@ -231,9 +271,10 @@ export const COMPETITIONS: Competition[] = [
     tag: "Reels",
     tagline: "Shoot the Vibe in Real Time.",
     team: "Individual",
-    format: "On-spot theme reveal · 3-hour campus shoot & edit · 30–90 seconds",
+    format: "Theme revealed on the morning · 4 hours to shoot and edit · 30–90 seconds",
+    fee: "₹100 per participant",
     description:
-      "A fast-paced challenge built around pop culture and the future — viral culture, life in 2050, changing trends, internet culture, climate consciousness or imagined futures.",
+      "Capture the spirit, energy and atmosphere of Daksh and Open Day in one reel — shot and edited on campus on 21 November, with results on 22 November.",
   },
   {
     name: "Nritya Kshetra",
@@ -241,21 +282,21 @@ export const COMPETITIONS: Competition[] = [
     tag: "Dance",
     tagline: "Bring the Rhythm to Life.",
     team: "6–8 members",
-    format: "7-minute performance to Indian film tracks with a mandatory prop · single round",
-    concept: "Evolution of an Era",
+    format: "7 minutes including setup and exit · Indian film songs · a mandatory prop for at least 2 minutes",
+    fee: "₹300 per team",
     description:
-      "Teams showcase the evolution of Indian popular culture through music, movement and visual storytelling — from the past and present towards an imagined future.",
+      "A celebration of India’s cultural spirit through Indian film songs and dance forms, with one common prop woven into the choreography.",
   },
   {
-    name: "VirtuLeague",
-    kind: "E-Sports Football Championship",
-    tag: "E-Sports",
-    tagline: "Claim the Digital Pitch.",
-    team: "Individual (1v1) or pairs (2v2)",
-    format: "FIFA 25 Kick-Off mode on PS5 consoles",
-    concept: "The Digital Arena",
+    name: "Chessverse",
+    kind: "Chess Championship",
+    tag: "Chess",
+    tagline: "Master the Board. Claim the Crown.",
+    team: "Individual (1v1)",
+    format: "Blitz preliminaries (5 minutes) · rapid qualifiers (30 minutes) · over the board",
+    fee: "₹100 per participant (1v1) · ₹200 per pair (2v2)",
     description:
-      "The digital culture of tomorrow through gaming and e-sports — the theme lives in the event’s identity and branding, while the football stays independent and competitive.",
+      "Strategy, foresight and tactical precision on the physical board — high-speed rounds give way to deep, calculated endgames in the final stages.",
   },
   {
     name: "Resonance",
@@ -264,8 +305,8 @@ export const COMPETITIONS: Competition[] = [
     tagline: "Raw Vocals, Real Music.",
     team: "3–8 members",
     format: "3–6 minutes (+1-minute setup) · live acoustic instruments and vocals only",
-    concept: "Songs That Shaped Us",
+    fee: "₹300 per team",
     description:
-      "Music as part of popular culture and collective memory — teams interpret songs across generations and eras, in their own musical identity.",
+      "Voices in their purest form — any genre, from classical and folk to pop, patriotic and Bollywood, performed live and unfiltered.",
   },
 ];
