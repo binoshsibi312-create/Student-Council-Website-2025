@@ -210,6 +210,8 @@ export const TRAILBLAZE = {
   theme: "The Culture of Tomorrow",
   tagline: "Past · Present · Future",
   brochure: "/docs/trailblaze-2026-brochure.pdf",
+  /** Trailblaze registration (Google Form). */
+  register: "https://docs.google.com/forms/d/e/1FAIpQLSdmV5gmqnBsehP-0Fmfjr2Tfrioghi5tfas99nh2etHsZ_gIw/viewform",
 };
 
 export interface Competition {

@@ -4,7 +4,7 @@ import Shell from "@/components/Shell";
 import DakshType from "@/components/daksh/DakshType";
 import { Btn, Hand, Heading, KeyInfo, Kicker, Sparkle } from "@/components/daksh/kit";
 import { DakshLogo, Mascot } from "@/components/daksh/ui";
-import { COMPETITIONS, DAKSH, PHOTOS, SOCIALS, TRAILBLAZE, TRAILBLAZE_CONTACTS } from "@/lib/daksh";
+import { COMPETITIONS, DAKSH, PHOTOS, TRAILBLAZE, TRAILBLAZE_CONTACTS } from "@/lib/daksh";
 
 export const metadata: Metadata = {
   title: "Trailblaze | Daksh & Open Day 2026 Competitions",
@@ -76,8 +76,9 @@ export default function TrailblazePage() {
               { label: "Registration", value: "Individual participants only", note: "Students register themselves — no institution entries" },
             ]}
           >
-            {/* The registration link isn't out yet; until then this points to how to take part. */}
-            <Btn href="#take-part">Register — Participants</Btn>
+            <Btn href={TRAILBLAZE.register} external>
+              Register — Participants
+            </Btn>
             <Btn href={TRAILBLAZE.brochure} download variant="outline">
               Trailblaze brochure ↓
             </Btn>
@@ -172,9 +173,12 @@ export default function TrailblazePage() {
                 </div>
               ))}
             </div>
-            <p className="text-[14px] leading-[1.5] text-text-secondary min-[641px]:hidden">
-              Registration is for individual participants only — follow {SOCIALS[0].handle} for the link.
-            </p>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Btn href={TRAILBLAZE.register} external>
+                Register for Trailblaze →
+              </Btn>
+              <p className="text-[14px] leading-[1.5] text-text-secondary">Registration is for individual participants only.</p>
+            </div>
           </section>
 
           {/* Trailblaze contacts, from the brochure */}
