@@ -65,15 +65,8 @@ export default function DakshPage() {
               className="absolute inset-0 -z-10"
               style={{ background: "linear-gradient(180deg, rgba(12,12,14,0) 35%, rgba(12,12,14,0.62) 68%, rgba(12,12,14,0.96) 100%)" }}
             />
-            {/* The Open Day badge, pinned top-right */}
-            <img
-              src={BRAND.openDayLogo.src}
-              alt={BRAND.openDayLogo.alt}
-              width={BRAND.openDayLogo.width}
-              height={BRAND.openDayLogo.height}
-              className="absolute top-10 right-12 w-[150px] -rotate-6 drop-shadow-[0_10px_24px_rgba(0,0,0,0.6)] max-[1080px]:w-[120px] max-[640px]:top-6 max-[640px]:right-5 max-[640px]:w-[84px]"
-            />
-            <Sparkle className="absolute top-[200px] right-[60px] h-[18px] w-[18px] text-white/80 max-[1080px]:top-[170px] max-[640px]:hidden" />
+            <Sparkle className="absolute top-12 right-14 h-[34px] w-[34px] text-gold-light max-[640px]:top-10 max-[640px]:right-10 max-[640px]:h-6 max-[640px]:w-6" />
+            <Sparkle className="absolute top-[110px] right-[110px] h-[18px] w-[18px] text-white/80 max-[640px]:hidden" />
             <div className="flex flex-col gap-3.5 max-[640px]:gap-2.5">
               <p className="flex items-center gap-3.5 text-[17px] font-bold uppercase leading-[1.2] tracking-[0.22em] text-fg [text-shadow:0_2px_14px_rgba(0,0,0,0.85)] max-[640px]:gap-2.5 max-[640px]:text-[11px] max-[640px]:tracking-[0.18em]">
                 <span className="h-0.5 w-10 shrink-0 bg-gold-light max-[640px]:w-6" aria-hidden="true" />
