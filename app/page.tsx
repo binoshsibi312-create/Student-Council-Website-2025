@@ -94,13 +94,16 @@ export default function DakshPage() {
             ]}
           >
             <Btn href={DAKSH.registerIndividuals} external>
-              Register — Individuals
+              Daksh — Individuals
             </Btn>
             <Btn href={DAKSH.registerInstitutions} external variant="outline">
-              Register — Institutions
+              Daksh — Institutions
+            </Btn>
+            <Btn href={DAKSH.registerOpenDay} external variant="outline">
+              Open Day registration
             </Btn>
             <Btn href={DAKSH.brochure} download variant="outline">
-              Download brochure ↓
+              Brochure ↓
             </Btn>
           </KeyInfo>
 

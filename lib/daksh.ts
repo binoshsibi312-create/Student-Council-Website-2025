@@ -14,9 +14,10 @@ export const DAKSH = {
   hours: "9:00 AM – 5:00 PM",
   email: "daksh@christuniversity.in",
   site: "https://daksh.christuniversity.in",
-  /** One Google Apps Script form handles both individual and institution registrations. */
+  /** One Google Apps Script form handles individual, institution and Open Day registrations. */
   registerIndividuals: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
   registerInstitutions: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
+  registerOpenDay: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
   brochure: "/docs/daksh-2026-open-day-brochure.pdf",
   theme: "Imprints of Innovation: Past, Present and Future",
 };

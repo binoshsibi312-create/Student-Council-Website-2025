@@ -108,14 +108,15 @@ export function KeyInfo({ tiles, title, children }: { tiles: Tile[]; title: stri
           ))}
         </div>
       </div>
-      <div className="flex flex-wrap items-center gap-3 rounded-[16px] border border-line bg-card py-[18px] pr-5 pl-[26px] min-[1300px]:flex-nowrap max-[640px]:flex-col max-[640px]:items-stretch max-[640px]:border-0 max-[640px]:bg-transparent max-[640px]:p-0">
-        <div className="mr-auto flex min-w-0 items-center gap-2.5 max-[1299px]:basis-full max-[640px]:hidden min-[1300px]:flex-1">
+      {/* Title on its own line, then every action in a single row (stacked on phones) */}
+      <div className="flex flex-col gap-3.5 rounded-[16px] border border-line bg-card py-[18px] px-[26px] max-[640px]:border-0 max-[640px]:bg-transparent max-[640px]:p-0">
+        <div className="flex min-w-0 items-center gap-2.5 max-[640px]:hidden">
           <Sparkle className="h-4 w-4 text-gold-light" />
           <Heading as="p" className="text-[19px] leading-[1.2]">
             {title}
           </Heading>
         </div>
-        {children}
+        <div className="grid grid-flow-col auto-cols-fr gap-3 max-[1299px]:grid-flow-row max-[1299px]:grid-cols-2 max-[640px]:grid-cols-1">{children}</div>
       </div>
     </section>
   );
