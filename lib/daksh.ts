@@ -226,6 +226,8 @@ export interface Competition {
   format: string;
   /** Sub-theme some competitions set, e.g. “Echoes of Tomorrow”. */
   concept?: string;
+  /** Competition poster, shown when the card is hovered. */
+  poster: string;
   /** Registration fee, as printed in the brochure. */
   fee: string;
   description: string;
@@ -235,6 +237,7 @@ export interface Competition {
 export const COMPETITIONS: Competition[] = [
   {
     name: "Mind-Maze",
+    poster: "/images/trailblaze/posters/mind-maze.webp",
     kind: "Quiz Competition",
     tag: "Quiz",
     tagline: "Think Fast, Answer Faster.",
@@ -246,6 +249,7 @@ export const COMPETITIONS: Competition[] = [
   },
   {
     name: "Dialectica",
+    poster: "/images/trailblaze/posters/dialectica.webp",
     kind: "Asian Parliamentary Debate",
     tag: "Debate",
     tagline: "Make Your Point. Own the Room.",
@@ -257,6 +261,7 @@ export const COMPETITIONS: Competition[] = [
   },
   {
     name: "Celluloid: Filmlets",
+    poster: "/images/trailblaze/posters/celluloid.webp",
     kind: "Short Film Making",
     tag: "Film",
     tagline: "Frame the Story. Own the Screen.",
@@ -269,6 +274,7 @@ export const COMPETITIONS: Competition[] = [
   },
   {
     name: "ReelScape: Stories in Motion",
+    poster: "/images/trailblaze/posters/reelscape.webp",
     short: "ReelScape",
     kind: "Reel Making",
     tag: "Reels",
@@ -281,6 +287,7 @@ export const COMPETITIONS: Competition[] = [
   },
   {
     name: "Nritya Kshetra",
+    poster: "/images/trailblaze/posters/nritya-kshetra.webp",
     kind: "Cultural Dance Showcase",
     tag: "Dance",
     tagline: "Bring the Rhythm to Life.",
@@ -292,6 +299,7 @@ export const COMPETITIONS: Competition[] = [
   },
   {
     name: "Chessverse",
+    poster: "/images/trailblaze/posters/chessverse.webp",
     kind: "Chess Championship",
     tag: "Chess",
     tagline: "Master the Board. Claim the Crown.",
@@ -303,6 +311,7 @@ export const COMPETITIONS: Competition[] = [
   },
   {
     name: "Resonance",
+    poster: "/images/trailblaze/posters/resonance.webp",
     kind: "Acoustic Group Singing",
     tag: "Music",
     tagline: "Raw Vocals, Real Music.",

@@ -99,12 +99,28 @@ export default function TrailblazePage() {
                 return (
                   <article
                     key={c.name}
-                    className="flex flex-col overflow-hidden rounded-[16px] border border-[#032e4b]/10 bg-white shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)] transition-transform duration-200 hover:-translate-y-1"
+                    tabIndex={0}
+                    aria-label={`${c.name} — hover or focus to see the poster`}
+                    className="group relative isolate flex cursor-pointer flex-col overflow-hidden rounded-[16px] border border-[#032e4b]/10 bg-white shadow-[0_14px_28px_-14px_rgba(0,0,0,0.6)] outline-none transition-transform duration-200 hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-gold-light"
                   >
+                    {/* The competition poster fades in over the card on hover, focus or tap */}
+                    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-[#032e4b]/92 p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus:opacity-100">
+                      <img
+                        src={c.poster}
+                        alt={`${c.name} poster`}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full max-h-full w-auto scale-95 rounded-[10px] object-contain shadow-[0_18px_40px_-12px_rgba(0,0,0,0.8)] transition-transform duration-300 group-hover:scale-100 group-focus:scale-100"
+                      />
+                    </div>
                     <div className="flex items-center justify-between px-[26px] pt-3.5 pb-3 max-[640px]:px-5" style={{ background: band, color: bandText }}>
                       <span className="flex items-center gap-2 text-[13px] font-bold uppercase leading-[1.2] tracking-[0.22em]">
                         <Sparkle className="h-3 w-3" />
                         <span style={{ color: bandText }}>{c.tag}</span>
+                        <span className="ml-1 rounded-full border border-current/40 px-2 pt-[3px] pb-px text-[10px] tracking-[0.12em] opacity-80">
+                          <span className="max-[1080px]:hidden">Hover for poster</span>
+                          <span className="min-[1081px]:hidden">Tap for poster</span>
+                        </span>
                       </span>
                       <span className="font-gilda text-[22px] leading-[1.2]" aria-hidden="true">
                         {String(i + 1).padStart(2, "0")}
