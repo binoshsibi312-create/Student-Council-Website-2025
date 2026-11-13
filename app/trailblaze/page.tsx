@@ -7,8 +7,8 @@ import { DakshLogo, Mascot } from "@/components/daksh/ui";
 import { COMPETITIONS, DAKSH, PHOTOS, TRAILBLAZE, TRAILBLAZE_CONTACTS } from "@/lib/daksh";
 
 export const metadata: Metadata = {
-  title: "Trailblaze | Daksh & Open Day 2026 Competitions",
-  description: `Trailblaze — ${COMPETITIONS.length} Daksh & Open Day 2026 competitions on the theme “${TRAILBLAZE.theme}”: ${COMPETITIONS.map((c) => c.name).join(", ")}. ${DAKSH.dates}.`,
+  title: "Trailblaze Competitions | Daksh & Open Day 2026",
+  description: `Trailblaze Competitions — ${COMPETITIONS.length} Daksh & Open Day 2026 competitions on the theme “${TRAILBLAZE.theme}”: ${COMPETITIONS.map((c) => c.name).join(", ")}. ${DAKSH.dates}.`,
 };
 
 /** Colour band for each competition card, in COMPETITIONS order: [background, text, sparkle]. */
@@ -25,7 +25,7 @@ const BANDS = [
 const STEPS = [
   ["01", "Pick your stage", "Seven competitions", "Seven competitions — choose the one that fits your talent, solo or as a team."],
   ["02", "Register yourself", "Individuals only", "Registration is individual — each participant signs up on their own. Institutions do not register."],
-  ["03", "Read the brochure", "Rules & fees", "The Trailblaze brochure has the guidelines, judging criteria and registration fee for every competition."],
+  ["03", "Read the brochure", "Rules & fees", "The Trailblaze Competitions brochure has the guidelines, judging criteria and registration fee for every competition."],
 ];
 
 export default function TrailblazePage() {
@@ -62,13 +62,23 @@ export default function TrailblazePage() {
                 <span className="h-0.5 w-10 shrink-0 bg-gold-light max-[640px]:w-6" aria-hidden="true" />
                 Daksh &amp; Open Day 2026 Competitions
               </p>
-              <h1 className="font-gilda text-[112px] leading-none text-fg max-[1080px]:text-[88px] max-[640px]:text-[56px]">TRAILBLAZE</h1>
+              <h1 className="flex flex-col font-gilda leading-none text-fg">
+                <span className="text-[112px] max-[1080px]:text-[88px] max-[640px]:text-[56px]">TRAILBLAZE</span>
+                <span className="mt-2 text-[44px] tracking-[0.12em] text-fg/90 max-[1080px]:text-[36px] max-[640px]:text-[22px]">COMPETITIONS</span>
+              </h1>
               <Hand className="text-[48px] max-[640px]:text-[27px]">{TRAILBLAZE.theme}</Hand>
+              <p className="mt-1 flex w-fit items-center gap-2.5 rounded-[12px] border border-gold/50 bg-ink/55 py-2.5 pr-4 pl-3 text-[17px] font-bold leading-[1.35] text-gold-light backdrop-blur-sm max-[640px]:text-[14px]">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 shrink-0" aria-hidden="true">
+                  <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z" />
+                  <path d="M17 6h2.5a1.5 1.5 0 0 1 1.5 1.5V8a4 4 0 0 1-4 4M7 6H4.5A1.5 1.5 0 0 0 3 7.5V8a4 4 0 0 0 4 4" />
+                </svg>
+                {TRAILBLAZE.prizes}
+              </p>
             </div>
           </section>
 
           <KeyInfo
-            title="Compete at Trailblaze"
+            title="Compete at Trailblaze Competitions 2026"
             tiles={[
               { label: "Where", value: DAKSH.venue, note: DAKSH.address },
               { label: "Competitions", value: `${COMPETITIONS.length} competitions`, note: COMPETITIONS.map((c) => c.name.split(":")[0]).join(" · ") },
@@ -80,7 +90,7 @@ export default function TrailblazePage() {
               Register — Participants
             </Btn>
             <Btn href={TRAILBLAZE.brochure} download variant="outline">
-              Trailblaze brochure ↓
+              Competitions brochure ↓
             </Btn>
             <Btn href="/" variant="outline">
               Back to Daksh
@@ -191,7 +201,7 @@ export default function TrailblazePage() {
             </div>
             <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
               <Btn href={TRAILBLAZE.register} external>
-                Register for Trailblaze →
+                Register for Trailblaze Competitions →
               </Btn>
               <p className="text-[14px] leading-[1.5] text-text-secondary">Registration is for individual participants only.</p>
             </div>
@@ -199,7 +209,7 @@ export default function TrailblazePage() {
 
           {/* Trailblaze contacts, from the brochure */}
           <section aria-labelledby="tb-contact" className="flex flex-col gap-4 rounded-[16px] border border-line bg-card px-11 py-10 max-[640px]:px-5 max-[640px]:py-6">
-            <Kicker>Trailblaze queries</Kicker>
+            <Kicker>Trailblaze Competitions · queries</Kicker>
             <Heading className="text-[32px] max-[640px]:text-[24px]">
               <span id="tb-contact">In case of queries, contact us</span>
             </Heading>

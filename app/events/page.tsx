@@ -99,13 +99,13 @@ export default function EventsPage() {
               Education &amp; Career Guidance Fair · {DAKSH.dates.replace(" 2026", "")}
             </p>
             <p className="mt-2.5 max-w-[520px] text-base font-light leading-[1.6] text-text-secondary">
-              Department stalls, career counselling, the Trailblaze competitions and the University Open Day — all at{" "}
+              Department stalls, career counselling, the Trailblaze Competitions and the University Open Day — all at{" "}
               {DAKSH.venue}.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 max-[640px]:flex-col">
               <ButtonLink href="/">Explore Daksh &amp; Open Day →</ButtonLink>
               <ButtonLink href="/trailblaze" primary={false}>
-                Trailblaze competitions
+                Trailblaze Competitions
               </ButtonLink>
             </div>
           </div>

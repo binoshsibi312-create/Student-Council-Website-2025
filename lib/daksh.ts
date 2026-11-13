@@ -192,7 +192,7 @@ export const AWAITS: { photo?: Photo; title: string; body: string }[] = [
   { photo: PHOTOS.festsClubsStall, title: "Department stalls", body: "Every school and department showcases its programmes, projects and student life — ask anything." },
   { photo: PHOTOS.stallDemo, title: "Career counselling", body: "Personalised guidance to help you match your interests to the right course and career." },
   { photo: PHOTOS.openDayWalk, title: "University Open Day", body: "Explore the Central Campus and its facilities on the same two days as Daksh." },
-  { title: "Trailblaze competitions", body: "Seven competitions on the theme The Culture of Tomorrow — from quiz and debate to film, dance and e-sports." },
+  { title: "Trailblaze Competitions", body: "Seven competitions on the theme The Culture of Tomorrow — from quiz and debate to film, dance and e-sports." },
 ];
 
 export const MOMENTS: { photo: Photo; caption: string; tilt: number }[] = [
@@ -211,6 +211,7 @@ export const TRAILBLAZE = {
   theme: "The Culture of Tomorrow",
   tagline: "Past · Present · Future",
   brochure: "/docs/trailblaze-2026-brochure.pdf",
+  prizes: "Exciting cash prizes and an overall trophy for the winners",
   /** Trailblaze registration (Google Form). */
   register: "https://docs.google.com/forms/d/e/1FAIpQLSdmV5gmqnBsehP-0Fmfjr2Tfrioghi5tfas99nh2etHsZ_gIw/viewform",
 };

@@ -47,7 +47,7 @@ export interface Floor {
 
 export const SIDEBAR_ITEMS: SidebarItem[] = [
   { href: "/", label: "Daksh & Open Day 2026" },
-  { href: "/trailblaze", label: "Trailblaze" },
+  { href: "/trailblaze", label: "Trailblaze Competitions" },
   { href: "/about", label: "About" },
   { href: "/governance", label: "Governance" },
   { href: "/mentors", label: "Mentors" },

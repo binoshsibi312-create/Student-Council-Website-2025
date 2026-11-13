@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import ContactList from "@/components/ContactList";
 import Shell from "@/components/Shell";
 import DakshType from "@/components/daksh/DakshType";
+import TrailblazeSpotlight from "@/components/daksh/TrailblazeSpotlight";
 import { Btn, Hand, Heading, KeyInfo, Kicker, Polaroid, Sparkle, WallPolaroid } from "@/components/daksh/kit";
 import { DakshLogo, Img, Mascot } from "@/components/daksh/ui";
 import { BRAND, CAMPUSES, COMPETITIONS, CONTACTS, DAKSH, OPEN_DAY, PHOTOS, SCHOOLS, SOCIALS, TRAILBLAZE, TRAILBLAZE_CONTACTS, WALL } from "@/lib/daksh";
@@ -24,7 +25,7 @@ const AWAITS = [
   { photo: PHOTOS.festsClubsStall, title: "Department stalls", body: "Every school and department showcases its programmes, projects and student life.", short: "Every school showcases its programmes." },
   { photo: PHOTOS.stallDemo, title: "Career counselling", body: "Personalised guidance to match your interests to the right course and career.", short: "Guidance to find the right course." },
   { photo: PHOTOS.openDayParents, title: "University Open Day", body: "Explore the Central Campus and its facilities on the same two days.", short: "Explore the Central Campus and its facilities." },
-  { photo: PHOTOS.nrityaGroup, title: "Trailblaze", body: `Seven competitions on the theme ${TRAILBLAZE.theme}.`, short: `Seven competitions — ${TRAILBLAZE.theme}.`, href: "/trailblaze" },
+  { photo: PHOTOS.nrityaGroup, title: "Trailblaze Competitions", body: `Seven competitions on the theme ${TRAILBLAZE.theme}.`, short: `Seven competitions — ${TRAILBLAZE.theme}.`, href: "/trailblaze" },
 ];
 
 /** The schools split into three columns of roughly equal height (by index into SCHOOLS). */
@@ -83,6 +84,9 @@ export default function DakshPage() {
               </Heading>
             </div>
           </section>
+
+          {/* Trailblaze spotlight — right under the hero, so it's seen on landing */}
+          <TrailblazeSpotlight />
 
           <KeyInfo
             title="Be part of Daksh & Open Day 2026"
@@ -365,7 +369,7 @@ export default function DakshPage() {
               style={{ background: "linear-gradient(180deg, rgba(12,12,14,0.25) 0%, rgba(12,12,14,0.7) 55%, rgba(12,12,14,0.95) 100%)" }}
             />
             <div className="flex flex-col gap-3 max-[640px]:gap-2">
-              <Kicker className="text-gold-light max-[640px]:text-[10px]">Trailblaze · {TRAILBLAZE.theme}</Kicker>
+              <Kicker className="text-gold-light max-[640px]:text-[10px]">Trailblaze Competitions · {TRAILBLAZE.theme}</Kicker>
               <Heading className="text-[38px] max-[640px]:text-[26px]">{COMPETITIONS.length} competitions</Heading>
               <div className="flex flex-col gap-2 max-[640px]:hidden">
                 {[COMPETITIONS.slice(0, 3), COMPETITIONS.slice(3)].map((row) => (
@@ -380,7 +384,7 @@ export default function DakshPage() {
               </div>
             </div>
             <span className="inline-flex shrink-0 items-center justify-center rounded-[16px] bg-gold px-6 pt-[15px] pb-[13px] text-[0.94rem] font-bold leading-[1.2] tracking-[0.02em] text-ink transition-colors group-hover:bg-gold-light">
-              Enter Trailblaze →
+              Enter Trailblaze Competitions →
             </span>
           </a>
 
