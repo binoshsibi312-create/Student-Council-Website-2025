@@ -211,7 +211,13 @@ export const TRAILBLAZE = {
   theme: "The Culture of Tomorrow",
   tagline: "Past · Present · Future",
   brochure: "/docs/trailblaze-2026-brochure.pdf",
-  prizes: "Exciting cash prizes and an overall trophy for the winners",
+  prizes: "Overall Champion School wins ₹7,000 + the Rolling Trophy",
+  /** Overall School Championship — awarded across all competitions. */
+  championship: [
+    { place: "Overall Champion School", prize: "₹7,000", extra: "+ Rolling Trophy" },
+    { place: "Overall First Runner‑Up", prize: "₹4,000" },
+    { place: "Overall Second Runner‑Up", prize: "₹2,000" },
+  ] as { place: string; prize: string; extra?: string }[],
   /** Trailblaze registration (Google Form). */
   register: "https://docs.google.com/forms/d/e/1FAIpQLSdmV5gmqnBsehP-0Fmfjr2Tfrioghi5tfas99nh2etHsZ_gIw/viewform",
 };

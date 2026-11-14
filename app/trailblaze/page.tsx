@@ -97,6 +97,44 @@ export default function TrailblazePage() {
             </Btn>
           </KeyInfo>
 
+          {/* Overall School Championship */}
+          <section aria-labelledby="tb-prizes" className="flex flex-col gap-6">
+            <div className="flex flex-col gap-3">
+              <Kicker>Prizes · Trailblaze Competitions 2026</Kicker>
+              <Heading className="text-[42px] max-[640px]:text-[30px]">
+                <span id="tb-prizes">Overall School Championship</span>
+              </Heading>
+            </div>
+            <ol className="grid grid-cols-[1.25fr_1fr_1fr] gap-5 max-[1080px]:grid-cols-1 max-[640px]:gap-4">
+              {TRAILBLAZE.championship.map((t, i) => (
+                <li
+                  key={t.place}
+                  className={`relative flex flex-col gap-2 overflow-hidden rounded-[16px] border px-7 pt-6 pb-7 max-[640px]:px-5 max-[640px]:pt-5 max-[640px]:pb-5 ${
+                    i === 0
+                      ? "border-gold/50 bg-[radial-gradient(120%_140%_at_100%_0%,#1d2f63_0%,#121a36_50%,#0e0f16_100%)]"
+                      : "border-white/12 bg-white/[0.04]"
+                  }`}
+                >
+                  <span className="flex items-center gap-2 text-[13px] font-bold uppercase leading-[1.2] tracking-[0.22em] text-gold-light">
+                    {i === 0 ? (
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 shrink-0" aria-hidden="true">
+                        <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z" />
+                        <path d="M17 6h2.5a1.5 1.5 0 0 1 1.5 1.5V8a4 4 0 0 1-4 4M7 6H4.5A1.5 1.5 0 0 0 3 7.5V8a4 4 0 0 0 4 4" />
+                      </svg>
+                    ) : (
+                      <Sparkle className="h-3 w-3" />
+                    )}
+                    {t.place}
+                  </span>
+                  <span className={`font-gilda leading-none text-fg ${i === 0 ? "text-[64px] max-[640px]:text-[48px]" : "text-[48px] max-[640px]:text-[40px]"}`}>
+                    {t.prize}
+                  </span>
+                  {t.extra && <span className="text-[17px] font-bold text-gold-light">{t.extra}</span>}
+                </li>
+              ))}
+            </ol>
+          </section>
+
           {/* Competitions */}
           <section id="competitions" className="flex scroll-mt-8 flex-col gap-6">
             <div className="flex flex-col gap-3">
