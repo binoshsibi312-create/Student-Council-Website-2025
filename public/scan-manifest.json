@@ -1,0 +1,14 @@
+{
+  "name": "Daksh Footfall Scanner — University Student Council",
+  "short_name": "Daksh Scanner",
+  "description": "Volunteer scanner for Daksh & Open Day 2026 stalls and entry gates.",
+  "start_url": "/scan",
+  "scope": "/scan",
+  "display": "standalone",
+  "background_color": "#0c0c0e",
+  "theme_color": "#0b0b0c",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/images/logos/christ_emblem.png", "sizes": "608x608", "type": "image/png", "purpose": "any" }
+  ]
+}
