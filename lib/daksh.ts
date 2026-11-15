@@ -18,6 +18,10 @@ export const DAKSH = {
   registerIndividuals: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
   registerInstitutions: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
   registerOpenDay: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
+  /** The same web app's JSON API, used by the volunteer scanner at /scan (footfall + feedback). */
+  footfallApi:
+    process.env.NEXT_PUBLIC_FOOTFALL_API ||
+    "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
   brochure: "/docs/daksh-2026-open-day-brochure.pdf",
   theme: "Imprints of Innovation: Past, Present and Future",
 };

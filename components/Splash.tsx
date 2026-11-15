@@ -2,11 +2,17 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const SEEN_KEY = "usc:splash-seen";
 
+/** Pages that open straight to content, without the intro (e.g. the volunteer scanner). */
+const NO_INTRO = ["/scan"];
+
 export default function Splash({ children }: { children: ReactNode }) {
+  const pathname = usePathname() ?? "";
+  const quiet = NO_INTRO.some((p) => pathname === p || pathname.startsWith(`${p}/`));
   const [lineIn, setLineIn] = useState(false);
   const [logoIn, setLogoIn] = useState(false);
   const [text1In, setText1In] = useState(false);
@@ -15,6 +21,7 @@ export default function Splash({ children }: { children: ReactNode }) {
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
+    if (quiet) return;
     // The intro plays once per browser session; after that, go straight to content.
     let seen = false;
     try {
@@ -42,6 +49,7 @@ export default function Splash({ children }: { children: ReactNode }) {
 
     timersRef.current = timers;
     return () => timers.forEach(clearTimeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function skip() {
@@ -52,6 +60,8 @@ export default function Splash({ children }: { children: ReactNode }) {
     setText2In(true);
     setDone(true);
   }
+
+  if (quiet) return <div className="relative w-full min-h-screen bg-paper text-fg">{children}</div>;
 
   const textBlockBase = "absolute left-8 top-1/2 flex flex-col items-start text-left pointer-events-none max-[640px]:left-4";
 
