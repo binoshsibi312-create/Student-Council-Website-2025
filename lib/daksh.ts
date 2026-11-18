@@ -14,12 +14,18 @@ export const DAKSH = {
   hours: "9:00 AM – 5:00 PM",
   email: "daksh@christuniversity.in",
   site: "https://daksh.christuniversity.in",
-  /** One Google Apps Script form handles individual, institution and Open Day registrations. */
-  registerIndividuals: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
-  registerInstitutions: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
-  registerOpenDay: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
-  /** The same web app's JSON API, used by the volunteer scanner at /scan (footfall + feedback). */
-  footfallApi:
+  /** Registration lives on this site at /register (individual, institution and Open Day). */
+  registerIndividuals: "/register?type=individual",
+  registerInstitutions: "/register?type=institution",
+  registerOpenDay: "/register?type=openday",
+  /**
+   * The registration web app (Google Apps Script). It stores registrations, tickets and
+   * footfall in the Daksh Google Sheet, emails tickets, and answers /register and /scan.
+   * Opening this link directly still shows the original registration page (a fallback).
+   */
+  webApp: "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
+  /** Its JSON API (same link; override with NEXT_PUBLIC_FOOTFALL_API for local testing). */
+  webAppApi:
     process.env.NEXT_PUBLIC_FOOTFALL_API ||
     "https://script.google.com/a/macros/christuniversity.in/s/AKfycbxUlcTnmZBPihXIGJ1M3ysXmQjacCubeDmQrufU9P5yREwU0jl3ZxOj0i7kDeySOEg/exec",
   brochure: "/docs/daksh-2026-open-day-brochure.pdf",

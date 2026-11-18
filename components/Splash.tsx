@@ -8,7 +8,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 const SEEN_KEY = "usc:splash-seen";
 
 /** Pages that open straight to content, without the intro (e.g. the volunteer scanner). */
-const NO_INTRO = ["/scan"];
+const NO_INTRO = ["/scan", "/register"];
 
 export default function Splash({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "";
