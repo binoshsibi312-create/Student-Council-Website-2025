@@ -8,7 +8,7 @@ import nacl from "tweetnacl";
 import { DAKSH } from "@/lib/daksh";
 
 /** The registration web app (same /exec link as the register buttons). */
-export const FOOTFALL_API = DAKSH.footfallApi;
+export const FOOTFALL_API = DAKSH.webAppApi;
 
 export const CATEGORY_LABELS: Record<string, string> = {
   S: "Student",
@@ -68,6 +68,11 @@ export interface HistoryItem {
   rid: string;
   st: "queued" | "sent" | "rejected";
   at?: number;
+  /** Feedback text, entry # (institution passes), whether details were shared, repeat visit / re-entry. */
+  fb?: string;
+  ent?: number;
+  shared?: boolean;
+  re?: boolean;
 }
 export interface DayStats {
   date: string;
@@ -128,12 +133,22 @@ export const getQueue = () => load<ScanRecord[]>("ff_queue", []);
 export const setQueue = (q: ScanRecord[]) => store("ff_queue", q);
 export const getHistory = (code: string) => load<HistoryItem[]>(`ff_hist_${code}`, []);
 export function setHistory(code: string, h: HistoryItem[]) {
-  store(`ff_hist_${code}`, h.slice(0, 400));
+  // Keeps this phone's visits for the visits table and exports (well within phone storage).
+  store(`ff_hist_${code}`, h.slice(0, 3000));
 }
 
 // ---------------------------------------------------------------- dates
 export function ymd(d = new Date()) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+/** "Day 1 — 21 Nov" on event days, "Today — 18 Nov", otherwise "Tue, 17 Nov". */
+export function dayLabelOf(date: string) {
+  if (DAY_LABELS[date]) return DAY_LABELS[date];
+  const [y, m, d] = date.split("-").map(Number);
+  const dt = new Date(y, m - 1, d);
+  if (Number.isNaN(dt.getTime())) return date;
+  const short = dt.toLocaleDateString("en-IN", { day: "numeric", month: "short" });
+  return date === ymd() ? `Today — ${short}` : dt.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
 }
 export function timeOf(t: number) {
   return new Date(t).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });

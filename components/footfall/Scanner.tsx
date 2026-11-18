@@ -1,14 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { Kicker, Sparkle } from "@/components/daksh/kit";
 import { DakshLogo } from "@/components/daksh/ui";
 import {
   api,
   categoryLabel,
   checkTicket,
+  deviceId,
+  dayLabelOf,
   dayNote,
-  DAY_LABELS,
   getHistory,
   getQueue,
   hourLabel,
@@ -73,6 +75,8 @@ export default function Scanner() {
   const [stats, setStats] = useState<StallStats | null>(() => (session ? load<StallStats | null>(`ff_stats_${session.stall.code}`, null) : null));
   const [camMode, setCamMode] = useState<"live" | "photo">("live");
   const [camOn, setCamOn] = useState(false);
+  // One phone per stall: true when another phone has since signed in as this stall.
+  const [lockedOut, setLockedOut] = useState(false);
 
   const sessionRef = useRef(session);
   const syncing = useRef(false);
@@ -96,7 +100,8 @@ export default function Scanner() {
     if (!s || (!force && Date.now() - statsAt.current < 20000)) return;
     statsAt.current = Date.now();
     try {
-      const res = await api<{ ok: boolean; stats?: StallStats }>("stallStats", [s.stall.code, s.pin]);
+      const res = await api<{ ok: boolean; locked?: boolean; stats?: StallStats }>("stallStats", [s.stall.code, s.pin, deviceId()]);
+      if (res.locked) setLockedOut(true);
       if (res.ok && res.stats) {
         setStats(res.stats);
         store(`ff_stats_${s.stall.code}`, res.stats);
@@ -120,11 +125,12 @@ export default function Scanner() {
     try {
       // Send in batches of 25 until the phone's queue is empty.
       for (let q = getQueue(); q.length; q = getQueue()) {
-        const res = await api<{ ok: boolean; auth?: boolean; message?: string; accepted?: string[]; rejected?: string[]; at?: number }>("submitScans", [
-          s.stall.code,
-          s.pin,
-          q.slice(0, 25),
-        ]);
+        const res = await api<{ ok: boolean; auth?: boolean; locked?: boolean; message?: string; accepted?: string[]; rejected?: string[]; at?: number }>(
+          "submitScans",
+          [s.stall.code, s.pin, q.slice(0, 25), deviceId()]
+        );
+        // Scans saved here are still stored even if another phone has taken over this stall.
+        if (res.locked) setLockedOut(true);
         if (res.auth) {
           alert(`${res.message} Your scans are kept on this phone — sign in again to send them.`);
           store("ff_session", null);
@@ -217,7 +223,7 @@ export default function Scanner() {
         if (t.cat === "G") return setScreen({ k: "gateGroup", t, prev, note, manual });
         const flags = [...(prev ? ["re-entry"] : []), ...(manual ? ["typed-id"] : [])];
         const r = newRecord(t, { count: 1, flags });
-        enqueue([r], [{ t: r.scannedAt, tid: t.id, name: t.name, cat: t.cat, n: 1, rid: r.id, st: "queued" }]);
+        enqueue([r], [{ t: r.scannedAt, tid: t.id, name: t.name, cat: t.cat, n: 1, rid: r.id, st: "queued", shared: true, re: !!prev }]);
         return setScreen({ k: "gateDone", t, n: 1, prev, note });
       }
       setScreen({ k: "stall", t, prev, note, manual });
@@ -226,12 +232,22 @@ export default function Scanner() {
     []
   );
 
-  function logout() {
+  async function logout() {
     if (getQueue().length) {
       alert(`${getQueue().length} scan(s) haven't reached the server yet. Stay on this page until the green "All scans saved" bar shows, then log out.`);
       return;
     }
+    const s = sessionRef.current;
+    // Free the stall so it can be used on another phone.
+    if (s && !lockedOut) {
+      try {
+        await api("scannerLogout", [s.stall.code, s.pin, deviceId()]);
+      } catch {
+        if (!confirm("Couldn't reach the server to free this stall for another phone (it stays locked to this phone until you sign in here again, or the council team resets it). Log out anyway?")) return;
+      }
+    }
     setCamOn(false);
+    setLockedOut(false);
     store("ff_session", null);
     setSession(null);
   }
@@ -249,6 +265,7 @@ export default function Scanner() {
             setStats(load<StallStats | null>(`ff_stats_${s.stall.code}`, null));
             statsAt.current = 0;
             setScreen({ k: "scan" });
+            setLockedOut(false);
             syncSoon();
             void refreshStats(true);
           }}
@@ -279,7 +296,16 @@ export default function Scanner() {
         ))}
       </div>
 
-      {screen.k === "scan" && (
+      {lockedOut && (
+        <div id="lockedOut" className={`mb-4 rounded-[16px] border p-5 ${TONE.bad}`} role="alert">
+          <div className="font-gilda text-[22px] uppercase leading-[1.15] text-fg">Signed in on another phone</div>
+          <p className="mt-2 text-[0.95rem] leading-[1.5] text-text-secondary">
+            This {gate ? "gate" : "stall"} is now signed in on a different phone, so scanning is turned off here. Any scans saved on this phone are still being sent. Log out here,
+            or ask the council team to reset the phone lock to use this phone.
+          </p>
+        </div>
+      )}
+      {screen.k === "scan" && !lockedOut && (
         <ScanCard
           gate={gate}
           msg={screen.msg}
@@ -328,7 +354,7 @@ export default function Scanner() {
             const { t, prev, manual, note } = screen;
             const flags = [...(prev ? ["re-entry"] : []), ...(manual ? ["typed-id"] : [])];
             const r = newRecord(t, { count: n, flags });
-            enqueue([r], [{ t: r.scannedAt, tid: t.id, name: t.name, cat: t.cat, n, rid: r.id, st: "queued" }]);
+            enqueue([r], [{ t: r.scannedAt, tid: t.id, name: t.name, cat: t.cat, n, rid: r.id, st: "queued", shared: true, re: !!prev }]);
             setScreen({ k: "gateDone", t, n, prev, note });
           }}
         />
@@ -371,6 +397,10 @@ export default function Scanner() {
                 rating: r.rating,
                 rid: r.id,
                 st: "queued" as const,
+                fb: r.feedback,
+                ent: r.entry,
+                shared: consent,
+                re: !!screen.prev,
               }))
             );
             setScreen({ k: "thanks", count: recs.length });
@@ -380,7 +410,7 @@ export default function Scanner() {
 
       {screen.k === "thanks" && <Thanks count={screen.count} onNext={back} />}
 
-      {screen.k === "stats" && <Stats gate={gate} stats={stats} history={history} />}
+      {screen.k === "stats" && <Stats gate={gate} stats={stats} history={history} stall={session.stall} />}
     </Frame>
   );
 }
@@ -460,7 +490,7 @@ function Login({ pending, onIn }: { pending: number; onIn: (s: Session) => void 
     setBusy(true);
     setMsg("");
     try {
-      const res = await api<{ ok: boolean; message?: string; stall?: Session["stall"]; publicKey?: string }>("scannerLogin", [c, pin.trim()]);
+      const res = await api<{ ok: boolean; message?: string; stall?: Session["stall"]; publicKey?: string }>("scannerLogin", [c, pin.trim(), deviceId()]);
       if (!res.ok || !res.stall || !res.publicKey) {
         setMsg(res.message || "Could not sign in.");
         return;
@@ -485,7 +515,7 @@ function Login({ pending, onIn }: { pending: number; onIn: (s: Session) => void 
             &amp; Open Day <span className="text-gold-light">2026</span>
           </span>
         </h1>
-        <p className="mt-3 text-[0.95rem] leading-[1.5] text-text-secondary">Sign in with your stall code and PIN from the council team to start scanning visitors&apos; tickets.</p>
+        <p className="mt-3 text-[0.95rem] leading-[1.5] text-text-secondary">Sign in with your stall code and PIN from the council team to start scanning visitors&apos; tickets. Each stall works on one phone at a time — log out to switch phones.</p>
       </section>
       <form className={CARD} id="lf" onSubmit={submit}>
         <label className={`${LABEL} mt-0`} htmlFor="code">
@@ -678,7 +708,7 @@ function Manual({ session, onBack, onFound }: { session: Session; onBack: () => 
     setBusy(true);
     setMsg("");
     try {
-      const res = await api<{ ok: boolean; payload?: string; message?: string }>("findTicketById", [session.stall.code, session.pin, id]);
+      const res = await api<{ ok: boolean; payload?: string; message?: string }>("findTicketById", [session.stall.code, session.pin, id, deviceId()]);
       if (res.ok && res.payload) onFound(res.payload);
       else setMsg(res.message || "Not found.");
     } catch {
@@ -931,27 +961,22 @@ function Recent({ items, gate }: { items: HistoryItem[]; gate: boolean }) {
   );
 }
 
-function Stats({ gate, stats, history }: { gate: boolean; stats: StallStats | null; history: HistoryItem[] }) {
+function Stats({ gate, stats, history, stall }: { gate: boolean; stats: StallStats | null; history: HistoryItem[]; stall: Session["stall"] }) {
   const today = ymd();
-  const days = [...(stats?.days ?? [])];
-  if (!days.some((d) => d.date === today)) days.push({ date: today, label: DAY_LABELS[today] ?? "Today", visits: 0, hours: {} });
-  const [pick, setPick] = useState(today);
-  const day = days.find((d) => d.date === pick) ?? days[days.length - 1];
+  const day = stats?.days?.find((d) => d.date === today) ?? { date: today, label: "", visits: 0, hours: {} as Record<string, number> };
 
-  // Server numbers (refreshed every minute) + this phone's scans the server hasn't counted yet.
+  // Server numbers for today (refreshed every minute) + this phone's scans the server hasn't counted yet.
   const hours: Record<number, number> = {};
   Object.entries(day.hours ?? {}).forEach(([h, v]) => (hours[Number(h)] = v));
   let visits = day.visits ?? 0;
-  if (day.date === today) {
-    const upd = stats?.updated ?? 0;
-    history
-      .filter((h) => ymd(new Date(h.t)) === today && h.st !== "rejected" && (h.st !== "sent" || !((h.at ?? 0) < upd)))
-      .forEach((h) => {
-        const hr = new Date(h.t).getHours();
-        hours[hr] = (hours[hr] ?? 0) + (h.n ?? 1);
-        visits += h.n ?? 1;
-      });
-  }
+  const upd = stats?.updated ?? 0;
+  history
+    .filter((h) => ymd(new Date(h.t)) === today && h.st !== "rejected" && (h.st !== "sent" || !((h.at ?? 0) < upd)))
+    .forEach((h) => {
+      const hr = new Date(h.t).getHours();
+      hours[hr] = (hours[hr] ?? 0) + (h.n ?? 1);
+      visits += h.n ?? 1;
+    });
   const max = Math.max(1, ...Object.values(hours));
   // Event hours (9 AM–5 PM) always, plus any other hour that has scans (e.g. an evening test run).
   const hrs = [...new Set([9, 10, 11, 12, 13, 14, 15, 16, ...Object.keys(hours).map(Number).filter((h) => hours[h] > 0)])].sort((a, b) => a - b);
@@ -959,21 +984,8 @@ function Stats({ gate, stats, history }: { gate: boolean; stats: StallStats | nu
   return (
     <>
       <section className={`${CARD} mb-4`}>
-        <Heading>{gate ? "Entries" : "Footfall at your stall"}</Heading>
-        <div className="my-4 flex flex-wrap gap-2">
-          {days.map((d) => (
-            <button
-              key={d.date}
-              type="button"
-              onClick={() => setPick(d.date)}
-              className={`cursor-pointer rounded-full border px-3.5 py-1.5 text-[0.85rem] ${
-                d.date === day.date ? "border-gold bg-gold text-ink" : "border-line text-text-secondary hover:text-fg"
-              }`}
-            >
-              {d.label || d.date}
-            </button>
-          ))}
-        </div>
+        <Heading>{gate ? "Entries today" : "Footfall today"}</Heading>
+        <p className="mt-1 mb-4 text-[0.9rem] text-text-muted">{dayLabelOf(today)}</p>
         <div className="grid grid-cols-3 gap-2.5" id="kpis">
           <Kpi value={visits} label={gate ? "people entered" : "visits"} />
           {!gate && <Kpi value={day.unique ?? "–"} label="unique visitors" />}
@@ -992,11 +1004,219 @@ function Stats({ gate, stats, history }: { gate: boolean; stats: StallStats | nu
           ))}
         </ul>
         <p className="mt-4 text-[0.8rem] leading-[1.45] text-text-muted">
-          Server totals refresh every minute{stats ? "" : " (waiting for the first update)"}. Today&apos;s count includes scans still on this phone.
+          All phones signed in as this {gate ? "gate" : "stall"}, refreshed every minute{stats ? "" : " (waiting for the first update)"}, plus scans still on this phone.
         </p>
       </section>
-      <Recent items={history.slice(0, 20)} gate={gate} />
+      <VisitsByDay history={history} gate={gate} stall={stall} />
     </>
+  );
+}
+
+// ---------------------------------------------------------------- visits by day: table + Excel / PDF
+const NOT_SHARED = "Visitor (details not shared)";
+const STATUS = { sent: "Saved", queued: "Waiting to send", rejected: "Rejected (invalid)" } as const;
+
+function exportTable(items: HistoryItem[], gate: boolean) {
+  const shared = (h: HistoryItem) => h.shared ?? h.name !== NOT_SHARED;
+  const header = gate
+    ? ["Date", "Time", "Visitor", "Category", "Ticket ID", "People", "Re-entry", "Status"]
+    : ["Date", "Time", "Visitor", "Category", "Ticket ID", "Details shared", "Rating", "Feedback", "Entry #", "Repeat visit", "Status"];
+  const widths = gate ? [12, 10, 30, 18, 14, 8, 9, 16] : [12, 10, 30, 18, 14, 13, 8, 48, 8, 12, 16];
+  const rows = items.map((h) => {
+    const d = new Date(h.t);
+    const base = [ymd(d), d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }), h.name, categoryLabel(h.cat), shared(h) ? h.tid : "—"];
+    return gate
+      ? [...base, h.n ?? 1, h.re ? "Yes" : "", STATUS[h.st]]
+      : [...base, shared(h) ? "Yes" : "No", h.rating || "", h.fb ?? "", h.ent ?? 1, h.re ? "Yes" : "", STATUS[h.st]];
+  });
+  return { header, widths, rows };
+}
+
+function VisitsByDay({ history, gate, stall }: { history: HistoryItem[]; gate: boolean; stall: Session["stall"] }) {
+  const days = useMemo(() => [...new Set(history.map((h) => ymd(new Date(h.t))))].sort().reverse(), [history]);
+  const [pick, setPick] = useState<string>(() => days[0] ?? "all");
+  const [limit, setLimit] = useState(100);
+  const [printing, setPrinting] = useState(false);
+  const sel = pick === "all" ? "all" : days.includes(pick) ? pick : (days[0] ?? "all");
+  const items = sel === "all" ? history : history.filter((h) => ymd(new Date(h.t)) === sel);
+  const label = sel === "all" ? "All days" : dayLabelOf(sel);
+  const counted = items.filter((h) => h.st !== "rejected");
+  const total = counted.reduce((s, h) => s + (h.n ?? 1), 0);
+  const rated = counted.filter((h) => h.rating);
+  const avg = rated.length ? Math.round((rated.reduce((s, h) => s + (h.rating ?? 0), 0) / rated.length) * 10) / 10 : null;
+  const file = `footfall-${stall.code}-${sel === "all" ? "all-days" : sel}`;
+
+  useEffect(() => {
+    if (!printing) return;
+    const done = () => setPrinting(false);
+    window.addEventListener("afterprint", done);
+    const t = setTimeout(() => window.print(), 80);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("afterprint", done);
+    };
+  }, [printing]);
+
+  if (!history.length)
+    return (
+      <section className={CARD}>
+        <Kicker className="mb-2 text-gold-dark">{gate ? "Entries" : "Visits"} by day</Kicker>
+        <p className="text-[0.92rem] text-text-muted">No {gate ? "entries" : "visits"} recorded on this phone yet.</p>
+      </section>
+    );
+
+  return (
+    <section className={CARD} id="visits">
+      <Kicker className="mb-1 text-gold-dark">{gate ? "Entries" : "Visits"} by day</Kicker>
+      <p className="mb-3 text-[0.8rem] text-text-muted">Recorded on this phone.</p>
+      <div className="mb-3 flex flex-wrap gap-2" id="dayTabs">
+        {[...days, "all"].map((d) => (
+          <button
+            key={d}
+            type="button"
+            data-day={d}
+            onClick={() => {
+              setPick(d);
+              setLimit(100);
+            }}
+            className={`cursor-pointer rounded-full border px-3.5 py-1.5 text-[0.85rem] ${
+              d === sel ? "border-gold bg-gold text-ink" : "border-line text-text-secondary hover:text-fg"
+            }`}
+          >
+            {d === "all" ? "All days" : dayLabelOf(d)}
+          </button>
+        ))}
+      </div>
+      <p className="mb-3 text-[0.9rem] text-text-secondary" id="daySummary">
+        <b className="text-fg">{total}</b> {gate ? "people entered" : total === 1 ? "visit" : "visits"}
+        {!gate && avg != null ? (
+          <>
+            {" · "}
+            <span className="text-gold-light">{avg}★</span> average
+          </>
+        ) : null}
+      </p>
+
+      <div className="-mx-1 overflow-x-auto">
+        <table className="w-full border-collapse text-left text-[0.86rem]" id="visitsTable">
+          <thead>
+            <tr className="border-b border-line text-[0.72rem] uppercase tracking-[0.08em] text-text-muted">
+              {sel === "all" && <th className="px-1 py-2 font-bold">Date</th>}
+              <th className="px-1 py-2 font-bold">Time</th>
+              <th className="px-1 py-2 font-bold">Visitor</th>
+              {gate ? <th className="px-1 py-2 text-right font-bold">People</th> : <th className="px-1 py-2 font-bold">Rating</th>}
+              <th className="px-1 py-2 text-right font-bold" aria-label="Status" />
+            </tr>
+          </thead>
+          <tbody>
+            {items.slice(0, limit).map((h) => (
+              <tr key={h.rid} className="border-b border-line align-top last:border-0">
+                {sel === "all" && <td className="whitespace-nowrap px-1 py-2 text-text-muted">{dayLabelOf(ymd(new Date(h.t))).replace(/^Today — /, "")}</td>}
+                <td className="whitespace-nowrap px-1 py-2 text-text-muted">{timeOf(h.t)}</td>
+                <td className="px-1 py-2">
+                  <span className="text-fg">{h.name}</span>
+                  <span className="block text-[0.75rem] text-text-muted">
+                    {categoryLabel(h.cat)}
+                    {h.re ? (gate ? " · re-entry" : " · repeat visit") : ""}
+                    {h.ent && h.ent > 1 ? ` · student ${h.ent}` : ""}
+                  </span>
+                  {!gate && h.fb ? <span className="mt-1 block break-words text-[0.84rem] italic text-text-secondary">“{h.fb}”</span> : null}
+                </td>
+                {gate ? (
+                  <td className="px-1 py-2 text-right text-fg">{h.n ?? 1}</td>
+                ) : (
+                  <td className="whitespace-nowrap px-1 py-2 text-gold-light">{h.rating ? "★".repeat(h.rating) : <span className="text-text-muted">—</span>}</td>
+                )}
+                <td className={`whitespace-nowrap px-1 py-2 text-right ${h.st === "sent" ? "text-text-muted" : h.st === "rejected" ? "text-[#f08f8f]" : "text-amber-200"}`} title={STATUS[h.st]}>
+                  {h.st === "sent" ? "✓" : h.st === "rejected" ? "✕" : "⏳"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {items.length > limit && (
+        <button type="button" className={LINK} onClick={() => setLimit((l) => l + 200)}>
+          Show more ({items.length - limit} more)
+        </button>
+      )}
+      <p className="mt-2 text-[0.75rem] text-text-muted">✓ saved to the server · ⏳ waiting to send · ✕ rejected</p>
+
+      <div className="mt-4 grid grid-cols-2 gap-2.5">
+        <button
+          type="button"
+          id="exportXlsx"
+          className={`${OUTLINE} px-3 text-[0.92rem]`}
+          onClick={async () => {
+            const { downloadXlsx } = await import("@/lib/footfall/xlsx");
+            const t = exportTable(items, gate);
+            downloadXlsx(`${file}.xlsx`, label, t.header, t.rows, t.widths);
+          }}
+        >
+          Download Excel
+        </button>
+        <button type="button" id="exportPdf" className={`${OUTLINE} px-3 text-[0.92rem]`} onClick={() => setPrinting(true)}>
+          Save as PDF
+        </button>
+      </div>
+      <p className="mt-2 text-[0.75rem] leading-[1.45] text-text-muted">
+        Exports the {label === "All days" ? "visits from all days" : `visits for ${label.replace(/^Today — /, "today, ")}`}. For PDF, choose <b>Save as PDF</b> in the print screen.
+      </p>
+      {printing && <PrintReport items={items} gate={gate} stall={stall} label={label} total={total} avg={avg} />}
+    </section>
+  );
+}
+
+/** A plain black-on-white report shown only when printing / saving as PDF. */
+function PrintReport({ items, gate, stall, label, total, avg }: { items: HistoryItem[]; gate: boolean; stall: Session["stall"]; label: string; total: number; avg: number | null }) {
+  const [el] = useState(() => {
+    const d = document.createElement("div");
+    d.id = "ff-print";
+    return d;
+  });
+  useEffect(() => {
+    document.body.appendChild(el);
+    return () => el.remove();
+  }, [el]);
+  const t = exportTable(items, gate);
+  const keep = gate ? [0, 1, 2, 3, 4, 5, 6, 7] : [0, 1, 2, 3, 4, 5, 6, 7, 9, 10];
+  return createPortal(
+    <>
+      <style>{`
+        #ff-print { display: none; }
+        @media print {
+          @page { size: A4 landscape; margin: 12mm; }
+          :root, html, body { color-scheme: light !important; background: #fff !important; }
+          body > *:not(#ff-print) { display: none !important; }
+          #ff-print { display: block !important; color: #000; font-family: Arial, "Noto Sans", sans-serif; font-size: 10pt; }
+          #ff-print table { width: 100%; border-collapse: collapse; }
+          #ff-print th, #ff-print td { border: 1px solid #999; padding: 4px 6px; text-align: left; vertical-align: top; }
+          #ff-print th { background: #eee; }
+          #ff-print tr { break-inside: avoid; }
+        }
+      `}</style>
+      <h1 style={{ fontSize: "16pt", margin: "0 0 2pt" }}>
+        {gate ? "Entries" : "Footfall"} — {stall.name}
+      </h1>
+      <p style={{ margin: "0 0 2pt" }}>
+        {stall.dept ? `${stall.dept} · ` : ""}Daksh &amp; Open Day 2026 · University Student Council, CHRIST (Deemed to be University)
+      </p>
+      <p style={{ margin: "0 0 8pt" }}>
+        {label} · {total} {gate ? "people entered" : "visits"}
+        {!gate && avg != null ? ` · ${avg}★ average` : ""} · Recorded on this phone · Generated {new Date().toLocaleString("en-IN")}
+      </p>
+      <table>
+        <thead>
+          <tr>{keep.map((i) => <th key={i}>{t.header[i]}</th>)}</tr>
+        </thead>
+        <tbody>
+          {t.rows.map((r, ri) => (
+            <tr key={ri}>{keep.map((i) => <td key={i}>{String(r[i] ?? "")}</td>)}</tr>
+          ))}
+        </tbody>
+      </table>
+    </>,
+    el
   );
 }
 

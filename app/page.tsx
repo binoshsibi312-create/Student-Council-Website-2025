@@ -97,13 +97,13 @@ export default function DakshPage() {
               { label: `${SCHOOLS.length} schools`, value: `${DEPARTMENT_COUNT} departments`, note: "Plus the University's centres and cells" },
             ]}
           >
-            <Btn href={DAKSH.registerIndividuals} external>
+            <Btn href={DAKSH.registerIndividuals}>
               Daksh — Individuals
             </Btn>
-            <Btn href={DAKSH.registerInstitutions} external variant="outline">
+            <Btn href={DAKSH.registerInstitutions} variant="outline">
               Daksh — Institutions
             </Btn>
-            <Btn href={DAKSH.registerOpenDay} external variant="outline">
+            <Btn href={DAKSH.registerOpenDay} variant="outline">
               Open Day registration
             </Btn>
             <Btn href={DAKSH.brochure} download variant="outline">
